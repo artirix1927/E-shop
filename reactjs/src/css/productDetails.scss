@@ -1,0 +1,41 @@
+.card-detail{
+    width: 26rem;
+
+
+}
+
+
+.gallery{
+    position: sticky;
+    height: 100%;
+    display: block;
+    float:left;
+}
+
+
+.card{
+    padding-block: 20px;
+    width: 16rem;
+    .form-control{
+        width: 50%;
+        text-align-last: center;
+    }
+    
+
+    .card-btns{
+        text-align: center;
+        padding-block: 10px;
+
+        .card-buy-btns{
+            margin-block: 30px;
+
+            button{
+                margin-block: 6px;
+                min-width: 50%;
+            }
+
+        }
+    }
+    
+    
+}
