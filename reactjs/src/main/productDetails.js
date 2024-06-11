@@ -4,27 +4,13 @@ import '../css/productDetails.scss'
 
 
 
-import { useQuery, gql } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 
 import { useState } from 'react';
 import {useParams } from "react-router-dom";
 
-const GET_PRODUCT_BY_ID = gql`
-    query Product($id: Int!){
-        productById(id:$id){
-            name
-            description
-            weight
-            piecesLeft
-            price
-            attachments{
-                image
-            }
-        }
-    }
 
-    `
-
+import { GET_PRODUCT_BY_ID } from '../gqlQueries';
 
 
 export const ProductDetails = () => {
@@ -43,7 +29,7 @@ export const ProductDetails = () => {
     
         <div className='row'>
             <div className='gallery col'>
-                <img src={firstImageUrl} alt='...'/>
+                <img src={firstImageUrl} alt='...' width="100%"/>
             </div>
 
             <div className='content col-6 '>
@@ -76,8 +62,7 @@ export const ProductDetails = () => {
 
                     <div className='card-btns'>
                         
-                        { data.piecesLeft ? 
-                        <QuantityDropdown piecesLeft={data.piecesLeft}/> : ''}   
+                        { data.piecesLeft && <QuantityDropdown piecesLeft={data.piecesLeft}/> }   
 
 
                         <div className='card-buy-btns'>
@@ -86,7 +71,7 @@ export const ProductDetails = () => {
                             </div>
 
                             <div>
-                                <button className='btn btn-success '>Buy Now <i class="bi bi-cash-stack"></i></button>
+                                <button className='btn btn-success '>Buy Now <i className="bi bi-cash-stack"></i></button>
                             </div>
                         </div>
             
@@ -114,7 +99,7 @@ const QuantityDropdown = (props) => {
         <ul className="dropdown-menu">
 
             {QuanityArray.map((key)=>{
-                return <li><button class="dropdown-item" onClick={handleDropdownClick}>{key+1}</button></li>
+                return <li  key={key+1}><button className="dropdown-item" onClick={handleDropdownClick}>{key+1}</button></li>
                 })
 
             }

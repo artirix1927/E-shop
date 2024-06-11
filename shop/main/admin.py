@@ -7,17 +7,20 @@ from .models import Category,Attachment,Product
 class AttachmentAdmin(admin.ModelAdmin):
     pass
 
+class AttachmentInline(admin.StackedInline):
+    model=Attachment
 
 class ProductsInline(admin.StackedInline):
     model = Product
 
 class CategoryAdmin(admin.ModelAdmin):
-    inlines = [ProductsInline]
+    pass
+    #inlines = [ProductsInline]
 
-class AttachmentInline(admin.StackedInline):
-    model=Attachment
 
 class ProductAdmin(admin.ModelAdmin):
+    list_filter = ('category',)
+    readonly_fields= ('created_at', 'last_edited_at')
     inlines=[AttachmentInline]
 
 

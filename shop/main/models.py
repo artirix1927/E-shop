@@ -1,5 +1,6 @@
 from django.db import models
 
+from phonenumber_field.modelfields import PhoneNumberField 
 # Create your models here.
 
 class Category(models.Model):
@@ -35,7 +36,7 @@ class Product(models.Model):
     pieces_left = models.IntegerField()
 
     description = models.TextField()
-    category = models.ForeignKey(Category, on_delete=models.PROTECT)
+    category = models.ForeignKey(Category, on_delete=models.PROTECT, related_name='products' )
 
     created_at = models.DateTimeField(auto_now_add=True)
     last_edited_at = models.DateTimeField(auto_now=True)
@@ -44,6 +45,18 @@ class Product(models.Model):
 
     def __str__(self) -> str:
         return f"{self.name} : {self.price}\n{self.category.name}"
+    
+
+
+class Order(models.Model):
+    country = models.TextField(null=False)
+    full_name = models.TextField(null=False)
+    phonenumber = PhoneNumberField(null=False)
+    adress = models.TextField(null=False)
+    city = models.TextField(null=False)
+    postalcode = models.TextField(null=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='orders')
 
 
 
