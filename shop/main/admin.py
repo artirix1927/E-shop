@@ -5,6 +5,7 @@ from .models import Category,Attachment,Product
 # Register your models here.
 
 class AttachmentAdmin(admin.ModelAdmin):
+    list_filter = ('product__name',)
     pass
 
 class AttachmentInline(admin.StackedInline):

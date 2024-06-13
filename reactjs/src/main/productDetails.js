@@ -20,19 +20,18 @@ export const ProductDetails = () => {
     if (loading) return "Loading...";
     if (error) return <pre>{error.message}</pre>
     
-
     data = data.productById;
     
-    const firstImageUrl = data.attachments[0].image;
-    
-    return <div className='container px-0'>
+    return <div className='product-container'>
     
         <div className='row'>
-            <div className='gallery col'>
-                <img src={firstImageUrl} alt='...' width="100%"/>
+            <div className='col gallery'>
+                
+                <Gallery attachments={data.attachments}></Gallery>
+                
             </div>
 
-            <div className='content col-6 '>
+            <div className='content col-6'>
                 <div className='name'>
                     <h2>{data.name}</h2>
                 </div>
@@ -44,7 +43,7 @@ export const ProductDetails = () => {
                 <div className='description'><p>{data.description}</p></div>
             </div>
 
-            <div className='card'>
+            <div className='card col-4'>
                 <div className='card-body'>
                     <div className='price'>
                         <h3>{data.price} $CAD</h3>
@@ -106,4 +105,28 @@ const QuantityDropdown = (props) => {
 
         </ul>
     </div>
+}
+
+
+const Gallery = (props) => {
+    const [currentImage , setCurrentImage] = useState(props.attachments[0].image);
+
+    const HandleImageClick = (e) => {
+        setCurrentImage(e.target.src);
+    }
+
+    return <>
+        <ul className='gallery-images'>
+                        {props.attachments.map((obj, index)=>{
+                            
+                            return <li  key={index}><img src={obj.image} alt="" key={index} onClick={HandleImageClick}></img></li>
+                          
+                        })}
+            
+        </ul>
+        <div>
+            <img src={currentImage} alt='...' />
+        </div>
+
+    </>
 }

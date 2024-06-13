@@ -19,7 +19,7 @@ export const Register = () =>  {
             navigate("/login")
         }
 
-    }, [data])
+    }, [data, navigate])
 
 
     return <div className="container d-flex justify-content-center "> 

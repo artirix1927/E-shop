@@ -7,41 +7,40 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import { productsContext } from '../ProductsHandlerProvider';
 
-import { GET_CATEGORIES, GET_PRODUCTS_BY_CATEGORY, GET_PRODUCTS, GET_PRODUCTS_BY_SEARCH, LOGOUT_USER} from '../gqlQueries';
+import { GET_CATEGORIES, GET_PRODUCTS_BY_CATEGORY, GET_PRODUCTS, GET_PRODUCTS_BY_SEARCH} from '../gqlQueries';
 
 import { useCookies } from 'react-cookie';
 
 
 
+export const Navbar = () =>{
 
-const DropdownCategoriesMenu = (props) =>{
-    const dropdownOnclick = (e) =>{
-            const categoryChosen = e.target.innerText;
 
-            const setValue = categoryChosen !== props.categoryDropdown ? categoryChosen : 'all'
+    const [cookies] = useCookies(['user']);
+  
+    return <nav className='navbar navbar-expand-lg'>
+        <div className="container-fluid">
+            
+            <div className="navbar-nav">
+                <Link className='nav-link' to="/">Home</Link>
+            </div>
+            
+            <form className="d-flex input-group" action='/'>
+                    <SearchBar/>
+            </form>
+            <div className="navbar-nav">{(cookies.user) ? 
+            <Link className='nav-link' to='/logout'>Logout | {cookies.user.username}</Link>
+            : 
+            <Link className='nav-link' to='/login'>Log In</Link>
+            }</div>
+            
+      
+            
 
-            props.setCategoryDropdown(setValue) 
-    }
-
-    const { data, loading, error } = useQuery(GET_CATEGORIES);
-
-    if (loading) return "Loading...";
-    if (error) return <pre>{error.message}</pre>
-
-    return <>
-        <button className="btn btn-light dropdown-toggle" type="button" 
-                data-bs-toggle="dropdown" aria-expanded="false">{props.categoryDropdown}</button>
-
-        <ul className="dropdown-menu">
-            {data.allCategories.map((category) => (
-                <li className='list-group-item-light' key={category.id}>
-                    <button className="dropdown-item" type='button' onClick={dropdownOnclick}>{category.name}</button>
-                </li>
-            ))
-            }
-        </ul>
-    </>
+        </div>
+    </nav>
 }
+
 
 const SearchBar = () => {
     const [categoryDropdown, setCategoryDropdown ] = useState('all')
@@ -78,33 +77,37 @@ const SearchBar = () => {
     </>
 }
 
-export const Navbar = () =>{
+const DropdownCategoriesMenu = (props) =>{
+    const dropdownOnclick = (e) =>{
+            const categoryChosen = e.target.innerText;
 
+            const setValue = categoryChosen !== props.categoryDropdown ? categoryChosen : 'all'
 
-    const [cookies] = useCookies(['user']);
-  
-    return <nav className='navbar navbar-expand-lg'>
-        <div className="container-fluid">
-            
-            <div className="navbar-nav">
-                <Link className='nav-link' to="/">Home</Link>
-            </div>
-            
-            <form className="d-flex input-group" action='/'>
-                    <SearchBar/>
-            </form>
-            <div className="navbar-nav">{(cookies.user) ? 
-            <Link className='nav-link' to='/logout'>Logout | {cookies.user.username}</Link>
-            : 
-            <Link className='nav-link' to='/login'>Log In</Link>
-            }</div>
-            
-      
-            
+            props.setCategoryDropdown(setValue) 
+    }
 
-        </div>
-    </nav>
+    const { data, loading, error } = useQuery(GET_CATEGORIES);
+
+    if (loading) return "Loading...";
+    if (error) return <pre>{error.message}</pre>
+
+    return <>
+        <button className="btn btn-light dropdown-toggle" type="button" 
+                data-bs-toggle="dropdown" aria-expanded="false">{props.categoryDropdown}</button>
+
+        <ul className="dropdown-menu">
+            {data.allCategories.map((category) => (
+                <li className='list-group-item-light' key={category.id}>
+                    <button className="dropdown-item" type='button' onClick={dropdownOnclick}>{category.name}</button>
+                </li>
+            ))
+            }
+        </ul>
+    </>
 }
+
+
+
 
 export const CategoriesLine = () => {
 

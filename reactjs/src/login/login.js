@@ -15,9 +15,10 @@ import { useCookies } from 'react-cookie';
 
 export const Login = () =>  {
     
-    const [login, { data, loading, error}] = useMutation(LOGIN_USER);
+    const [login, { data, error}] = useMutation(LOGIN_USER);
     const navigate = useNavigate();
     const [cookies, setCookie] = useCookies(['user']);
+    
 
     useEffect(()=>{
         
@@ -30,7 +31,7 @@ export const Login = () =>  {
             navigate("/")
         }
 
-    }, [data,])
+    }, [data, setCookie, navigate, cookies])
 
 
     return <div className=" container d-flex justify-content-center "> 

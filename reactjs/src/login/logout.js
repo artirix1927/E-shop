@@ -2,7 +2,7 @@ import { useEffect } from "react"
 import { useCookies } from "react-cookie"
 import { useNavigate } from "react-router-dom"
 import { LOGOUT_USER } from "../gqlQueries"
-import { useLazyQuery, useMutation } from "@apollo/client"
+import { useMutation } from "@apollo/client"
 
 export const Logout = () => {
     let [logout, {data}] = useMutation(LOGOUT_USER)
@@ -17,6 +17,6 @@ export const Logout = () => {
             navigate(-1);
         }
             
-    }, [data])
+    }, [data, navigate, removeCookies, logout])
 
 }
