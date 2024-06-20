@@ -19,6 +19,7 @@ import { Login } from "./login/login";
 import {useBodyClass} from "./hooks";
 import { Register } from "./login/register";
 import { Logout } from "./login/logout";
+import { Cart } from "./cart/cart";
 
 
 
@@ -62,6 +63,8 @@ function App() {
       </div>
 
   }
+
+ 
  
 
   
@@ -78,6 +81,7 @@ function App() {
                   <Route path="/login" element={<LoginPage/>}/>
                   <Route path="/register" element={<RegisterPage/>}></Route>
                   <Route path="/logout" element={<LogoutPage/>}></Route>
+                  <Route path="/cart" element={<NavbarPageMixin><Cart/></NavbarPageMixin>}></Route>
               </Routes>
             </CookiesProvider>
 

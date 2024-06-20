@@ -57,21 +57,7 @@ export const GET_PRODUCTS_BY_SEARCH = gql`
     }
 `;
 
- 
-export const GET_PRODUCT_BY_ID = gql`
-    query Product($id: Int!){
-        productById(id:$id){
-            name
-            description
-            weight
-            piecesLeft
-            price
-            attachments{
-                image
-            }
-        }
-    }
-`
+
 
 
 export const LOGIN_USER = gql`
@@ -102,6 +88,69 @@ export const CREATE_USER = gql`
 export const LOGOUT_USER = gql`
   mutation LogoutUser{
     logoutUser{
+      success
+    }
+  }
+`
+
+
+ 
+export const GET_PRODUCT_BY_ID = gql`
+    query Product($id: Int!){
+        productById(id:$id){
+            name
+            description
+            weight
+            piecesLeft
+            price
+            attachments{
+                image
+            }
+        }
+    }
+`
+
+
+export const GET_CART_BY_USER = gql`
+    query CartById($id: Int!){
+        cartByUser(id:$id){
+            product{
+              name
+              description
+              weight
+              piecesLeft
+              price
+              attachments{
+                image
+              }
+            }
+            id
+            quantity
+        }
+    }
+`
+
+
+export const ADD_TO_CART = gql`
+  mutation Cart($userId: Int!, $productId: Int!, $quantity: Int!){
+    addToCart(userId: $userId, productId: $productId, quantity: $quantity){
+      success
+    }
+  }
+`
+
+
+export const CHANGE_CART_ITEM_QUANTITY = gql`
+  mutation ChangeCartItemQuantity($id: Int!, $quantity: Int!){
+    changeCartItemQuantity(id: $id, quantity: $quantity){
+      success
+    }
+  }
+`
+
+export const DELETE_FROM_CART = gql`
+  mutation DeleteFromCart($id: Int!){
+    deleteFromCart(id: $id){
       success
     }
   }

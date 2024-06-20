@@ -1,13 +1,13 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 import '../css/main.scss'
 
-import { useQuery, useLazyQuery } from "@apollo/client";
+import { useQuery, useLazyQuery, useMutation } from "@apollo/client";
 
 import { Link, useNavigate } from 'react-router-dom';
 
 import { productsContext } from '../ProductsHandlerProvider';
 
-import { GET_CATEGORIES, GET_PRODUCTS_BY_CATEGORY, GET_PRODUCTS, GET_PRODUCTS_BY_SEARCH} from '../gqlQueries';
+import { GET_CATEGORIES, GET_PRODUCTS_BY_CATEGORY, GET_PRODUCTS, GET_PRODUCTS_BY_SEARCH, ADD_TO_CART} from '../gqlQueries';
 
 import { useCookies } from 'react-cookie';
 
@@ -25,17 +25,23 @@ export const Navbar = () =>{
                 <Link className='nav-link' to="/">Home</Link>
             </div>
             
-            <form className="d-flex input-group" action='/'>
-                    <SearchBar/>
-            </form>
-            <div className="navbar-nav">{(cookies.user) ? 
-            <Link className='nav-link' to='/logout'>Logout | {cookies.user.username}</Link>
-            : 
-            <Link className='nav-link' to='/login'>Log In</Link>
-            }</div>
-            
-      
-            
+                <form className="d-flex input-group" action='/'>
+                        <SearchBar/>
+                </form>
+                <div className="navbar-nav" style={{float:'right'}}>
+                    
+                    {(cookies.user) ? 
+                    <>
+                        <Link className='nav-link' to='/cart'>Cart <i className="bi bi-cart-plus"></i></Link>
+                        <Link className='nav-link' to='/logout'>Logout | {cookies.user.username}</Link>
+                    </>
+                    : 
+                    <Link className='nav-link' to='/login'>Log In</Link>
+                    }
+                        
+                
+                </div>
+        
 
         </div>
     </nav>
@@ -171,23 +177,33 @@ export const ProductsList = () => {
 export const ProductCard = (props) => {
     //on the name i use bootstrap turncation because i need only one line
     // and on the description i use this function 
+
+    let [addToCart] = useMutation(ADD_TO_CART)
+
+    const [cookies] = useCookies()
+
     const truncate = (str, symbols) => {
         return str.length > symbols ? str.substring(0, symbols) + "..." : str;
     }
 
-    const data = props.data;
+    const productData = props.data;
+    const firstImageUrl = productData.attachments[0].image;
 
-    const firstImageUrl = data.attachments[0].image;
+    const handleAddToCart = (e) => {
+        addToCart({variables: {userId: parseInt(cookies.user.id), productId: parseInt(productData.id), quantity:1}})
+
+    }
+
 
     return <div className="card">
         <img src={firstImageUrl} className="card-img-top" alt="..." />
         <div className="card-body">
-            <h5 className="card-title text-truncate">{data.name}</h5>
-            <h5 className="card-title">{data.price} $CAD</h5>
-            <p className="card-text ">{truncate(data.description, 200)}</p>
-            <Link className="btn btn-primary" to={`/product/${data.id}`}>Read More</Link>
+            <h5 className="card-title text-truncate">{productData.name}</h5>
+            <h5 className="card-title">{productData.price} $CAD</h5>
+            <p className="card-text ">{truncate(productData.description, 200)}</p>
+            <Link className="btn btn-primary" to={`/product/${productData.id}`}>Read More</Link>
             
-            <button className="btn btn-warning cartbtn"><i className="bi bi-cart-plus"></i></button>
+            <button className="btn btn-warning cartbtn" onClick={handleAddToCart}><i className="bi bi-cart-plus"></i></button>
         </div>
     </div>
 }

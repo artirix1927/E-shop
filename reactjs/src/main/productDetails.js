@@ -4,22 +4,35 @@ import '../css/productDetails.scss'
 
 
 
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 
 import { useState } from 'react';
 import {useParams } from "react-router-dom";
 
 
-import { GET_PRODUCT_BY_ID } from '../gqlQueries';
+import { ADD_TO_CART, GET_PRODUCT_BY_ID } from '../gqlQueries';
+import { useCookies } from 'react-cookie';
 
 
 export const ProductDetails = () => {
     const {id} = useParams();
-    let { data, loading, error } = useQuery(GET_PRODUCT_BY_ID, {variables:{id:parseInt(id)},});
+
+    const [cookies] = useCookies()
+
+
+    const [quantityDropdownValue, setQuantityDropdownValue] = useState(1) 
+    const [addToCart] = useMutation(ADD_TO_CART)
+
+    const HandleAddToCart = () => {
+        addToCart({variables: {userId: parseInt(cookies.user.id), productId: parseInt(id), quantity: parseInt(quantityDropdownValue)}})
+    }
+
+    let { data,loading,error} = useQuery(GET_PRODUCT_BY_ID, {variables:{id:parseInt(id)},});
 
     if (loading) return "Loading...";
     if (error) return <pre>{error.message}</pre>
-    
+
+
     data = data.productById;
     
     return <div className='product-container'>
@@ -50,23 +63,20 @@ export const ProductDetails = () => {
                     </div>
                     <hr/>
                     <div className='pieces-left'>
-                        <h5 style={{color:data.piecesLeft ? "green" : "red"}}>
-                            {data.piecesLeft ? "In Stock": "Not In Stock"}
-                        </h5>
 
-                        <h5>Pieces Left: {data.piecesLeft}</h5>
+                        <IsInStock piecesLeft={data.piecesLeft}/>
 
                     </div>
                     <hr/>
 
                     <div className='card-btns'>
                         
-                        { data.piecesLeft && <QuantityDropdown piecesLeft={data.piecesLeft}/> }   
+                        { data.piecesLeft && <QuantityDropdown piecesLeft={data.piecesLeft} dropdownValue={quantityDropdownValue} setDropdownValue={setQuantityDropdownValue}/> }   
 
 
                         <div className='card-buy-btns'>
                             <div>
-                                <button className='btn btn-warning'>Add to cart <i className="bi bi-cart-plus"></i></button>
+                                <button className='btn btn-warning' onClick={HandleAddToCart}>Add to cart <i className="bi bi-cart-plus"></i></button>
                             </div>
 
                             <div>
@@ -82,18 +92,17 @@ export const ProductDetails = () => {
 }
 
 
-const QuantityDropdown = (props) => {
-    const [dropdownValue, setDropdownValue] = useState(1) 
+export const QuantityDropdown = (props) => {
 
     const handleDropdownClick = (e) =>{
-        setDropdownValue(e.target.innerText)
+        props.setDropdownValue(e.target.innerText)
     }
-
+    
 
     const QuanityArray = Array.from(Array(props.piecesLeft).keys())
     return <div className="dropdown-center">
         <button className="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-        Quantity: {dropdownValue}
+        Quantity: {props.dropdownValue}
         </button>
         <ul className="dropdown-menu">
 
@@ -129,4 +138,14 @@ const Gallery = (props) => {
         </div>
 
     </>
+}
+
+export const IsInStock = (props) => {
+    return <>
+    <h5 style={{color:props.piecesLeft ? "green" : "red"}}>
+        {props.piecesLeft ? "In Stock": "Not In Stock"}
+    </h5>
+    <h5>Pieces Left: {props.piecesLeft}</h5>
+    </>
+
 }
