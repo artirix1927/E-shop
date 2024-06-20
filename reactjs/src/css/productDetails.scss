@@ -34,6 +34,10 @@
             border: 2px solid rgb(187, 187, 187);
             margin-block: 10px;
         }
+
+        .active{
+            border: 2px solid rgb(35, 164, 240);
+        }
         
 
         img{
@@ -42,6 +46,8 @@
             height: 50px;
             object-fit: contain;
         }
+
+        
 
 
     }

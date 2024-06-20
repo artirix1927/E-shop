@@ -15,7 +15,7 @@ from .funcs import adjust_cart_item_quantity_to_pieces_left, get_category_by_dro
 class ProductQueries(graphene.ObjectType):
     all_products = graphene.List(ProductType)
     products_by_category = graphene.List(ProductType, category=graphene.String())
-    products_by_category = graphene.List(ProductType, category=graphene.String())
+    product_by_id = graphene.Field(ProductType, id=graphene.Int())
     products_by_search = graphene.List(ProductType, search=graphene.String(), category=graphene.String())
 
     def resolve_all_products(root,info):

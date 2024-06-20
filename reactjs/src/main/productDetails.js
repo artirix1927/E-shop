@@ -4,10 +4,10 @@ import '../css/productDetails.scss'
 
 
 
-import { useMutation, useQuery } from "@apollo/client";
+import { useMutation, useQuery, useReactiveVar } from "@apollo/client";
 
-import { useState } from 'react';
-import {useParams } from "react-router-dom";
+import { useEffect, useRef, useState } from 'react';
+import {useFetcher, useParams } from "react-router-dom";
 
 
 import { ADD_TO_CART, GET_PRODUCT_BY_ID } from '../gqlQueries';
@@ -118,23 +118,35 @@ export const QuantityDropdown = (props) => {
 
 
 const Gallery = (props) => {
-    const [currentImage , setCurrentImage] = useState(props.attachments[0].image);
+    const [currentImageSrc, setCurrentImageSrc] = useState(props.attachments[0].image)
+    
+    //li element ref to highlight active photo
+    const currentImageLiElem = useRef()
 
     const HandleImageClick = (e) => {
-        setCurrentImage(e.target.src);
+        const clickedImage = e.target
+        const newImageLiElem = e.target.parentElement;
+
+        currentImageLiElem.current.classList.remove('active')
+        newImageLiElem.classList.add('active')
+        
+        currentImageLiElem.current = newImageLiElem;
+        setCurrentImageSrc(clickedImage.src)
     }
 
     return <>
         <ul className='gallery-images'>
                         {props.attachments.map((obj, index)=>{
-                            
-                            return <li  key={index}><img src={obj.image} alt="" key={index} onClick={HandleImageClick}></img></li>
+                            if (index==0)
+                                return <li key={index} className='active' ref={currentImageLiElem}><img src={obj.image} alt="" key={index} onClick={HandleImageClick}></img></li>
+
+                            return <li key={index}><img src={obj.image} alt="" key={index} onClick={HandleImageClick}></img></li>
                           
                         })}
             
         </ul>
         <div>
-            <img src={currentImage} alt='...' />
+            <img src={currentImageSrc} alt='...'></img>
         </div>
 
     </>
