@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Category,Attachment,Product
+from .models import Category,Attachment,Product, Order, CartItem
 
 # Register your models here.
 
@@ -25,6 +25,17 @@ class ProductAdmin(admin.ModelAdmin):
     inlines=[AttachmentInline]
 
 
+class OrderAdmin(admin.ModelAdmin):
+    model=Order
+
+
+class CartItemAdmin(admin.ModelAdmin):
+    model = CartItem
+    
+
+
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Attachment, AttachmentAdmin)
 admin.site.register(Product, ProductAdmin)
+admin.site.register(Order, OrderAdmin)
+admin.site.register(CartItem, CartItemAdmin)
