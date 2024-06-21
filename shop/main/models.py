@@ -26,7 +26,7 @@ class Attachment(models.Model):
     '''The model enables stroing mutlitple images in one field in django'''
     
     def product_save_path(instance, filename) -> str: 
-        return 'images/product{0}/{1}'.format(instance.id, filename) 
+        return 'images/product{0}/{1}'.format(instance.product.id, filename) 
 
     image = models.ImageField(upload_to=product_save_path)
     product = models.ForeignKey('Product', on_delete=models.CASCADE, related_name='attachments')
