@@ -4,8 +4,9 @@ from phonenumber_field.modelfields import PhoneNumberField
 
 from django.contrib.auth.models import User
 
+from django.db.models import QuerySet
 
-
+from django.utils.html import mark_safe
 
 # Create your models here.
 
@@ -27,17 +28,20 @@ class Attachment(models.Model):
     
     def product_save_path(instance, filename) -> str: 
         return 'images/product{0}/{1}'.format(instance.product.id, filename) 
-
+    
     image = models.ImageField(upload_to=product_save_path)
     product = models.ForeignKey('Product', on_delete=models.CASCADE, related_name='attachments')
+
+
 
     def __str__(self) -> str:
         return f"image {self.pk} : {self.product.name}"
 
+
 class Product(models.Model):
     name = models.TextField(max_length=80, null=False)
 
-    price = models.FloatField()
+    price = models.DecimalField(max_digits=6, decimal_places=2)
     pieces_left = models.IntegerField()
 
     description = models.TextField()
@@ -53,18 +57,6 @@ class Product(models.Model):
     
 
 
-class Order(models.Model):
-    country = models.TextField(null=False)
-    full_name = models.TextField(null=False)
-    phonenumber = PhoneNumberField(null=False)
-    adress = models.TextField(null=False)
-    city = models.TextField(null=False)
-    postalcode = models.TextField(null=False)
-    created_at = models.DateTimeField(auto_now_add=True)
-    user = models.ForeignKey(User, related_name="orders", on_delete=models.CASCADE)
-    items = models.ManyToManyField('CartItem')
-
-
 class CartItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.IntegerField()
@@ -72,6 +64,37 @@ class CartItem(models.Model):
 
     def __str__(self) -> str:
         return f'{self.product.name}({self.quantity}) => {self.user.username}'
+
+
+class Order(models.Model):
+    country = models.TextField(null=False)
+    full_name = models.TextField(null=False)
+    phone_number = PhoneNumberField(null=False)
+    adress = models.TextField(null=False)
+    city = models.TextField(null=False)
+    postal_code = models.TextField(null=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(User, related_name="orders", on_delete=models.CASCADE)
+    items = models.ManyToManyField('CartItem')
+
+    @staticmethod
+    def order_total_price(cart_items: QuerySet[CartItem]) -> float:
+        total_for_each_item = (item.product.price*item.quantity for item in cart_items)
+
+        return sum(total_for_each_item)
+
+    def __str__(self) -> str:
+        order_sum = self.order_total_price(self.items.all())
+
+        return f"{self.user.username} ({self.items.count()} items) : {order_sum} "
+    
+    
+
+
+    
+
+
+
 
 
 

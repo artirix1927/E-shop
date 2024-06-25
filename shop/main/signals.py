@@ -6,20 +6,24 @@ from .funcs import delete_empty_dirs
 
 import os
 
-@receiver(post_delete, sender=Attachment)
-def delete_file(sender, instance, **kwargs):
-    print(instance)
-    file_field = instance.image
-    if file_field:
-        file_path = file_field.path
-        if os.path.isfile(file_path):
-            os.remove(file_path)
-        dir_path = os.path.dirname(file_path)
-        delete_empty_dirs(dir_path)
+
+#//without django cleanup
+# @receiver(post_delete, sender=Attachment)
+# def delete_file(sender, instance, **kwargs):
+#     print(4321)
+#     file_field = instance.image
+#     if file_field:
+#         file_path = file_field.path
+#         if os.path.isfile(file_path):
+#             os.remove(file_path)
+#         dir_path = os.path.dirname(file_path)
+#         delete_empty_dirs(dir_path)
+
+
 
 @receiver(cleanup_post_delete)
-def cleanup_empty_dirs(sender, file, **kwargs):
-    if file:
-        file_path = file.path
-        dir_path = os.path.dirname(file_path)
+def cleanup_empty_dirs(sender, instance, **kwargs):
+    image_path = instance.image.path
+    if image_path:
+        dir_path = os.path.dirname(image_path)
         delete_empty_dirs(dir_path)

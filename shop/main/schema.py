@@ -5,7 +5,8 @@ from .models import Category, Product, CartItem
 
 from django.contrib.auth.models import User
 
-from .gql.gql_mutations import CreateUser, LoginUser, LogoutUser, AddToCart, ChangeItemCartQuantity, DeleteFromCart
+from .gql.gql_mutations import CreateUser, LoginUser, LogoutUser, AddToCart, \
+                                ChangeItemCartQuantity, DeleteFromCart, CreateOrder
 
 from .gql.gql_types import CategoryType, ProductType, CartItemType
 
@@ -66,6 +67,8 @@ class Mutation(graphene.ObjectType):
     add_to_cart = AddToCart.Field()
     change_cart_item_quantity = ChangeItemCartQuantity.Field()
     delete_from_cart = DeleteFromCart.Field()
+    create_order = CreateOrder.Field()
+
 
 
 schema = graphene.Schema(query=Query, mutation=Mutation)
