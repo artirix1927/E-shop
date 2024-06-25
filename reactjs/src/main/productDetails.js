@@ -4,13 +4,16 @@ import '../css/productDetails.scss'
 
 
 
-import { useMutation, useQuery, useReactiveVar } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 
-import { useEffect, useRef, useState } from 'react';
-import {useFetcher, useParams } from "react-router-dom";
+import { useRef, useState } from 'react';
+import { useParams } from "react-router-dom";
 
 
-import { ADD_TO_CART, GET_PRODUCT_BY_ID } from '../gqlQueries';
+// import { ADD_TO_CART, GET_PRODUCT_BY_ID } from '../gqlQueries';
+
+import { ADD_TO_CART } from '../gql/mutations';
+import { GET_PRODUCT_BY_ID } from '../gql/queries';
 import { useCookies } from 'react-cookie';
 
 
@@ -137,7 +140,7 @@ const Gallery = (props) => {
     return <>
         <ul className='gallery-images'>
                         {props.attachments.map((obj, index)=>{
-                            if (index==0)
+                            if (index===0)
                                 return <li key={index} className='active' ref={currentImageLiElem}><img src={obj.image} alt="" key={index} onClick={HandleImageClick}></img></li>
 
                             return <li key={index}><img src={obj.image} alt="" key={index} onClick={HandleImageClick}></img></li>

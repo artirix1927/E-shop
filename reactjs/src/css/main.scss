@@ -70,6 +70,16 @@
         gap: 60px;
     
         .card{
+            .ellipsify {
+                width: 100%;
+                overflow: hidden;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 8;
+                display: -webkit-box;
+                white-space: pre-wrap;
+            }
+
+
             width: 18rem;
             img{
                 width: 100%;

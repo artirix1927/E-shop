@@ -4,9 +4,12 @@ import '../css/cart.scss'
 import { useMutation, useQuery } from "@apollo/client";
 // import { GET_CART_BY_USER } from "../gqlQueries";
 import { useCookies } from 'react-cookie';
-import { CHANGE_CART_ITEM_QUANTITY, DELETE_FROM_CART, GET_CART_BY_USER } from "../gqlQueries";
+//import { CHANGE_CART_ITEM_QUANTITY, DELETE_FROM_CART, GET_CART_BY_USER } from "../gqlQueries";
 import { IsInStock } from "../main/productDetails";
 import { useEffect, useState } from "react";
+import { Link } from 'react-router-dom';
+import { GET_CART_BY_USER} from '../gql/queries';
+import { CHANGE_CART_ITEM_QUANTITY, DELETE_FROM_CART } from '../gql/mutations';
 
 
 export const Cart = () => {
@@ -15,22 +18,25 @@ export const Cart = () => {
     const { data, loading, error } = useQuery(GET_CART_BY_USER, {variables: {id: parseInt(cookies.user.id)}, fetchPolicy: 'cache-and-network',});
 
     const [sum,setSum] = useState(0)
-    const [itemsCounter, setItemsCounter] = useState(0)
+    const [selectedItems, setSelectedItems] = useState([])
 
     useEffect(()=>{
-        //setting sum value
         if (data){
-            let sum=0;
-            let itemCounter=0;
+            const arr = []
             data.cartByUser.map((item) => {
-                itemCounter += item.quantity
-                return sum+=(item.product.price*item.quantity);
+                return arr.push(item)
             })
-            setSum(sum)
-            setItemsCounter(itemCounter)
+            setSelectedItems(arr)
         }
+    },[data])
 
-    },[data, setSum, setItemsCounter])
+    useEffect(()=>{
+        //setting sum state here and changing it because 
+        //i use it in card copmonent and here
+        let tempSum = 0
+        selectedItems.map((item)=>{return tempSum+=item.product.price*item.quantity})
+        setSum(tempSum)
+    },[selectedItems,setSum])
     
 
     if (loading) return "Loading...";
@@ -39,34 +45,52 @@ export const Cart = () => {
 
     return <div className="cart-content d-flex">
         <div className='cart-items-container'>
-
             {
             data.cartByUser.map((item, index) => {
 
                 return <CartItem item={item} key={index}
-                 setSum={setSum} sum={sum}
-                 setItemsCounter={setItemsCounter} itemsCounter={itemsCounter}
-                 
-                 />
-            })
+                                selectedItems = {selectedItems}
+                                setSelectedItems={setSelectedItems}/>
+
+                })
             }
+
             <h5 className="price">{sum} $CAD</h5>
-
-
         </div>
 
-        <div className="card" style={{float:'right', paddingInline: 20}}>
-            <div className="card-body">
-                <h5 className="card-title">Subtotal ({itemsCounter} items),</h5>
-                <h5 className="card-title"> {sum} $CAD</h5>
-            </div>
-            <button className='btn btn-warning'>Procced to checkout</button>
+        <div>
+            <SubtotalCard sum={sum} selectedItems={selectedItems}></SubtotalCard>
         </div>
-        
-        
                                                                 
     </div>
 }
+
+const SubtotalCard = (props) => {
+    const [itemsCounter, setItemsCounter] = useState(0)
+
+
+
+    useEffect(()=>{
+        //setting items counter
+        let itemCounter=0;
+        props.selectedItems.map((item)=>{
+            return itemCounter += item.quantity
+        })
+        setItemsCounter(itemCounter)
+    },[props.selectedItems,setItemsCounter])
+
+
+    return <>
+        <div className="card">
+            <div className="card-body">
+                <h5 className="card-title">Subtotal ({itemsCounter} items),</h5>
+                <h5 className="card-title"> {props.sum} $CAD</h5>
+            </div>
+            <Link to='/checkout' className='btn btn-warning' state={{ selectedItems: props.selectedItems  }}>Procced to checkout</Link>
+        </div>
+    </>
+}
+
 
 
 export const CartItem = (props) => {
@@ -74,11 +98,13 @@ export const CartItem = (props) => {
     const attachments = props.item.product.attachments;
 
     const handleCheckboxOnClick =(e) => {
-        const newSum = e.target.checked ? props.sum+(product.price*props.item.quantity) : props.sum-(product.price*props.item.quantity)
-        const newCounter = e.target.checked ? props.itemsCounter+(props.item.quantity) : props.itemsCounter - props.item.quantity
+        if (!e.target.checked){
+            props.setSelectedItems(props.selectedItems.filter(i => i.id !== props.item.id))
+            return
+        }
+        props.setSelectedItems([...props.selectedItems, props.item ])
+        
 
-        props.setSum(newSum)
-        props.setItemsCounter(newCounter)
     }
 
     return <div className="cart-item">
@@ -106,7 +132,7 @@ export const CartItem = (props) => {
             
             <div className="quantity">
                 <QuantityDropdown piecesLeft={product.piecesLeft} deafult={props.item.quantity} cartItemId={props.item.id}
-                                  sum={props.sum} setSum={props.setSum} itemsCounter={props.itemsCounter} setItemsCounter={props.setItemsCounter}/>
+                                />
             </div>
 
         </div>
@@ -159,7 +185,7 @@ const DeleteCartItem = (props) => {
     return <>
 
     <i className="bi bi-x-lg" data-bs-toggle="modal" data-bs-target={`#${modalId}`}></i>
-    <div class="modal" tabindex="-1" id={modalId}>
+    <div class="modal" tabIndex="-1" id={modalId}>
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">

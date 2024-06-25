@@ -3,7 +3,9 @@ import '../css/login.scss'
 
 import { Formik, Form, Field, ErrorMessage} from 'formik';
 
-import { LOGIN_USER } from '../gqlQueries';
+// import { LOGIN_USER } from '../gqlQueries';
+
+import { LOGIN_USER } from '../gql/mutations';
 
 import { useMutation } from '@apollo/client';
 import { Link, useNavigate } from 'react-router-dom';

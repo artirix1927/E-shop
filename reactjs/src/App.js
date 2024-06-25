@@ -20,6 +20,7 @@ import {useBodyClass} from "./hooks";
 import { Register } from "./login/register";
 import { Logout } from "./login/logout";
 import { Cart } from "./cart/cart";
+import { Checkout } from "./checkout/checkout";
 
 
 
@@ -64,6 +65,13 @@ function App() {
 
   }
 
+  const CheckoutPage = () => {
+
+    return <div className="App">
+      <Checkout></Checkout>
+    </div>
+  }
+
  
  
 
@@ -82,6 +90,8 @@ function App() {
                   <Route path="/register" element={<RegisterPage/>}></Route>
                   <Route path="/logout" element={<LogoutPage/>}></Route>
                   <Route path="/cart" element={<NavbarPageMixin><Cart/></NavbarPageMixin>}></Route>
+                  <Route path="/checkout" element={<CheckoutPage></CheckoutPage>}></Route>
+                  
               </Routes>
             </CookiesProvider>
 
