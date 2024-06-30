@@ -20,16 +20,6 @@ import { useCookies } from 'react-cookie';
 export const ProductDetails = () => {
     const {id} = useParams();
 
-    const [cookies] = useCookies()
-
-
-    const [quantityDropdownValue, setQuantityDropdownValue] = useState(1) 
-    const [addToCart] = useMutation(ADD_TO_CART)
-
-    const HandleAddToCart = () => {
-        addToCart({variables: {userId: parseInt(cookies.user.id), productId: parseInt(id), quantity: parseInt(quantityDropdownValue)}})
-    }
-
     let { data,loading,error} = useQuery(GET_PRODUCT_BY_ID, {variables:{id:parseInt(id)},});
 
     if (loading) return "Loading...";
@@ -37,62 +27,99 @@ export const ProductDetails = () => {
 
 
     data = data.productById;
+    //console.log(data)
     
     return <div className='product-container'>
     
         <div className='row'>
             <div className='col gallery'>
-                
                 <Gallery attachments={data.attachments}></Gallery>
-                
             </div>
 
             <div className='content col-6'>
                 <div className='name'>
                     <h2>{data.name}</h2>
                 </div>
+
                 <hr/>
+
                 <div className='price'>
                     <h2>{data.price} $CAD</h2>
                 </div>
+
                 <hr/>
-                <div className='description'><p>{data.description}</p></div>
+
+                <div className='description'>
+                    <p>{data.description}</p>
+                </div>
+
+                <table className='characteristics-table table table-borderless'>
+                    {data.characteristics.map((char)=>{
+                    return <tr>
+                            <td>{char.characteristic.name}</td>
+                            <td>{char.value}</td>
+                        </tr>
+                    })}
+                </table>
+
             </div>
 
             <div className='card col-4'>
-                <div className='card-body'>
-                    <div className='price'>
-                        <h3>{data.price} $CAD</h3>
-                    </div>
-                    <hr/>
-                    <div className='pieces-left'>
-
-                        <IsInStock piecesLeft={data.piecesLeft}/>
-
-                    </div>
-                    <hr/>
-
-                    <div className='card-btns'>
-                        
-                        { data.piecesLeft && <QuantityDropdown piecesLeft={data.piecesLeft} dropdownValue={quantityDropdownValue} setDropdownValue={setQuantityDropdownValue}/> }   
-
-
-                        <div className='card-buy-btns'>
-                            <div>
-                                <button className='btn btn-warning' onClick={HandleAddToCart}>Add to cart <i className="bi bi-cart-plus"></i></button>
-                            </div>
-
-                            <div>
-                                <button className='btn btn-success '>Buy Now <i className="bi bi-cash-stack"></i></button>
-                            </div>
-                        </div>
-            
-                    </div>
-                </div>
+                <BuyCard price={data.price} piecesLeft={data.piecesLeft}></BuyCard>
             </div>
+            
+
+            
         </div>
     </div>
 }
+
+
+const BuyCard = (props) => {
+    const {id} = useParams();
+
+    const [cookies] = useCookies()    
+    const [quantityDropdownValue, setQuantityDropdownValue] = useState(1) 
+
+    const [addToCart] = useMutation(ADD_TO_CART)
+
+    const HandleAddToCart = () => {
+        addToCart({variables: {userId: parseInt(cookies.user.id), productId: parseInt(id), quantity: parseInt(quantityDropdownValue)}})
+    }
+
+
+    return <>
+            <div className='card-body'>
+                <div className='price'>
+                    <h3>{props.price} $CAD</h3>
+                </div>
+                <hr/>
+                <div className='pieces-left'>
+                    <IsInStock piecesLeft={props.piecesLeft}/>
+                </div>
+                <hr/>
+
+                <div className='card-btns'>
+            
+                    { props.piecesLeft && <QuantityDropdown piecesLeft={props.piecesLeft} 
+                    dropdownValue={quantityDropdownValue} setDropdownValue={setQuantityDropdownValue}/> }   
+
+
+                    <div className='card-buy-btns'>
+                        <div>
+                            <button className='btn btn-warning' onClick={HandleAddToCart}>Add to cart <i className="bi bi-cart-plus"></i></button>
+                        </div>
+
+                        <div>
+                            <button className='btn btn-success '>Buy Now <i className="bi bi-cash-stack"></i></button>
+                        </div>
+                    </div>
+        
+                </div>
+            </div>
+    </>
+}
+
 
 
 export const QuantityDropdown = (props) => {

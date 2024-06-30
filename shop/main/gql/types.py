@@ -1,7 +1,10 @@
 
 from graphene_django import DjangoObjectType
-from ..models import Category,Product,Attachment,CartItem, Order
+from ..models import Category,Product,Attachment,CartItem, Order,\
+                    AvailableCharacteristics, Characteristics, AvailableCountries
 from django.contrib.auth.models import User
+
+import graphene
 
 
 class CategoryType(DjangoObjectType):
@@ -48,3 +51,20 @@ class OrderType(DjangoObjectType):
     class Meta:
         model = Order
         fields = '__all__'
+
+
+class AvailableCharacteristicsType(DjangoObjectType):
+    class Meta:
+        model = AvailableCharacteristics
+        fields = '__all__'
+
+class CharacteristicsType(DjangoObjectType):
+    class Meta:
+        model = Characteristics
+        fields = '__all__'
+
+class AvailableCountriesType(DjangoObjectType):
+    class Meta:
+        model = AvailableCountries
+        fields = '__all__'
+

@@ -1,5 +1,5 @@
 import graphene
-from .gql_types import UserType
+from .types import UserType
 
 from django.contrib.auth import authenticate #login, logout
 from django.core.exceptions import PermissionDenied
@@ -102,8 +102,6 @@ class DeleteFromCart(graphene.Mutation):
         CartItem.objects.get(id=id).delete()
         return DeleteFromCart(success=True)
     
-
-
 
 
 class CreateOrder(graphene.Mutation):

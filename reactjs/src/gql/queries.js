@@ -65,6 +65,11 @@ export const GET_PRODUCT_BY_ID = gql`
             attachments{
                 image
             }
+
+            characteristics{
+              characteristic{name}
+              value
+            }   
         }
     }
 `
@@ -88,3 +93,27 @@ export const GET_CART_BY_USER = gql`
         }
     }
 `
+
+
+
+export const GET_AVAILABLE_COUNTRIES = gql`
+  query {
+    availableCountries{
+      name
+    }
+  }
+`
+
+export const GET_STATES_BY_COUNTRY = gql`
+  query StatesByCountry($country: String!){
+    statesByCountry(country:$country)
+  }
+`
+
+export const GET_CITIES_BY_COUNTRY_STATE = gql`
+  query CitiesByCountryState($country: String!, $state:String!){
+    citiesByCountryState(country:$country, state:$state)
+  }
+
+`
+

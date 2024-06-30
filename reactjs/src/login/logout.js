@@ -7,7 +7,7 @@ import { useMutation } from "@apollo/client"
 
 export const Logout = () => {
     let [logout, {data}] = useMutation(LOGOUT_USER)
-    const [cookies, setCookies, removeCookies] = useCookies('user')
+    const [,, removeCookies] = useCookies('user')
     const navigate = useNavigate()
 
     useEffect(()=>{
