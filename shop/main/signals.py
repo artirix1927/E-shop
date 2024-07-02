@@ -1,7 +1,7 @@
 from django.db.models.signals import post_delete
 from django.dispatch import receiver
 from django_cleanup.signals import cleanup_post_delete
-from .models import Attachment
+from products.models import Attachment
 from .funcs import delete_empty_dirs
 
 import os

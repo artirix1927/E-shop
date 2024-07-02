@@ -17,7 +17,7 @@
     .card{
         width: 20rem;
         float:right;
-        padding-inline: 20px;
+        padding: 20px;
     }
     
 }
@@ -52,6 +52,11 @@
         .quantity{
             bottom: 0;
             position:absolute;
+
+            .dropdown-menu{
+                overflow-y:scroll; 
+                max-height:200px;
+            }
         }
     }
 

@@ -61,25 +61,27 @@
 
 
 .container{
-    
     padding-block: 40px;
+    
     .products-list{
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
-        gap: 60px;
+        gap: 44px;
+        //justify-content: center;
+        
     
         .card{
             .ellipsify {
                 width: 100%;
                 overflow: hidden;
                 -webkit-box-orient: vertical;
-                -webkit-line-clamp: 8;
+                -webkit-line-clamp: 6;
                 display: -webkit-box;
                 white-space: pre-wrap;
             }
 
-
+           
             width: 18rem;
             img{
                 width: 100%;

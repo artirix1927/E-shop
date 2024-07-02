@@ -7,7 +7,7 @@ import '../css/productDetails.scss'
 import { useMutation, useQuery } from "@apollo/client";
 
 import { useRef, useState } from 'react';
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 
 // import { ADD_TO_CART, GET_PRODUCT_BY_ID } from '../gqlQueries';
@@ -27,7 +27,6 @@ export const ProductDetails = () => {
 
 
     data = data.productById;
-    //console.log(data)
     
     return <div className='product-container'>
     
@@ -49,18 +48,16 @@ export const ProductDetails = () => {
 
                 <hr/>
 
-                <div className='description'>
+                <div className='description-short'>
                     <p>{data.description}</p>
                 </div>
-
-                <table className='characteristics-table table table-borderless'>
-                    {data.characteristics.map((char)=>{
-                    return <tr>
-                            <td>{char.characteristic.name}</td>
-                            <td>{char.value}</td>
-                        </tr>
-                    })}
-                </table>
+                
+                { data.characteristics.length > 0 &&
+                <div className='characteristics-scroll-div'>
+                    <CharacteristicsTable characteristics={data.characteristics}/>
+                </div>
+                }
+                
 
             </div>
 
@@ -69,7 +66,11 @@ export const ProductDetails = () => {
             </div>
             
 
-            
+        </div>
+
+        <div className='description-full'>
+            <h5>Full Description</h5>
+            <p>{data.description}</p>
         </div>
     </div>
 }
@@ -87,6 +88,7 @@ const BuyCard = (props) => {
         addToCart({variables: {userId: parseInt(cookies.user.id), productId: parseInt(id), quantity: parseInt(quantityDropdownValue)}})
     }
 
+    //const checkoutRouteParameters = [{quantity: quantityDropdownValue, item:''}]
 
     return <>
             <div className='card-body'>
@@ -111,7 +113,7 @@ const BuyCard = (props) => {
                         </div>
 
                         <div>
-                            <button className='btn btn-success '>Buy Now <i className="bi bi-cash-stack"></i></button>
+                            <Link className='btn btn-success' to='/checkout' >Buy Now <i className="bi bi-cash-stack"></i></Link>
                         </div>
                     </div>
         
@@ -190,4 +192,20 @@ export const IsInStock = (props) => {
     <h5>Pieces Left: {props.piecesLeft}</h5>
     </>
 
+}
+
+
+const CharacteristicsTable = (props) => {
+
+
+    return <table className='characteristics-table table table-borderless'>
+                        
+                        {props.characteristics.map((char)=>{
+                        return <tr>
+                                <td>{char.characteristic.name} :</td>
+                                <td>{char.value}</td>
+                            </tr>
+                        })}
+                    
+        </table>
 }

@@ -1,8 +1,14 @@
 import graphene
 
-from .gql.queries import ProductQueries, CategoryQueries, CartQueries, GeoQueries
-from .gql.mutations import RegistrationMutations, CartMutations, OrderMutations
 
+from .gql.mutations import RegistrationMutations
+
+from products.gql.queries import ProductQueries,CategoryQueries
+from cart.gql.queries import CartQueries
+from shipping.gql.queries import GeoQueries
+
+
+from cart.gql.mutations import CartMutations, OrderMutations
 
 
 

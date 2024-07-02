@@ -1,7 +1,7 @@
 import { Field, Form, Formik, useField } from "formik"
 
 import '../css/checkout.scss'
-import { Link, useLocation,  } from "react-router-dom"
+import { Link, useLocation, useNavigate,  } from "react-router-dom"
 import { useEffect, useState } from "react"
 import { useCookies } from "react-cookie"
 import { useMutation, useQuery } from "@apollo/client"
@@ -18,8 +18,6 @@ import Select from 'react-select'
 const OrderValidationScheme = Yup.object().shape({
     fullName: Yup.string().min('2').max('50').required('Required'),
     phoneNumber :Yup.string().required("Required"),
-    country: Yup.string().required('Required'),
-    city: Yup.string().required('Required'),
     adress: Yup.string().required('Required'),
     postalCode: Yup.string().required('Required'),
 
@@ -109,14 +107,19 @@ const OrderForm = (props) => {
     
     const [cookies] = useCookies()
     const [createOrder] = useMutation(CREATE_ORDER)
+    const nav = useNavigate()
 
     const formOnSubmit = (values) =>{ 
         const userId = cookies.user.id
         const itemsId=[]
+        
         props.selectedItems.map((item)=>itemsId.push(item.id))
-
+       
         const requestData = Object.assign({user: parseInt(userId), items: JSON.stringify(itemsId)}, values)
+       
         createOrder({variables: requestData})
+
+        nav('/cart')
     }
 
     const formInitialValues = {fullName:'', phoneNumber:'', country:'', state: '', city:'', adress:'', postalCode:''}
@@ -169,16 +172,14 @@ const SelectCountriesField = (props) => {
 
 
 const SelectStatesField = (props) => {
-    
-
-    const {data} = useQuery(GET_STATES_BY_COUNTRY, {variables:{ country: props.form.values.country.value }})
+    console.log(props.form.values)
+    const {data} = useQuery(GET_STATES_BY_COUNTRY, {variables:{ country: props.form.values.country }})
     const [statesOptions, setStatesOptions] = useState([])
 
     useEffect(() => {
         let options = []
         if (data){
             data.statesByCountry.map((state)=>{
-                console.log(state.name)
                 return options = [...options, {label: state, value: state}]
             })
         }
@@ -190,8 +191,8 @@ const SelectStatesField = (props) => {
 
 
 const SelectCitiesField = (props) => {
-    const {data} = useQuery(GET_CITIES_BY_COUNTRY_STATE, {variables:{ country: props.form.values.country.value, 
-                                                                      state: props.form.values.state.value  }})
+    const {data} = useQuery(GET_CITIES_BY_COUNTRY_STATE, {variables:{ country: props.form.values.country, 
+                                                                      state: props.form.values.state  }})
     const [citiesOptions, setStatesOptions] = useState([])
 
     useEffect(() => {
@@ -211,23 +212,25 @@ const SelectCitiesField = (props) => {
 }
 
 
-const SelectField = ({options, ...props }) => {
-    const [field, , helpers] = useField(props.field);
+
+const SelectField = ({ options, ...props }) => {
+    const [field, , helpers] = useField(props.field.name);
 
     const handleChange = (selectedOption) => {
-      helpers.setValue(selectedOption);
+      helpers.setValue(selectedOption ? selectedOption.value : '');
     };
-
+  
+    const getValue = () => {
+      return options ? options.find(option => option.value === field.value) : '';
+    };
+  
     return (
-      <div>
-        <Select
-          {...field}
-          {...props}
-          value={field.value}
-          onChange={handleChange}
-          options={options}
-        />
-      </div>
+      <Select
+        {...props}
+        value={getValue()}
+        onChange={handleChange}
+        options={options}
+      />
     );
   };
   

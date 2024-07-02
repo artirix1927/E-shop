@@ -37,10 +37,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     "django.contrib.staticfiles", # Required for GraphiQL
-    'django_cleanup.apps.CleanupConfig',
+    'django_cleanup.apps.CleanupConfig', #unused images cleanup
     'corsheaders',
-    "graphene_django",
-    'main.apps.MainConfig',
+    "graphene_django",  #gql lib
+    'main.apps.MainConfig', 
+    'cart.apps.CartConfig',
+    'products.apps.ProductsConfig',
+    'shipping.apps.ShippingConfig',
 ]
 
 MIDDLEWARE = [

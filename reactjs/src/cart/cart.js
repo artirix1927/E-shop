@@ -118,7 +118,7 @@ export const CartItem = (props) => {
         </div>
 
     
-        <img src={attachments[0].image} alt="..."/>
+       <Link to={`/product/${props.item.product.id}`}> <img src={attachments[0].image} alt="..."/></Link>
       
          
 

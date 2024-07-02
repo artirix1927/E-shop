@@ -63,10 +63,10 @@ export const DELETE_FROM_CART = gql`
 
 
 export const CREATE_ORDER = gql`
-  mutation CreateOrder($country: String!, $fullName: String!, $phoneNumber: String!,
+  mutation CreateOrder($country: String!, $state: String!,  $fullName: String!, $phoneNumber: String!,
    $adress: String!, $city: String!, $postalCode: String!, $user: Int!, $items: String!){
 
-    createOrder(country:$country, fullName:$fullName, phoneNumber:$phoneNumber, 
+    createOrder(country:$country, state: $state, fullName:$fullName, phoneNumber:$phoneNumber, 
     adress:$adress, city:$city, postalCode:$postalCode, user:$user, items:$items){
       success
     

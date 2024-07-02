@@ -3,7 +3,7 @@ import '../css/main.scss'
 
 import { useQuery, useLazyQuery, useMutation } from "@apollo/client";
 
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import { productsContext } from '../ProductsHandlerProvider';
 
@@ -18,6 +18,13 @@ import { useCookies } from 'react-cookie';
 
 export const Navbar = () =>{
 
+    const {setProductsData} = useContext(productsContext);
+
+    const resetProductContextOnHomeClick = ()=>{
+        //when chosing a category and then clicking home, 
+        //resetting context state so the components uploads all products
+        setProductsData()
+    }
 
     const [cookies] = useCookies(['user']);
   
@@ -25,7 +32,7 @@ export const Navbar = () =>{
         <div className="container-fluid">
             
             <div className="navbar-nav">
-                <Link className='nav-link' to="/">Home</Link>
+                <Link className='nav-link' to="/" onClick={resetProductContextOnHomeClick}>Home</Link>
             </div>
             
                 <form className="d-flex input-group" action='/'>
@@ -95,10 +102,9 @@ const DropdownCategoriesMenu = (props) =>{
             props.setCategoryDropdown(setValue) 
     }
 
-    const { data, loading, error } = useQuery(GET_CATEGORIES);
+    const { data, loading } = useQuery(GET_CATEGORIES);
 
     if (loading) return "Loading...";
-    if (error) return <pre>{error.message}</pre>
 
     return <>
         <button className="btn btn-light dropdown-toggle" type="button" 
@@ -154,15 +160,15 @@ export const CategoriesLine = () => {
 
 
 export const ProductsList = () => {
+
     const {productsData} = useContext(productsContext)
 
-    let { data, loading, error } = useQuery(GET_PRODUCTS);
+    let { data, loading} = useQuery(GET_PRODUCTS);
 
     if (loading) return "Loading...";
-    if (error) return <pre>{error.message}</pre>
 
+    //products from context or from the query
     data = productsData ? productsData : data.allProducts;
-    
 
     return <div className='container'>
         <div className='products-list'>
