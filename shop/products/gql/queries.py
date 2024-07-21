@@ -22,7 +22,7 @@ class ProductQueries(graphene.ObjectType):
         return Product.objects.get(pk=id)
     
     def resolve_products_by_category(root, info, category):
-        return Product.objects.filter(category__shortname=category)
+        return Product.objects.filter(category__name=category)
     
     def resolve_products_by_search(root, info, category, search):
         
@@ -30,6 +30,7 @@ class ProductQueries(graphene.ObjectType):
 
         return Product.objects.annotate(name_matches=Q(name__icontains=search)).\
                filter((Q(description__icontains=search) | Q(name_matches=True)) & category_for_filter).order_by("-name_matches")
+    
 
 
 
@@ -38,6 +39,7 @@ class CategoryQueries(graphene.ObjectType):
 
     def resolve_all_categories(root, info):
         return Category.objects.all()
+    
     
 
 

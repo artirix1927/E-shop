@@ -24,10 +24,25 @@ from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 from django.conf.urls.static import static
 
+from django.core.mail import send_mail
+
+from django.http import HttpResponse
+
+
+# def test_email(request):
+#     subject = 'Test Email'
+#     message = 'This is a test email.'
+#     email_from = settings.EMAIL_HOST_USER
+#     recipient_list = ['mrartem1927@gmail.com',]
+#     send_mail(subject=subject, message=message, from_email=email_from, recipient_list=recipient_list, fail_silently=False)
+#     return HttpResponse()
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("graphql/", csrf_exempt(GraphQLView.as_view(graphiql=True))),
+    path("graphql", csrf_exempt(GraphQLView.as_view(graphiql=True))),
     path("", csrf_exempt(GraphQLView.as_view(graphiql=True))),
+    #path('testmail/', test_email)
 ]
 
 

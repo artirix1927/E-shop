@@ -4,100 +4,72 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 
 import 'bootstrap/dist/js/bootstrap'
 
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  RouterProvider,
+  Route,
+} from "react-router-dom";
 
-import { Navbar, CategoriesLine, ProductsList } from './main/main';
 
-import ApolloAppProvider from "./ApolloProvider";
-import { ProductsProvider } from "./ProductsHandlerProvider";
+import ApolloAppProvider from "./providers/ApolloProvider";
+
 import { CookiesProvider } from 'react-cookie';
 
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 
-import { ProductDetails } from "./main/productDetails";
 
-import { Login } from "./login/login";
-import {useBodyClass} from "./hooks";
-import { Register } from "./login/register";
-import { Logout } from "./login/logout";
-import { Cart } from "./cart/cart";
-import { Checkout } from "./checkout/checkout";
+
+
+import { useCookies } from 'react-cookie';
+import { CartPage, CheckoutPage, LoginPage, LogoutPage, MainPage, ProductDetailsPage, RegisterPage } from "./pages";
+
 
 
 
 function App() {
 
-  const NavbarPageMixin = (props) => {
-
-    return <ProductsProvider>
-        <div className="App">
-        <Navbar></Navbar>
-        <CategoriesLine></CategoriesLine>
-        {props.children}
-        </div>
-      </ProductsProvider>
-    
-
+  const  AuthenticatedRoute = () => {
+    let isAuthenticated = false;
+    const [cookies] = useCookies(['user']);
+    if (cookies.user) {
+      isAuthenticated = true;
+    }
+    return isAuthenticated ? <Outlet /> : <Navigate to='/login'/> ;
   }
 
-  const LoginPage = () => {
-    useBodyClass('login')
 
-    return <div className="App">
+  const router = createBrowserRouter(
+    createRoutesFromElements(
+      <>
+        <Route path="/" element={<MainPage></MainPage>}/>
+        <Route path="/product/:id" element={<ProductDetailsPage></ProductDetailsPage>}/> 
 
-        <Login></Login>
-      </div>
+        <Route path="/login" element={<LoginPage/>}/>
+        <Route path="/register" element={<RegisterPage/>}></Route>
+        <Route path="/logout" element={<LogoutPage/>}></Route>
 
-  }
-
-  const RegisterPage = () => {
-    useBodyClass('login')
-
-    return <div className="App">
-        <Register></Register>
-      </div>
-
-  }
-
-  const LogoutPage = () => {
-    return <div className="App">
-        <Logout></Logout>
-      </div>
-
-  }
-
-  const CheckoutPage = () => {
-
-    return <div className="App">
-      <Checkout></Checkout>
-    </div>
-  }
-
- 
- 
+        
+          <Route path="/" element={<AuthenticatedRoute />}>
+            <Route path="cart" element={<CartPage />} />
+            <Route path="checkout" element={<CheckoutPage />} />
+          </Route>
+        
+        
+      </>
+    )
+  );
 
   
 
-
   return (
-    <BrowserRouter>
-        
-        <ApolloAppProvider>
+    <ApolloAppProvider>
             <CookiesProvider>
-              <Routes>
-                  <Route path="/" element={<NavbarPageMixin><ProductsList/></NavbarPageMixin>}/>
-                  <Route path="/product/:id" element={<NavbarPageMixin><ProductDetails/></NavbarPageMixin>}/> 
-                  <Route path="/login" element={<LoginPage/>}/>
-                  <Route path="/register" element={<RegisterPage/>}></Route>
-                  <Route path="/logout" element={<LogoutPage/>}></Route>
-                  <Route path="/cart" element={<NavbarPageMixin><Cart/></NavbarPageMixin>}></Route>
-                  <Route path="/checkout" element={<CheckoutPage></CheckoutPage>}></Route>
-                  
-              </Routes>
+              <RouterProvider router={router}>
+              </RouterProvider>
             </CookiesProvider>
-
         </ApolloAppProvider>
-        
-    </BrowserRouter>
+    
   );
 }
 

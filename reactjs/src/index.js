@@ -11,6 +11,7 @@ import reportWebVitals from './reportWebVitals';
 
 
 import {createRoot} from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
 
 const rootElement = document.getElementById("root");
 createRoot(rootElement).render(

@@ -39,7 +39,9 @@ export const LOGOUT_USER = gql`
 export const ADD_TO_CART = gql`
   mutation Cart($userId: Int!, $productId: Int!, $quantity: Int!){
     addToCart(userId: $userId, productId: $productId, quantity: $quantity){
-      success
+      cartItem{
+        id
+      }
     }
   }
 `
@@ -48,7 +50,9 @@ export const ADD_TO_CART = gql`
 export const CHANGE_CART_ITEM_QUANTITY = gql`
   mutation ChangeCartItemQuantity($id: Int!, $quantity: Int!){
     changeCartItemQuantity(id: $id, quantity: $quantity){
-      success
+      cartItem{
+        id
+      }
     }
   }
 `

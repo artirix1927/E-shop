@@ -11,7 +11,7 @@ from django.db import models
 
 class OrderAdmin(admin.ModelAdmin):
     list_filter = ('country','created_at')
-    readonly_fields= ('created_at','user')
+    readonly_fields= ('created_at',)
 
     formfield_overrides = {
         models.TextField: {'widget': Textarea(
