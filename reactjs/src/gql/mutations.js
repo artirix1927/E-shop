@@ -78,3 +78,14 @@ export const CREATE_ORDER = gql`
    }
 
 `
+
+
+export const CLOSE_TICKET = gql`
+  mutation CloseTicket($ticketId: Int!){
+    closeTicket(ticketId:$ticketId){
+      ticket{
+        closed
+      }
+    }
+  }
+`

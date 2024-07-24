@@ -2,7 +2,8 @@
 
 import "bootstrap-icons/font/bootstrap-icons.css";
 
-import 'bootstrap/dist/js/bootstrap'
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min';
 
 import {
   createBrowserRouter,
@@ -22,7 +23,8 @@ import { Navigate, Outlet } from "react-router-dom";
 
 
 import { useCookies } from 'react-cookie';
-import { CartPage, CheckoutPage, LoginPage, LogoutPage, MainPage, ProductDetailsPage, RegisterPage } from "./pages";
+import { CartPage, CheckoutPage, LoginPage, LogoutPage, MainPage, 
+        ProductDetailsPage, RegisterPage, SupportTicketsPage } from "./pages";
 
 
 
@@ -53,6 +55,7 @@ function App() {
           <Route path="/" element={<AuthenticatedRoute />}>
             <Route path="cart" element={<CartPage />} />
             <Route path="checkout" element={<CheckoutPage />} />
+            <Route path="tickets" element={<SupportTicketsPage/>}></Route>
           </Route>
         
         

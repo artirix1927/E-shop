@@ -120,3 +120,34 @@ export const GET_CITIES_BY_COUNTRY_STATE = gql`
 
 `
 
+
+
+export const GET_SUPPORT_TICKETS = gql`
+  query {
+    allTickets{
+      id
+      closed
+      user{
+        username
+      }
+    }
+  
+  }
+
+
+`
+
+export const GET_SUPPORT_TICKET_MESSAGES = gql`
+  query MessagesByTicket($id: Int!){
+    getMessagesByTicket(id: $id){
+      id
+      message
+      sentBy{
+        id
+        username
+      }
+      
+    }
+}
+`
+

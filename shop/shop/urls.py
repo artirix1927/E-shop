@@ -28,6 +28,7 @@ from django.core.mail import send_mail
 
 from django.http import HttpResponse
 
+from django.urls import include, path
 
 # def test_email(request):
 #     subject = 'Test Email'
@@ -42,6 +43,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("graphql", csrf_exempt(GraphQLView.as_view(graphiql=True))),
     path("", csrf_exempt(GraphQLView.as_view(graphiql=True))),
+
     #path('testmail/', test_email)
 ]
 

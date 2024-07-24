@@ -31,6 +31,7 @@ DEBUG = True
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -39,11 +40,13 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles", # Required for GraphiQL
     'django_cleanup.apps.CleanupConfig', #unused images cleanup
     'corsheaders',
+    'channels', #websockets
     "graphene_django",  #gql lib
     'main.apps.MainConfig', 
     'cart.apps.CartConfig',
     'products.apps.ProductsConfig',
     'shipping.apps.ShippingConfig',
+    'chat.apps.ChatConfig',
 ]
 
 MIDDLEWARE = [
@@ -168,3 +171,19 @@ EMAIL_HOST_USER = "bytemartproj@gmail.com"
 EMAIL_HOST_PASSWORD = "wddy xdih hkfp fmva"
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 EMAIL_USE_SSL = False
+
+
+
+
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer',
+    },
+}
+
+ASGI_APPLICATION = 'shop.asgi.application'
+
+X_FRAME_OPTIONS = '*'
+
+XS_SHARING_ALLOWED_METHODS = ['POST','GET','OPTIONS', 'PUT', 'DELETE']

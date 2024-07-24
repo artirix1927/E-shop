@@ -10,6 +10,7 @@ import { ProductsProvider } from "./providers/ProductsHandlerProvider";
 import { ProductsList } from './main/main';
 import { ProductDetails } from "./details/productDetails";
 import { CategoriesLine, Navbar } from "./main/navbar";
+import { SupportTicketsList } from "./admin/supportTickets";
 
 
 const NavbarPageMixin = (props) => {
@@ -72,3 +73,10 @@ export const CheckoutPage = () => {
       <Checkout></Checkout>
     </div>
   }
+
+
+export const SupportTicketsPage = () => {
+  return <div className="App">
+      <SupportTicketsList></SupportTicketsList>
+    </div>
+}

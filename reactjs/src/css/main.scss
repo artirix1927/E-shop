@@ -76,6 +76,7 @@
                 width: 100%;
                 overflow: hidden;
                 -webkit-box-orient: vertical;
+                line-clamp: 6;
                 -webkit-line-clamp: 6;
                 display: -webkit-box;
                 white-space: pre-wrap;
