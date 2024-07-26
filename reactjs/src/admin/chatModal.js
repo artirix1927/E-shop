@@ -109,7 +109,6 @@ const ChatSendMessageForm = (props) => {
 const ChatMessagesList = (props) => {
     const messagesList = useRef()
     
-
     //scrolling to the end after every message
     useEffect(() => {
         if (messagesList.current)

@@ -8,6 +8,7 @@ export const LOGIN_USER = gql`
         id
         username
         email
+        isStaff
       }
     }
   }
