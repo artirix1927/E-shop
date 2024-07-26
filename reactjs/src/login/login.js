@@ -28,7 +28,6 @@ export const Login = () =>  {
             if (cookies.user){
                 navigate("/logout")
             }
-
             setCookie('user', data.loginUser.user);
             navigate("/")
         }

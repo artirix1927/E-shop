@@ -24,7 +24,7 @@ export const MessagesInfiniteScroll = (props) => {
 
 
     const getMessageToPush = (msg) => {  
-        const msgFloat = (cookies.user.id === msg.sentBy.id) ? 'right' : 'left';
+        const msgFloat = (parseInt(cookies.user.id) === msg.sentBy.id) ? 'right' : 'left';
         return {
             position: msgFloat,
             title: msg.sentBy.username,
@@ -34,7 +34,8 @@ export const MessagesInfiniteScroll = (props) => {
     };
 
     const fetchMoreMessages = useCallback(() => {
-        getMessages({ variables: { id: ticketId, offset: index, limit: limit } });
+        if (ticketId)
+            getMessages({ variables: { id: ticketId, offset: index, limit: limit } });
     }, [getMessages, index, limit, ticketId]);
 
 
