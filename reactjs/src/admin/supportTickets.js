@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { GET_SUPPORT_TICKETS } from "../gql/queries";
 
 import '../css/supporttickets.scss'
@@ -7,6 +7,7 @@ import { createRef , useEffect, useRef, useState} from "react";
 
 import { ChatModal } from "./chatModal";
 import { CLOSE_TICKET } from "../gql/mutations";
+import { TicketsInfiniteScroll } from "./ticketsInfiniteScroll";
 
 
 
@@ -14,11 +15,15 @@ import { CLOSE_TICKET } from "../gql/mutations";
 export const SupportTicketsList = () => {
     const chatModalRef = createRef()
 
+    const [tickets, setTickets] = useState([])
     const [currentTicketId, setCurrentTicketId] = useState()
     const [currentTicketClosed, setCurrentTicketClosed] = useState()
 
     const wsRef = useRef(null);
     const [isConnected, setIsConnected] = useState(false);
+
+    //for infinite scroll
+    const listOfTicketsId = 'support-tickets-list'
 
     useEffect(()=>{
         const websocket = new WebSocket(
@@ -37,31 +42,30 @@ export const SupportTicketsList = () => {
     },[currentTicketId])
 
 
-
-    const {data,loading,error} = useQuery(GET_SUPPORT_TICKETS);
-
-    if (loading) return <></>;
-    if (error) return <pre>{error.message}</pre>
-
-    const responseData = data.allTickets;
-
     return <>
         <div>
-            <div className="support-tickets-list">
+            <div className="support-tickets-list" id={listOfTicketsId}>
+                    
+                    <TicketsInfiniteScroll
+                        setItems={setTickets} items={tickets}
+                        scrollableTarget={listOfTicketsId}
+        
+                    >
                     <div className="ticket-buttons-container">
-                    {responseData.map((item)=>{
-
-                        return <SupportTicketItem   chatModalRef={chatModalRef} 
-                                                    setCurrentTicketId={setCurrentTicketId}
-                                                    setCurrentTicketClosed={setCurrentTicketClosed}
-                                                    ticket={item}
-                                                    key={item.id} 
-                                                    
-                                                    
-                                />
-                
-                    })}
+                        {tickets.map((item)=>{
+                            return <SupportTicketItem   chatModalRef={chatModalRef} 
+                                                        setCurrentTicketId={setCurrentTicketId}
+                                                        setCurrentTicketClosed={setCurrentTicketClosed}
+                                                        ticket={item}
+                                                        key={item.id} 
+                                                        
+                                                        
+                                    />
+                        })}
                     </div>
+                    </TicketsInfiniteScroll>
+                    
+                    
             </div> 
             
             <div>

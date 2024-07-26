@@ -6,11 +6,11 @@ export const filtersContext = createContext();
 
 
 export const FiltersProvider = ({ children }) => {
-    const [filterData, setFilterData] = useState()
+    const [filterData, setFiltersData] = useState()
 
 
     return <>
-        <filtersContext.Provider value={{filterData, setFilterData}}>
+        <filtersContext.Provider value={{filterData, setFiltersData}}>
             {children}
         </filtersContext.Provider>
     </>

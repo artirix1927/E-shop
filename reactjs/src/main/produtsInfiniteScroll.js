@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 
 import { useLazyQuery } from "@apollo/client";
 
@@ -23,17 +23,23 @@ export const ProductsInfiniteScroll = (props) => {
     const [filterVariables, setFilterVariables] = useState({})
     const [query, setQuery] = useState(GET_PRODUCTS)
 
-    const checkForDifferentFilter = () => {
-        return (JSON.stringify(filterData.variables) !== JSON.stringify(filterVariables) || filterData.query !== query)
-    }
-
-    const fetchMoreProducts = () => {
-        getProducts({variables: { ...filterVariables, offset: index, limit: limit}})
-    }
    
     const [getProducts, {data}] = useLazyQuery(query)
 
+
+    const setItemsState = props.setItems
+
+    const fetchMoreProducts = useCallback(()=>{
+        getProducts({variables: { ...filterVariables, offset: index, limit: limit}})
+    }, [filterVariables, index, limit, getProducts])
+   
+
     useEffect(()=>{
+        const checkForDifferentFilter = () => {
+            return (JSON.stringify(filterData.variables) !== JSON.stringify(filterVariables) || filterData.query !== query)
+        }
+
+
         //resetting items if getting products
         if (filterData && checkForDifferentFilter()){
             props.setItems([])
@@ -42,8 +48,9 @@ export const ProductsInfiniteScroll = (props) => {
             setFilterVariables(filterData.variables)
             setQuery(filterData.query)
         }
-    }, [filterData])
+    }, [filterData, props, setFilterVariables, setQuery, filterVariables, query])
 
+    //filterData, props, setFilterVariables, setQuery, filterVariables, query
 
 
     useEffect(()=>{
@@ -51,18 +58,18 @@ export const ProductsInfiniteScroll = (props) => {
         if (!props.items.length){
             fetchMoreProducts()
         }
-    }, [props.items])
+    }, [props.items, fetchMoreProducts])
 
 
     useEffect(() => {
         //adding objects to items
         if (data) {
             const products = Object.values(data)[0];
-            props.setItems((prevItems) => [...prevItems, ...products]);
+            setItemsState((prevItems) => [...prevItems, ...products]);
             setHasMore(products.length > 0);
             setIndex((prevIndex) => prevIndex + limit);
         }
-    }, [data]);
+    }, [data, setItemsState]);
 
     return <>
     <InfiniteScroll

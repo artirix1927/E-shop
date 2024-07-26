@@ -8,13 +8,14 @@
     background-color: aliceblue;
     height: 100vh;
 
-    overflow-y: auto;
+    overflow-y: visible;
  
 
     .ticket-buttons-container{
+     
         display: flex;
         flex-direction: column;
-        gap: 20px;
+        gap: 28px;
         align-items: center;
         justify-content: flex-start;
         
@@ -78,12 +79,22 @@
         position: relative;
         padding: 1% 2%;
         
-    
-        .messages-list{
-            height: 90%;
+        .messages-list-wrapper{
             overflow: auto;
-            
+            height: 90%;
+            display:flex;
+            flex-direction: column-reverse;
+            .messages-list{
+                
+                height: 80%;
+                .rce-mlist{
+                    display:flex;
+                    flex-direction: column-reverse;
+                }
+                
+            }
         }
+        
         
     
         .send-message-container{

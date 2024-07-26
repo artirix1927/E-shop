@@ -1,7 +1,3 @@
-
-import { useLazyQuery } from "@apollo/client";
-import { GET_SUPPORT_TICKET_MESSAGES } from "../gql/queries";
-
 import { forwardRef, useEffect, useRef, useState} from "react";
 
 
@@ -10,6 +6,7 @@ import "react-chat-elements/dist/main.css"
 import { Button, Input, MessageList} from "react-chat-elements";
 
 import { useCookies } from "react-cookie";
+import { MessagesInfiniteScroll } from "./messagesInfiniteScroll";
 
 
 
@@ -19,16 +16,13 @@ export const ChatModal = forwardRef((props,ref) =>{
 
     const [messagesSource, setMessagesSource] = useState([])
 
-    const [getMessages, {data}] = useLazyQuery(GET_SUPPORT_TICKET_MESSAGES)
-
-
     const getMessageToPush=(msg) => {  
         const msgFloat = (parseInt(cookies.user.id) === msg.sentBy.id) ? 'right' : 'left';
 
         return {position: msgFloat,
                 title: msg.sentBy.username,
-                type: 'text',text: 
-                msg.message
+                type: 'text',
+                text: msg.message
                 }
     }
     
@@ -41,41 +35,21 @@ export const ChatModal = forwardRef((props,ref) =>{
     
                 const messageToPush = getMessageToPush(msg)
     
-                setMessagesSource((prevMessages) => [...prevMessages, messageToPush]);
+                setMessagesSource((prevMessages) => [messageToPush, ...prevMessages]);
             };
 
         }
     },[props.wsRef, props.isConnected, setMessagesSource, getMessageToPush])
 
-    //load previous messages
-    useEffect(()=>{
-        const messages = []
-        if (data){
-            data.getMessagesByTicket.map((msg)=>{
-                const messageToPush = getMessageToPush(msg)
-
-                messages.push(messageToPush)
-                return 0
-            })
-
-            setMessagesSource(messages);
-        }
-
-    }, [data, cookies.user.id, getMessageToPush])
-
-    //when ticket is chosen fetch previous messages
-    useEffect(()=>{
-        if (props.currentTicketId)
-            getMessages({variables:{id: props.currentTicketId}})
-    }, [props.currentTicketId, getMessages])
-
-
-
     return <>
         <div className="chat-modal-container">
             <div ref={ref} className="chat-modal">
+
+                    
                 
-                    <ChatMessagesList messagesSource={messagesSource}/>
+                    <ChatMessagesList messagesSource={messagesSource} setMessagesSource={setMessagesSource} currentTicketId={props.currentTicketId}/>
+
+
 
                     {
                     !props.currentTicketClosed &&
@@ -139,19 +113,29 @@ const ChatMessagesList = (props) => {
     //scrolling to the end after every message
     useEffect(() => {
         if (messagesList.current)
-            messagesList.current.scrollIntoView({ behavior: "smooth" });
+            messagesList.current.scrollIntoView({ behavior: "smooth", block: 'end'});
         
-    }, [props.messagesSource]);
+    },[]);
+
+    const scrollableTarget = "messages-list-wrapper" 
 
     return <>
-        <MessageList 
-                    dataSource={props.messagesSource} 
-                    lockable={true}
-                    toBottomHeight={'80%'}
-                    className="messages-list" 
-                    referance={messagesList}>
-        </MessageList>
+            <div id={scrollableTarget} className="messages-list-wrapper" >
+                <MessagesInfiniteScroll scrollableTarget={scrollableTarget} 
+                            ticketId = {props.currentTicketId}
+                            items={props.messagesSource} 
+                            setItems={props.setMessagesSource}>
+                            
+                    <MessageList 
+                                dataSource={props.messagesSource} 
+                                lockable={true}
+                                toBottomHeight={'80%'}
+                                className="messages-list" 
+                                referance={messagesList}>
+                    </MessageList>
 
+                </MessagesInfiniteScroll>
+            </div>
     </>
 
 }

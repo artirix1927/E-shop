@@ -123,8 +123,8 @@ export const GET_CITIES_BY_COUNTRY_STATE = gql`
 
 
 export const GET_SUPPORT_TICKETS = gql`
-  query {
-    allTickets{
+  query AllTickets($offset: Int!, $limit: Int!){
+    allTickets(offset: $offset, limit: $limit){
       id
       closed
       user{
@@ -138,8 +138,8 @@ export const GET_SUPPORT_TICKETS = gql`
 `
 
 export const GET_SUPPORT_TICKET_MESSAGES = gql`
-  query MessagesByTicket($id: Int!){
-    getMessagesByTicket(id: $id){
+  query MessagesByTicket($id: Int!, $offset: Int!, $limit: Int!){
+    getMessagesByTicket(id: $id, offset: $offset, limit: $limit){
       id
       message
       sentBy{
