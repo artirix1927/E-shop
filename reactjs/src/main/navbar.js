@@ -1,11 +1,11 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 import '../css/main.scss'
 
-import { useQuery, useLazyQuery} from "@apollo/client";
+import { useQuery} from "@apollo/client";
 
 import { Link, useNavigate } from 'react-router-dom';
 
-import { productsContext } from '../providers/ProductsHandlerProvider';
+import { filtersContext } from '../providers/filtersProvider';
 
 // import { GET_CATEGORIES, GET_PRODUCTS_BY_CATEGORY, GET_PRODUCTS, GET_PRODUCTS_BY_SEARCH, ADD_TO_CART} from '../gqlQueries';
 
@@ -20,12 +20,12 @@ import { useCookies } from 'react-cookie';
 
 export const Navbar = () =>{
 
-    const {setProductsData} = useContext(productsContext);
+    const {setFiltersData} = useContext(filtersContext);
 
     const resetProductContextOnHomeClick = ()=>{
         //when chosing a category and then clicking home, 
         //resetting context state so the components uploads all products
-        setProductsData()
+        setFiltersData()
     }
 
     const [cookies] = useCookies();
@@ -62,24 +62,17 @@ export const Navbar = () =>{
 const SearchBar = () => {
     const [categoryDropdown, setCategoryDropdown ] = useState('all')
 
-    const {setProductsData} = useContext(productsContext);
-    
-    let [getProductsBySearch, {data}] = useLazyQuery(GET_PRODUCTS_BY_SEARCH)
+    const {setFiltersData} = useContext(filtersContext);
 
     const searchRef = useRef()
 
     const navigate = useNavigate();
 
-    useEffect(()=>{
-        if (data){
-            setProductsData(data.productsBySearch)
-        }
-    },[data, setProductsData])
-
     const SearchOnClick = (e) => {
         e.preventDefault();
-        getProductsBySearch({ variables: { category: categoryDropdown, search:searchRef.current.value}});
+        setFiltersData({query: GET_PRODUCTS_BY_SEARCH, variables:{category: categoryDropdown, search:searchRef.current.value} });
         navigate('/')
+
         
     }
  
@@ -127,19 +120,13 @@ const DropdownCategoriesMenu = (props) =>{
 
 export const CategoriesLine = () => {
 
-    const {setProductsData} = useContext(productsContext);
-    
-    let [getProductsByCategory, {data}] = useLazyQuery(GET_PRODUCTS_BY_CATEGORY)
-    
-    useEffect(()=>{
-        if (data){
-            setProductsData(data.productsByCategory)
-            }
-    },[data, setProductsData])
+    const {setFiltersData} = useContext(filtersContext);
 
     const categoryOnclick = (e) => {
         const category_name = e.target.innerText
-        getProductsByCategory({ variables: { category: category_name } });
+        
+        setFiltersData({query: GET_PRODUCTS_BY_CATEGORY, variables: {category: category_name} })
+        
     }
 
     const query = useQuery(GET_CATEGORIES);

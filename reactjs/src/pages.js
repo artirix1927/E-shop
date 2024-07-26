@@ -5,7 +5,7 @@ import { Logout } from "./login/logout";
 import { Checkout } from "./checkout/checkout";
 
 import { Cart } from "./cart/cart";
-import { ProductsProvider } from "./providers/ProductsHandlerProvider";
+import { FiltersProvider } from "./providers/filtersProvider";
 
 import { ProductsList } from './main/main';
 import { ProductDetails } from "./details/productDetails";
@@ -15,13 +15,13 @@ import { SupportTicketsList } from "./admin/supportTickets";
 
 const NavbarPageMixin = (props) => {
 
-    return <ProductsProvider>
+    return <FiltersProvider>
         <div className="App">
             <Navbar></Navbar>
             <CategoriesLine></CategoriesLine>
             {props.children}
         </div>
-      </ProductsProvider>
+      </FiltersProvider>
     
 
   }
@@ -29,16 +29,30 @@ const NavbarPageMixin = (props) => {
 
 
 export const MainPage = () => {
-    return <div className="App"><NavbarPageMixin><ProductsList/></NavbarPageMixin></div>
+    useBodyClass('main')
+
+    return <div className="App">
+      <NavbarPageMixin>
+        <ProductsList/>
+      </NavbarPageMixin>
+    </div>
 
 }
 
 export const ProductDetailsPage = () => {
-    return <div className="App"><NavbarPageMixin><ProductDetails/></NavbarPageMixin></div>
+    return <div className="App">
+      <NavbarPageMixin>
+        <ProductDetails/>
+      </NavbarPageMixin>
+    </div>
 }
 
 export const CartPage = () => {
-    return <div className="App"><NavbarPageMixin><Cart/></NavbarPageMixin></div>
+    return <div className="App">
+        <NavbarPageMixin>
+          <Cart/>
+        </NavbarPageMixin>
+      </div>
 }
 
 export const LoginPage = () => {

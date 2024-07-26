@@ -12,8 +12,8 @@ query{
 `;
 
 export const GET_PRODUCTS = gql`
-query{
-    allProducts{
+query AllProducts($offset: Int!, $limit: Int!){
+    allProducts(offset: $offset, limit: $limit){
       id
       name
       description
@@ -26,8 +26,8 @@ query{
 `;
 
 export const GET_PRODUCTS_BY_CATEGORY = gql`
-    query products($category: String!){
-        productsByCategory(category:$category){
+    query products($offset: Int!, $limit: Int!, $category: String!){
+        productsByCategory(offset: $offset, limit: $limit, category:$category){
         id
         name
         description
@@ -40,8 +40,8 @@ export const GET_PRODUCTS_BY_CATEGORY = gql`
 `;
 
 export const GET_PRODUCTS_BY_SEARCH = gql`
-    query products($search: String!, $category:String!){
-        productsBySearch(search:$search, category:$category){
+    query products($offset: Int!, $limit: Int!, $search: String!, $category:String!){
+        productsBySearch(offset: $offset, limit: $limit, search:$search, category:$category){
         id
         name
         description

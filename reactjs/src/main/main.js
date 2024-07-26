@@ -1,39 +1,35 @@
-import { useContext } from 'react';
+import { useState } from 'react';
 import '../css/main.scss'
 
-import { useQuery, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 
 import { Link } from 'react-router-dom';
 
-import { productsContext } from '../providers/ProductsHandlerProvider';
 
-import {  GET_PRODUCTS } from '../gql/queries';
+
 import { ADD_TO_CART } from '../gql/mutations';
 
 import { useCookies } from 'react-cookie';
 
+import { ProductsInfiniteScroll } from './produtsInfiniteScroll';
 
 
 
 export const ProductsList = () => {
+    const [items, setItems] = useState([]);
 
-    const {productsData} = useContext(productsContext)
+    return <div  className='container'>
+           
+                <ProductsInfiniteScroll setItems={setItems} items={items}>
+                <div  className='products-list'> 
+                {
+                    items.map((product, index)=> {
+                        return <ProductCard key={index} data={product}/>
+                    })
+                }
+                </div>
 
-    let { data, loading} = useQuery(GET_PRODUCTS);
-
-    if (loading) return "Loading...";
-
-    //products from context or from the query
-    data = productsData ? productsData : data.allProducts;
-
-    return <div className='container'>
-        <div className='products-list'>
-            {data.map((product)=> {
-                return <ProductCard key={product.id} data={product}/>
-            })}
-
-        </div>
-
+                </ProductsInfiniteScroll>
     </div>
 }
 
@@ -65,3 +61,5 @@ export const ProductCard = (props) => {
         </div>
     </div>
 }
+
+

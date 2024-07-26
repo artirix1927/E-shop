@@ -45,7 +45,7 @@ export const ChatModal = forwardRef((props,ref) =>{
             };
 
         }
-    },[props.wsRef, props.isConnected, setMessagesSource, cookies.user.id])
+    },[props.wsRef, props.isConnected, setMessagesSource, getMessageToPush])
 
     //load previous messages
     useEffect(()=>{
@@ -61,7 +61,7 @@ export const ChatModal = forwardRef((props,ref) =>{
             setMessagesSource(messages);
         }
 
-    }, [data, cookies.user.id])
+    }, [data, cookies.user.id, getMessageToPush])
 
     //when ticket is chosen fetch previous messages
     useEffect(()=>{
