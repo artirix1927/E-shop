@@ -1,5 +1,7 @@
-import { CartPage, CheckoutPage, LoginPage, LogoutPage, MainPage, 
-    ProductDetailsPage, RegisterPage, SupportTicketsPage } from "./pages";
+import { AdminPage, CartPage, CheckoutPage, LoginPage, LogoutPage, MainPage, 
+    ModelInstancesPage, 
+    ProductDetailsPage, RegisterPage, SupportTicketsPage, 
+    UpdateModelInstancePage} from "./pages";
 
 
 import { AuthenticatedRoute, AdminRoute } from "./routeTypes";
@@ -30,8 +32,10 @@ const router = createBrowserRouter(
         </Route>
 
         <Route path="admin/" element={<AdminRoute/>}>
+          <Route path="" element={<AdminPage/>}></Route>
           <Route path="tickets" element={<SupportTicketsPage/>}></Route>
-        
+          <Route path="model-instances" element={<ModelInstancesPage/>}></Route>
+          <Route path="instance-update" element={<UpdateModelInstancePage/>}></Route>
         </Route>
       </>
     )

@@ -1,5 +1,5 @@
 import { useLazyQuery,} from "@apollo/client";
-import { GET_SUPPORT_TICKETS } from "../gql/queries";
+import { GET_SUPPORT_TICKETS } from "../../gql/queries";
 
 import { useCallback, useEffect, useState} from "react";
 

@@ -6,6 +6,8 @@ from cart.gql.queries import CartQueries
 from shipping.gql.queries import GeoQueries
 from chat.gql.gueries import SupportTicketQueries, MessageQueries
 
+from admin.gql.queries import AdminQueries
+
 
 from .gql.mutations import RegistrationMutations
 from cart.gql.mutations import CartMutations, OrderMutations
@@ -15,7 +17,7 @@ from chat.gql.mutations import SupportTicketMutations
 
 
 class Query(ProductQueries, CategoryQueries, CartQueries,
-            GeoQueries, SupportTicketQueries, MessageQueries):
+            GeoQueries, SupportTicketQueries, MessageQueries, AdminQueries):
     pass
 
 

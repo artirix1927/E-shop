@@ -187,3 +187,7 @@ ASGI_APPLICATION = 'shop.asgi.application'
 X_FRAME_OPTIONS = '*'
 
 XS_SHARING_ALLOWED_METHODS = ['POST','GET','OPTIONS', 'PUT', 'DELETE']
+
+
+
+EXCLUDE_FROM_ADMIN = ['sessions', 'admin', 'contenttypes']

@@ -151,3 +151,35 @@ export const GET_SUPPORT_TICKET_MESSAGES = gql`
 }
 `
 
+
+
+export const GET_ADMIN_APPS = gql`
+  query{
+    allApps{
+      appName
+      models
+    }
+  }
+
+`
+
+
+export const GET_MODEL_INSTANCES = gql`
+  query ModelInstances($appName: String!, $modelName: String!){
+    modelInstances(appName:$appName, modelName:$modelName){
+      instances
+    }
+    
+  
+}
+`
+
+
+export const GET_MODEL_INSTANCE_FORM = gql`
+  query ModelInstanceForm($appName: String!, $modelName: String!, $id: Int!){
+    modelInstanceForm(appName:$appName, modelName:$modelName, id:$id){
+      modelName
+      form
+    }
+}
+`

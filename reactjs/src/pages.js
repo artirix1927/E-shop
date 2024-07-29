@@ -10,7 +10,10 @@ import { FiltersProvider } from "./providers/filtersProvider";
 import { ProductsList } from './main/main';
 import { ProductDetails } from "./details/productDetails";
 import { CategoriesLine, Navbar } from "./main/navbar";
-import { SupportTicketsList } from "./admin/supportTickets";
+import { SupportTicketsList } from "./admin/supportChat/supportTickets";
+import { AdminPanel } from "./admin/panel/panel";
+import { ModelInstancesList } from "./admin/panel/modelInstances";
+import { UpdateModelInstance } from "./admin/panel/updateModelInstsance";
 
 
 const NavbarPageMixin = (props) => {
@@ -93,4 +96,27 @@ export const SupportTicketsPage = () => {
   return <div className="App">
       <SupportTicketsList></SupportTicketsList>
     </div>
+}
+
+
+export const AdminPage = () =>  {
+
+  return <div className="App">
+    <AdminPanel></AdminPanel>
+  </div>
+
+}
+
+export const ModelInstancesPage = () =>  {
+  return <div className="App">
+    <ModelInstancesList></ModelInstancesList>
+  </div>
+}
+
+
+export const UpdateModelInstancePage = () => {
+  return <div className="App">
+    <UpdateModelInstance></UpdateModelInstance>
+  </div>
+
 }
