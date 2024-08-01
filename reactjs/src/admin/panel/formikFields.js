@@ -20,7 +20,8 @@ const FieldLabel = ({field, ...props}) => {
 const DateTimePicker = ({ field, form, ...props }) => {
     const { name, value} = field;
     const { setFieldValue } = form;
-    console.log(new Date(value))
+
+    const dateFormat = "MMM, d, Y HH:mm"
     
     return (
         <DatePicker
@@ -31,7 +32,7 @@ const DateTimePicker = ({ field, form, ...props }) => {
             timeFormat="HH:mm"
             timeIntervals={15}
             timeCaption="time"
-            dateFormat="MMM, d, Y HH:mm"
+            dateFormat={dateFormat}
         />
     );
 };
@@ -52,15 +53,11 @@ const BaseField =  ({field, ...props}) => {
 
 
 
-export const DateTimeField = ({ field, form, ...props }) => {
+const DateTimeField = ({ field, form, ...props }) => {
 
     
     return (
         <BaseField field={field}>
-        {/* <Field
-            name="dateTime"
-            component={DateTimePicker}
-        /> */}
 
         <Field name={field.name} component={DateTimePicker}/>
 
@@ -69,7 +66,7 @@ export const DateTimeField = ({ field, form, ...props }) => {
 };
 
 
-export const FileField = ({field,...props}) => {
+const FileField = ({field,...props}) => {
     const formik = useFormikContext()
 
     const get_file_name_from_initial_path = () => {
@@ -120,10 +117,7 @@ export const FileField = ({field,...props}) => {
 
 
 
-export const ChoiceField = ({field,...props}) => {
-
-    if (!field.choices.length)
-        return <></>
+const ChoiceField = ({field,...props}) => {
 
     return <>
         <BaseField field={field}>
@@ -133,12 +127,8 @@ export const ChoiceField = ({field,...props}) => {
                     readOnly={field.readonly}
                     >
 
-                        
                     {field.choices.map((choice, idx) => {
-                    
-                    return <option key={idx} value={choice[0]}>
-                    {choice[1]}
-                    </option>
+                        return <option key={idx} value={choice[0]}>{choice[1]} </option>
                     })}
             </Field>
         </BaseField>
@@ -147,7 +137,7 @@ export const ChoiceField = ({field,...props}) => {
 
 
 
-export const TextAreaField = ({field, ...props}) => {
+const TextAreaField = ({field, ...props}) => {
 
     return <>
     <BaseField field={field}>
@@ -163,8 +153,7 @@ export const TextAreaField = ({field, ...props}) => {
 }
 
 
-export const DefaultField = ({field, ...props}) => {
-    console.log(field)
+const DefaultField = ({field, ...props}) => {
     return <>
         <BaseField field={field}>
         
@@ -179,7 +168,7 @@ export const DefaultField = ({field, ...props}) => {
 
 
 
-export const CheckboxField = ({field, ...props}) => {
+const CheckboxField = ({field, ...props}) => {
     //want it to make in one line in label so i dont use base field
 
     return <>
@@ -192,4 +181,23 @@ export const CheckboxField = ({field, ...props}) => {
           
            
     </>
+}
+
+
+export const GetField = (props) =>{
+    const field = props.field
+
+    const FIELDS_BY_TYPE = {datetime: DateTimeField, 
+                            checkbox: CheckboxField, 
+                            file: FileField, 
+                            select: ChoiceField, 
+                            textarea: TextAreaField
+                            }
+
+    if (FIELDS_BY_TYPE.hasOwnProperty(field.type)){
+        const Component = FIELDS_BY_TYPE[field.type]
+        return <Component field={field}/>
+    }
+    return <DefaultField field={field}/>
+        
 }

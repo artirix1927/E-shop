@@ -1,10 +1,10 @@
 import graphene
 
-from .types import CategoryType, ProductType
+from products.gql.types import CategoryType, ProductType
 
-from ..models import Category, Product
+from products.models import Category, Product
 
-from ..funcs import get_category_by_dropdown_value
+from products.funcs import get_category_by_dropdown_value
 
 
 from django.db.models import Q

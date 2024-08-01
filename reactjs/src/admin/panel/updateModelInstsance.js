@@ -5,7 +5,7 @@ import { Form, Formik } from "formik"
 
 import { AdminPanel } from "./panel"
 
-import { CheckboxField, ChoiceField, DateTimeField, DefaultField, FileField, TextAreaField } from "./formikFields"
+import { GetField } from "./formikFields"
 import { UPDATE_MODEL_INSTANCE } from "../../gql/mutations"
 
 
@@ -86,42 +86,19 @@ const InstanceForm = (props) => {
         initialValues={initialValues}
         onSubmit={handleSubmit}
      >
-       
         <Form  className="update-instance-form" encType="multipart/form-data">
             {form.fields.map((field) => {
                 
                 return <GetField key={field.name} field={field}/>
                 
-            })
+                })
             }
         
             <br/>
             <button type="submit" className="btn btn-success">Save</button>
         </Form>
     
-        
-       
      </Formik>
     </>
 }
 
-
-
-
-const GetField = (props) =>{
-    const field = props.field
-
-    const FIELDS_BY_TYPE = {datetime: DateTimeField, 
-                            checkbox: CheckboxField, 
-                            file: FileField, 
-                            select: ChoiceField, 
-                            textarea: TextAreaField
-                            }
-
-    if (FIELDS_BY_TYPE.hasOwnProperty(field.type)){
-        const Component = FIELDS_BY_TYPE[field.type]
-        return <Component field={field}/>
-    }
-    return <DefaultField field={field}/>
-        
-}

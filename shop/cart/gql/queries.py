@@ -1,11 +1,11 @@
 import graphene
 
-from .types import CartItemType
+from cart.gql.types import CartItemType
 
-from ..models import CartItem
+from cart.models import CartItem
 from django.contrib.auth.models import User
 
-from ..funcs import  adjust_cart_item_quantity_to_pieces_left
+from cart.funcs import  adjust_cart_item_quantity_to_pieces_left
 
     
 

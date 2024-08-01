@@ -1,7 +1,7 @@
 
 import graphene
 
-from .mutations_logic import CloseTicket
+from chat.gql.mutations_logic import CloseTicket
 
 class SupportTicketMutations(graphene.ObjectType):
     close_ticket = CloseTicket.Field()

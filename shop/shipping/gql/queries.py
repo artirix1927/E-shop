@@ -1,11 +1,11 @@
 import graphene
 
-from .types import AvailableCountriesType, CitiesType, StatesType
+from shipping.gql.types import AvailableCountriesType, CitiesType, StatesType
 
-from ..models import AvailableCountries
+from shipping.models import AvailableCountries
 
 
-from ..funcs import *
+from shipping.funcs import *
 
 
 class GeoQueries(graphene.ObjectType):

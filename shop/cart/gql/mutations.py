@@ -1,6 +1,6 @@
 
 import graphene
-from .mutations_logic import * 
+from cart.gql.mutations_logic import * 
 
 
 class CartMutations(graphene.ObjectType):

@@ -1,6 +1,6 @@
 
 import graphene
-from .mutations_logic import CreateUser, LoginUser, LogoutUser
+from main.gql.mutations_logic import CreateUser, LoginUser, LogoutUser
 
 class RegistrationMutations(graphene.ObjectType):
     create_user= CreateUser.Field()

@@ -2,15 +2,15 @@ import { Formik, Form} from "formik"
 import { GET_MODEL_CREATE_FORM, GET_MODEL_INSTANCES } from "../../gql/queries"
 import { useLocation, useNavigate } from "react-router-dom"
 
-import { CheckboxField, ChoiceField, DateTimeField, DefaultField, FileField, TextAreaField } from "./formikFields"
 import { useMutation, useQuery } from "@apollo/client"
 import { AdminPanel } from "./panel"
 import { CREATE_MODEL_INSTANCE } from "../../gql/mutations"
+import { GetField } from "./formikFields"
 
 export const CreateModelInstance = () => {
 
     const {state} = useLocation()
-    console.log(state)
+
     const {data,loading, error} = useQuery(GET_MODEL_CREATE_FORM, {variables: {appName: state.appName, modelName: state.modelName}})
 
     if (loading) return <></>
@@ -44,16 +44,8 @@ export const CreateModelInstance = () => {
 const ModelForm = (props) => {
     const form = props.form
 
-    const initialValues = {}
-
-    form.fields.map((field) => {
-        return initialValues[field.name] = field.initial
-        }   
-    )
-
     const navigate = useNavigate()
     const {state} = useLocation()
-    
     const [createInstance] = useMutation(CREATE_MODEL_INSTANCE)
 
     const handleSubmit = (values) => {
@@ -68,7 +60,6 @@ const ModelForm = (props) => {
             }
           });
 
-
         const mutationVariables = {
             appName: state.appName,
             modelName: state.modelName,
@@ -79,7 +70,12 @@ const ModelForm = (props) => {
         createInstance({ variables: mutationVariables, refetchQueries: [GET_MODEL_INSTANCES, "ModelInstances"]});
         navigate('/admin/model-instances', {state:{appName:state.appName, modelName: state.modelName}})
     };
-
+    
+    const initialValues = {}
+    form.fields.map((field) => {
+        return initialValues[field.name] = field.initial
+        }   
+    )
 
     return <>
         <Formik 
@@ -106,22 +102,3 @@ const ModelForm = (props) => {
 }
 
 
-
-
-const GetField = (props) =>{
-    const field = props.field
-
-    const FIELDS_BY_TYPE = {datetime: DateTimeField, 
-                            checkbox: CheckboxField, 
-                            file: FileField, 
-                            select: ChoiceField, 
-                            textarea: TextAreaField
-                            }
-
-    if (FIELDS_BY_TYPE.hasOwnProperty(field.type)){
-        const Component = FIELDS_BY_TYPE[field.type]
-        return <Component field={field}/>
-    }
-    return <DefaultField field={field}/>
-        
-}
