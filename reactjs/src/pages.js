@@ -14,6 +14,7 @@ import { SupportTicketsList } from "./admin/supportChat/supportTickets";
 import { AdminPanel } from "./admin/panel/panel";
 import { ModelInstancesList } from "./admin/panel/modelInstances";
 import { UpdateModelInstance } from "./admin/panel/updateModelInstsance";
+import { CreateModelInstance } from "./admin/panel/createModelInstance";
 
 
 const NavbarPageMixin = (props) => {
@@ -119,4 +120,12 @@ export const UpdateModelInstancePage = () => {
     <UpdateModelInstance></UpdateModelInstance>
   </div>
 
+}
+
+export const CreateModalInstancePage = () => {
+  return <div className="App">
+    <CreateModelInstance></CreateModelInstance>
+  </div>
+
+  
 }

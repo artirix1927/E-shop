@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useRef, useState} from "react";
+import { forwardRef, useCallback, useEffect, useRef, useState} from "react";
 
 
 
@@ -16,7 +16,7 @@ export const ChatModal = forwardRef((props,ref) =>{
 
     const [messagesSource, setMessagesSource] = useState([])
 
-    const getMessageToPush=(msg) => {  
+    const getMessageToPush = useCallback((msg) => {  
         const msgFloat = (parseInt(cookies.user.id) === msg.sentBy.id) ? 'right' : 'left';
 
         return {position: msgFloat,
@@ -24,7 +24,8 @@ export const ChatModal = forwardRef((props,ref) =>{
                 type: 'text',
                 text: msg.message
                 }
-    }
+    },[cookies.user.id])
+  
     
 
     useEffect(()=>{

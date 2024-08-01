@@ -10,7 +10,7 @@ class SupportTicket(models.Model):
     closed = models.BooleanField(default=False)
 
     def __str__(self) -> str:
-        return f'Ticket {self.id} : {self.user.username}'
+        return f'Ticket {self.user.username} #{self.id}'
 
 
  
@@ -23,4 +23,4 @@ class Message(models.Model):
 
 
     def __str__(self) -> str:
-        return f"{self.ticket.user.id} : {self.message}"
+        return f"{str(self.ticket)} -> {self.sent_by.username} : {self.message}"

@@ -20,7 +20,7 @@ export const AdminRoute = () => {
     let isAdmin = false;
     const [cookies] = useCookies(['user']);
     
-    if (cookies.user.isStaff) {
+    if (cookies.user && cookies.user.isStaff) {
       isAdmin = true;
     }
     return isAdmin ? <Outlet /> : <Navigate to='/login'/> ;

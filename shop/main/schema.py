@@ -12,6 +12,8 @@ from admin.gql.queries import AdminQueries
 from .gql.mutations import RegistrationMutations
 from cart.gql.mutations import CartMutations, OrderMutations
 from chat.gql.mutations import SupportTicketMutations
+from admin.gql.mutations import ModelInstanceMutations
+
 
 
 
@@ -21,7 +23,8 @@ class Query(ProductQueries, CategoryQueries, CartQueries,
     pass
 
 
-class Mutation(RegistrationMutations, CartMutations, OrderMutations, SupportTicketMutations):
+class Mutation(RegistrationMutations, CartMutations, 
+               OrderMutations, SupportTicketMutations, ModelInstanceMutations):
     pass
 
 

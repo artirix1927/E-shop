@@ -17,18 +17,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from graphene_django.views import GraphQLView
-
 from django.views.decorators.csrf import csrf_exempt
 
 from django.conf import settings
 from django.conf.urls.static import static
 
-from django.core.mail import send_mail
-
-from django.http import HttpResponse
-
-from django.urls import include, path
+from django.urls import path
 
 # def test_email(request):
 #     subject = 'Test Email'
@@ -38,11 +32,14 @@ from django.urls import include, path
 #     send_mail(subject=subject, message=message, from_email=email_from, recipient_list=recipient_list, fail_silently=False)
 #     return HttpResponse()
 
+from graphene_file_upload.django import FileUploadGraphQLView
+
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("graphql", csrf_exempt(GraphQLView.as_view(graphiql=True))),
-    path("", csrf_exempt(GraphQLView.as_view(graphiql=True))),
+    path("graphql", csrf_exempt(FileUploadGraphQLView.as_view(graphiql=True))),
+    path("", csrf_exempt(FileUploadGraphQLView.as_view(graphiql=True))),
 
     #path('testmail/', test_email)
 ]

@@ -1,34 +1,33 @@
-import { useMutation, useQuery } from "@apollo/client"
-import { useLocation } from "react-router-dom"
-import { GET_MODEL_INSTANCE_FORM } from "../../gql/queries"
-import { Form, Formik } from "formik"
-
-import { AdminPanel } from "./panel"
+import { Formik, Form} from "formik"
+import { GET_MODEL_CREATE_FORM, GET_MODEL_INSTANCES } from "../../gql/queries"
+import { useLocation, useNavigate } from "react-router-dom"
 
 import { CheckboxField, ChoiceField, DateTimeField, DefaultField, FileField, TextAreaField } from "./formikFields"
-import { UPDATE_MODEL_INSTANCE } from "../../gql/mutations"
+import { useMutation, useQuery } from "@apollo/client"
+import { AdminPanel } from "./panel"
+import { CREATE_MODEL_INSTANCE } from "../../gql/mutations"
 
-
-export const UpdateModelInstance = () => {
+export const CreateModelInstance = () => {
 
     const {state} = useLocation()
-   
-    const {data,loading, error} = useQuery(GET_MODEL_INSTANCE_FORM, {variables: {appName: state.appName, modelName: state.modelName, id:parseInt(state.id)}})
+    console.log(state)
+    const {data,loading, error} = useQuery(GET_MODEL_CREATE_FORM, {variables: {appName: state.appName, modelName: state.modelName}})
 
     if (loading) return <></>
     if (error) return <p>{error.message}</p>
-    
-    const form = JSON.parse(data.modelInstanceForm.form) 
+
+    const form = JSON.parse(data.modelCreateForm.form) 
 
     return <>
     <div>
-            <div>
-                <AdminPanel></AdminPanel>
-            </div>
-            
-            <div className="update-instance-div">
-                <InstanceForm form={form}/>
-            </div>
+    
+        <div>
+            <AdminPanel></AdminPanel>
+        </div>
+        
+        <div className="update-instance-div">
+            <ModelForm form={form}/>
+        </div>
         
     </div>
 
@@ -42,7 +41,7 @@ export const UpdateModelInstance = () => {
 }
 
 
-const InstanceForm = (props) => {
+const ModelForm = (props) => {
     const form = props.form
 
     const initialValues = {}
@@ -52,9 +51,10 @@ const InstanceForm = (props) => {
         }   
     )
 
+    const navigate = useNavigate()
     const {state} = useLocation()
     
-    const [updateInstance] = useMutation(UPDATE_MODEL_INSTANCE)
+    const [createInstance] = useMutation(CREATE_MODEL_INSTANCE)
 
     const handleSubmit = (values) => {
 
@@ -72,12 +72,12 @@ const InstanceForm = (props) => {
         const mutationVariables = {
             appName: state.appName,
             modelName: state.modelName,
-            instanceId: parseInt(state.id),
             formValues: JSON.stringify(values),
             files: formFileValues,
         };
     
-        updateInstance({ variables: mutationVariables, refetchQueries:[GET_MODEL_INSTANCE_FORM, 'ModelInstanceForm']} );
+        createInstance({ variables: mutationVariables, refetchQueries: [GET_MODEL_INSTANCES, "ModelInstances"]});
+        navigate('/admin/model-instances', {state:{appName:state.appName, modelName: state.modelName}})
     };
 
 
@@ -87,7 +87,7 @@ const InstanceForm = (props) => {
         onSubmit={handleSubmit}
      >
        
-        <Form  className="update-instance-form" encType="multipart/form-data">
+        <Form className="update-instance-form" encType="multipart/form-data">
             {form.fields.map((field) => {
                 
                 return <GetField key={field.name} field={field}/>

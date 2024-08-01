@@ -1,7 +1,8 @@
 import { Field, useFormikContext } from "formik"
 
-import "react-datetime/css/react-datetime.css";
-import Datetime from 'react-datetime'
+
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css'; // Import default styles
 
 const FieldLabel = ({field, ...props}) => {
     return <>
@@ -16,9 +17,27 @@ const FieldLabel = ({field, ...props}) => {
 }
 
 
+const DateTimePicker = ({ field, form, ...props }) => {
+    const { name, value} = field;
+    const { setFieldValue } = form;
+    console.log(new Date(value))
+    
+    return (
+        <DatePicker
+            {...props}
+            selected={value ? new Date(value) : null}
+            onChange={date => setFieldValue(name, date)}
+            className="form-control" // Add your custom class
+            timeFormat="HH:mm"
+            timeIntervals={15}
+            timeCaption="time"
+            dateFormat="MMM, d, Y HH:mm"
+        />
+    );
+};
+
+
 const BaseField =  ({field, ...props}) => {
-
-
 
     return <>
     
@@ -32,37 +51,22 @@ const BaseField =  ({field, ...props}) => {
 }
 
 
-export const DateTimeField = ({field, ...props}) => {
+
+export const DateTimeField = ({ field, form, ...props }) => {
+
     
-
-    return <>
+    return (
         <BaseField field={field}>
+        {/* <Field
+            name="dateTime"
+            component={DateTimePicker}
+        /> */}
 
-            <Field name={field.name} type={field.type} required={field.required} as={Datetime}/>
+        <Field name={field.name} component={DateTimePicker}/>
 
         </BaseField>
-    </>
-
-}
-
-
-
-export const CheckboxField = ({field, ...props}) => {
-
-
-    return <>
-        <BaseField field={field}>
-
-            <span><FieldLabel field={field}></FieldLabel> 
-            <Field name={field.name} type={field.type} required={field.required} className="form-check-input"/></span>
-            <br/>
-        
-        </BaseField>
-        
-    
-    </>
-}
-
+    );
+};
 
 
 export const FileField = ({field,...props}) => {
@@ -73,21 +77,39 @@ export const FileField = ({field,...props}) => {
         return initial_path_split[initial_path_split.length-1]
     }
 
+
+    let required = field.required;
+
+    if (required && field.initial)
+        required = false;
+
+    
+
     return <>
         <BaseField field={field}>
-            <p href={`http://localhost:8000/media/${field.initial}`}>
-                Current Image : <a href={`http://localhost:8000/media/${field.initial}`}>
-                {get_file_name_from_initial_path()}</a>
-            </p>
 
-            <img src={`http://localhost:8000/media/${field.initial}`} alt="" style={{width:200, height:200, objectFit:"contain"}}/>
+            {field.initial && <>
+            
+                <p href={`http://localhost:8000/media/${field.initial}`}>
+                    Current Image <a href={`http://localhost:8000/media/${field.initial}`} target="blank">
+                    {get_file_name_from_initial_path()}</a>
+                </p>
 
-            <br/>
-            <br/>
+                <img src={`http://localhost:8000/media/${field.initial}`} alt="" style={{width:200, height:200, objectFit:"contain"}}/>
+                
+                <br/>
+                <br/>
+            </>
+            }
+            
+
+            
 
             <div>
-                <input name={field.name} type={field.type} required={field.required}
-                onChange={event => formik.setFieldValue(field.name, event.target.files[0])}/>
+                <input name={field.name} type={field.type} required={required}
+                onChange={event => formik.setFieldValue(field.name, event.target.files[0])}
+                readOnly={field.readonly}
+                />
             </div>
 
         
@@ -107,7 +129,10 @@ export const ChoiceField = ({field,...props}) => {
         <BaseField field={field}>
             <Field name={field.name} as={field.type} 
                     required={field.required} className="form-control form-select" 
-                    multiple={field.multiple}>
+                    multiple={field.multiple}
+                    readOnly={field.readonly}
+                    >
+
                         
                     {field.choices.map((choice, idx) => {
                     
@@ -130,6 +155,7 @@ export const TextAreaField = ({field, ...props}) => {
                 required={field.required}
                 className="form-control"
                 defaultValue={field.initial}
+                readOnly={field.readonly}
                 />
     </BaseField>
 
@@ -138,14 +164,32 @@ export const TextAreaField = ({field, ...props}) => {
 
 
 export const DefaultField = ({field, ...props}) => {
+    console.log(field)
     return <>
         <BaseField field={field}>
         
             <Field name={field.name} type={field.type} 
-                required={field.required}className="form-control"/>
+                required={field.required}
+                className="form-control"
+                readOnly={field.readonly}/>
 
         </BaseField>
     </>
 }
 
 
+
+export const CheckboxField = ({field, ...props}) => {
+    //want it to make in one line in label so i dont use base field
+
+    return <>
+        <div>
+            <span>
+                <FieldLabel field={field}/>? <Field name={field.name} type={field.type} 
+                                                    required={field.required} className="form-check-input" 
+                                                    readOnly={field.readonly}/></span>
+        </div>
+          
+           
+    </>
+}

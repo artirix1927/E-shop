@@ -1,20 +1,35 @@
+
+$content-background-color: rgb(255, 255, 255);
+$odd-child-background-color: rgb(136, 161, 136);
+$even-child-background-color: rgb(20, 59, 20);
+$sidebar-width: 25%;
+$other-content-width: 100% - $sidebar-width;
+
+
+
 .sidebar{
     margin: 0;
     padding: 0;
-    background-color: #f8f8f8;
     height: 100vh;
     min-height: 100vh;
-    //overflow: auto;
-    width: 25%;
+    overflow-y: scroll;
 
-    float:left;
-
+    scrollbar-width: none; 
+    -ms-overflow-style: none; 
    
+    width: $sidebar-width;
+    float:left;
+    min-width: fit-content;
+    position: fixed;
+
+    background-color: #f2ffee;
+
     .app{
         color:white;
         margin-bottom: 50px;
+        
         .app-name{
-            background-color: rgb(0, 83, 0);
+            background-color: rgb(29, 107, 29);
             width: 100%;
             padding: 1% 4%;
             font-size: 18px;
@@ -30,13 +45,15 @@
                 padding-block: 2px;
                 font-weight: 500;
               }
+            
 
+            // #888787
 
             tr:nth-child(odd){
-                background-color: #888888;
+                background-color: $odd-child-background-color;
             }
             tr:nth-child(even) {
-                background-color: rgb(61, 61, 61);
+                background-color: $even-child-background-color;
             }
         }
     }
@@ -47,12 +64,13 @@
 }
 
 .instances-table{
-    max-height: 100vh;
+    background-color: $content-background-color;
     //height: 100vh;
-    float:inline-start;
-    width: 75%;
-    
+    width: $other-content-width;
+    float:inline-end;
     color:white;
+    min-height: 100vh;
+    max-height: fit-content;
 
     padding: 1% 2%;
 
@@ -63,21 +81,49 @@
             padding: 6px 12px;
         }
         tr:nth-child(odd){
-            background-color: #888888;
+            background-color:$odd-child-background-color;
         }
         tr:nth-child(even) {
-            background-color: rgb(61, 61, 61);
+            background-color: $even-child-background-color;
         }
     }
 }
 
 
 
-.update-instance-form{
-    max-height: 100vh;
-    float:inline-start;
-    justify-content: center;
+.update-instance-div{
+    width: $other-content-width;
+    float: inline-end;
     padding: 1% 2%;
-    width: 60%;
+    height: 100vh;
+    max-height: fit-content;
+    background-color: $content-background-color;
+    display: flex;
+    justify-content: center;
+    
+
+    .update-instance-form{
+        width: 60%;
+        background-color: whitesmoke;
+        border: 1px solid wheat;
+        border-radius: 6px;
+        padding: 4% 8%;
+    
+
+    
+    
+    
+        input[type=file]::file-selector-button {
+            border: 1px solid #000000;
+            padding: 0.2em 0.4em;
+            border-radius: 0.2em;
+            background-color: white;
+            transition: 1s;
+        }
+    
+    }
+
+
+
 
 }

@@ -49,7 +49,12 @@ class FormSerializer(BaseSerializer):
         if hasattr(field, 'choices'):
                 choices = self.get_list_of_field_choices(field.choices)
                 field_data["choices"]  = choices
-                
+           
+           
+        #gotta do something with password fields in the future     
+        if field_name is 'password':
+            field_data['readonly'] = True
+            
         return field_data
     
     def get_list_of_field_choices(self, choices) -> list[tuple[str,str]]:
@@ -64,11 +69,11 @@ class FormSerializer(BaseSerializer):
         #because in most cases the inital value classes return their value in str method
         if is_jsonable(self.instance.initial.get(field, '')):
             return self.instance.initial.get(field, '')
-        else:
-            try: 
-                return str(self.instance.initial.get(field, ''))
-            except Exception as e:
-                raise e
+        
+        try: 
+            return str(self.instance.initial.get(field, ''))
+        except Exception as e:
+            raise e
         
 
 

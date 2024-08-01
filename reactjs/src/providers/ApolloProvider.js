@@ -1,8 +1,14 @@
 import React from 'react';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 
+import createUploadLink from 'apollo-upload-client/createUploadLink.mjs';
+
+const uploadLink = createUploadLink({
+  uri: 'http://localhost:8000/graphql',
+});
+
 export const client = new ApolloClient({
-  uri: 'http://127.0.0.1:8000/graphql', // Replace with your GraphQL API endpoint
+  link: uploadLink,
   cache: new InMemoryCache(),
 });
 

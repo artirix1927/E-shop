@@ -37,13 +37,24 @@ const AppSection = (props) => {
     }
 
 
+    const CreateOnClick = (event, model) => {
+        navigate('/admin/instance-create', {state:{appName: props.name, modelName:model}})
+
+    }
+
     return <>
         <div className="app">
             <p className="app-name">{props.name}</p>
             <div className='app-models'>
                 <table className='app-models-list'>
                     <tbody>
-                        {props.models.map((model, index) => <tr key={index} onClick={modelOnClick}><th>{model}</th></tr>)}
+                        {props.models.map((model, index) => <tr key={index} ><th>
+
+                            <span onClick={modelOnClick}>{model}</span>
+
+                            <span style={{float:'right'}} onClick={(event)=>{CreateOnClick(event,model)}}>+</span>
+                            
+                        </th></tr>)}
                     </tbody>
                 </table>
             </div>

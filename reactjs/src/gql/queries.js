@@ -183,3 +183,15 @@ export const GET_MODEL_INSTANCE_FORM = gql`
     }
 }
 `
+
+
+export const GET_MODEL_CREATE_FORM = gql`
+  query ModelCreateForm($appName: String!, $modelName: String!){
+    modelCreateForm(appName:$appName, modelName:$modelName){
+      modelName
+      form
+    }
+}
+
+
+`

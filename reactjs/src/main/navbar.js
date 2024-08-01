@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useRef, useState } from 'react';
 import '../css/main.scss'
 
 import { useQuery} from "@apollo/client";

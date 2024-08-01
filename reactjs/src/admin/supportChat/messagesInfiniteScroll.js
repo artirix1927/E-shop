@@ -1,7 +1,7 @@
 import { useLazyQuery,} from "@apollo/client";
 import { GET_SUPPORT_TICKET_MESSAGES } from "../../gql/queries";
 
-import { useCallback, useEffect, useRef, useState} from "react";
+import { useCallback, useEffect, useState} from "react";
 
 
 import InfiniteScroll from 'react-infinite-scroll-component';
