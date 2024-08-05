@@ -1,4 +1,4 @@
-import { forwardRef, useCallback, useEffect, useRef, useState} from "react";
+import { useCallback, useEffect, useRef, useState} from "react";
 
 
 
@@ -6,12 +6,13 @@ import "react-chat-elements/dist/main.css"
 import { Button, Input, MessageList} from "react-chat-elements";
 
 import { useCookies } from "react-cookie";
-import { MessagesInfiniteScroll } from "./messagesInfiniteScroll";
+import { MessagesInfiniteScroll } from "../../admin/supportChat/messagesInfiniteScroll";
 
 
 
 
-export const ChatModal = forwardRef((props,ref) =>{ 
+export const ClientChatModal = (props) =>{ 
+
     const [cookies] = useCookies(['user'])
 
     const [messagesSource, setMessagesSource] = useState([])
@@ -25,6 +26,8 @@ export const ChatModal = forwardRef((props,ref) =>{
                 text: msg.message
                 }
     },[cookies.user.id])
+
+    
   
     
 
@@ -43,31 +46,24 @@ export const ChatModal = forwardRef((props,ref) =>{
     },[props.wsRef, props.isConnected, setMessagesSource, getMessageToPush])
 
     return <>
-        <div className="chat-modal-container">
-            <div ref={ref} className="chat-modal">
+        <div className="client-chat-modal-container">
+            <div className="chat-modal">
 
-                    
-                
-                    {props.isConnected ?
-                    <>
-                    <ChatMessagesList messagesSource={messagesSource} 
-                                        setMessagesSource={setMessagesSource} c
-                                        urrentTicketId={props.currentTicketId}/>
+                <>
+                <ChatMessagesList messagesSource={messagesSource} 
+                                    setMessagesSource={setMessagesSource} c
+                                    currentTicketId={props.currentTicketId}/>
 
-                    <ChatSendMessageForm wsRef={props.wsRef} 
-                                        currentTicketId={props.currentTicketId}/>
-                    </>
+                <ChatSendMessageForm wsRef={props.wsRef} 
+                                    currentTicketId={props.currentTicketId}/>
+                </>
 
-                    :
-
-                    <h6 style={{textAlign:"center"}}>SORRY SOMETHING WENT WRONG...</h6>
-                    }
                     
             </div>
         </div>
         
     </>
-}) 
+}
 
 
 const ChatSendMessageForm = (props) => {
@@ -123,7 +119,7 @@ const ChatMessagesList = (props) => {
     },[]);
 
     const scrollableTarget = "messages-list-wrapper" 
-
+  
     return <>
             <div id={scrollableTarget} className="messages-list-wrapper" >
                 <MessagesInfiniteScroll scrollableTarget={scrollableTarget} 
@@ -134,7 +130,7 @@ const ChatMessagesList = (props) => {
                     <MessageList 
                                 dataSource={props.messagesSource} 
                                 lockable={true}
-                                toBottomHeight={'80%'}
+                               
                                 className="messages-list" 
                                 referance={messagesList}>
                     </MessageList>

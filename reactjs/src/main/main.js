@@ -18,10 +18,11 @@ import { ProductsInfiniteScroll } from './produtsInfiniteScroll';
 export const ProductsList = () => {
     const [items, setItems] = useState([]);
 
-    return <div  className='container'>
+
+    return <div className='container'>
            
-                <ProductsInfiniteScroll setItems={setItems} items={items}>
-                <div  className='products-list'> 
+                {/* <ProductsInfiniteScroll setItems={setItems} items={items}>
+                <div  className='products-list' > 
                 {
                     items.map((product, index)=> {
                         return <ProductCard key={index} data={product}/>
@@ -29,7 +30,17 @@ export const ProductsList = () => {
                 }
                 </div>
 
-                </ProductsInfiniteScroll>
+                </ProductsInfiniteScroll> */}
+                <div className="products-list">
+                        <ProductsInfiniteScroll setItems={setItems} items={items} className="products-list">
+                
+                            {items.map((product, index) => (
+                                <ProductCard key={index} data={product} />
+                            ))}
+                            
+                        </ProductsInfiniteScroll>
+                    
+                </div>
     </div>
 }
 

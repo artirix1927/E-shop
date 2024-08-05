@@ -2,15 +2,15 @@
 import graphene
 
 from django.apps import apps
-from .types import AppType, ModelInstanceType, ModelInstanceFormType,ModelCreateFormType
+from admin.gql.types import AppType, ModelInstanceType, ModelInstanceFormType,ModelCreateFormType
 
-from ..funcs import exclude_apps_from_settings, get_app_name_without_dots,get_apps_with_models,\
+from admin.funcs import exclude_apps_from_settings, get_app_name_without_dots,get_apps_with_models,\
                     get_model_by_app_and_name, get_model_form_class_by_model
 
 
 import json
 from django.core.serializers.json import DjangoJSONEncoder
-from ..classes import FormSerializer, FormRenderer
+from admin.classes import FormSerializer, FormRenderer
 
 
 

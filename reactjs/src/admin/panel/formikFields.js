@@ -8,7 +8,7 @@ const FieldLabel = ({field, ...props}) => {
     return <>
     <label>
         {field.label}
-        {field.required && <span style={{color:"red"}}> * </span>}
+        {field.required && <span style={{color:"red"}}> *required </span>}
     </label>
 
     
@@ -138,12 +138,14 @@ const ChoiceField = ({field,...props}) => {
 
 
 const TextAreaField = ({field, ...props}) => {
+    const formik = useFormikContext()
 
     return <>
     <BaseField field={field}>
         <textarea name={field.name} type={field.type} 
                 required={field.required}
                 className="form-control"
+                onChange={event => formik.setFieldValue(field.name, event.target.value)}
                 defaultValue={field.initial}
                 readOnly={field.readonly}
                 />

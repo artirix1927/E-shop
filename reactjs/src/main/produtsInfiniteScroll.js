@@ -70,13 +70,15 @@ export const ProductsInfiniteScroll = (props) => {
             setIndex((prevIndex) => prevIndex + limit);
         }
     }, [data, setItemsState]);
-
+    
     return <>
     <InfiniteScroll
+        {...props}
         dataLength={props.items.length}
         next={fetchMoreProducts}
         hasMore={hasMore}
         loader={(<></>)}
+        scrollableTarget={props.scrollTarget}
     >
         {props.children}
 

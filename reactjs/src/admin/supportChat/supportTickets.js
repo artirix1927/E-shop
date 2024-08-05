@@ -2,44 +2,30 @@ import { useMutation } from "@apollo/client";
 import { GET_SUPPORT_TICKETS } from "../../gql/queries";
 
 import '../../css/supporttickets.scss'
-import { createRef , useEffect, useRef, useState} from "react";
+import { createRef , useState} from "react";
 
 
 import { ChatModal } from "./chatModal";
 import { CLOSE_TICKET } from "../../gql/mutations";
 import { TicketsInfiniteScroll } from "./ticketsInfiniteScroll";
+import { useChatWs } from "../../hooks";
 
 
 
 
-export const SupportTicketsList = () => {
+export const  SupportTicketsList = () => {
     const chatModalRef = createRef()
 
     const [tickets, setTickets] = useState([])
     const [currentTicketId, setCurrentTicketId] = useState()
     const [currentTicketClosed, setCurrentTicketClosed] = useState()
 
-    const wsRef = useRef(null);
-    const [isConnected, setIsConnected] = useState(false);
+    //'const wsRef = useRef(null);
 
     //for infinite scroll
     const listOfTicketsId = 'support-tickets-list'
 
-    useEffect(()=>{
-        const websocket = new WebSocket(
-            'ws://' + window.location.hostname + ':8000/ws/ticket/' + currentTicketId + '/'
-        );
-
-        websocket.onopen = () => setIsConnected(true)
-
-        websocket.onclose = () => setIsConnected(false)
-
-        wsRef.current = websocket;
-
-        return () => websocket.close()
-
-
-    },[currentTicketId])
+    const [ws,isConnected] = useChatWs(currentTicketId)
 
 
     return <>
@@ -72,7 +58,7 @@ export const SupportTicketsList = () => {
                 <ChatModal  ref={chatModalRef} 
                             currentTicketId={currentTicketId} 
                             currentTicketClosed={currentTicketClosed}
-                            wsRef={wsRef}
+                            wsRef={ws}
                             isConnected={isConnected}/>
             </div>
         </div>
@@ -89,6 +75,7 @@ const SupportTicketItem = (props) => {
     const ticketOnClick = (event) => {
         const ticketId = parseInt(event.currentTarget.id)
         props.chatModalRef.current.style.display = 'block';
+    
 
         props.setCurrentTicketId(ticketId)
         props.setCurrentTicketClosed(item.closed)

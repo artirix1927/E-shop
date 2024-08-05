@@ -15,16 +15,24 @@ import { AdminPanel } from "./admin/panel/panel";
 import { ModelInstancesList } from "./admin/panel/modelInstances";
 import { UpdateModelInstance } from "./admin/panel/updateModelInstsance";
 import { CreateModelInstance } from "./admin/panel/createModelInstance";
+import { ModelsPanel } from "./admin/panel/modelsPanel";
+import { SupportChatModal } from "./main/supportChat/supportChat";
+import { useCookies } from "react-cookie";
 
 
 const NavbarPageMixin = (props) => {
+    const [cookies] = useCookies(['user'])
 
     return <FiltersProvider>
-        <div className="App">
+      
             <Navbar></Navbar>
             <CategoriesLine></CategoriesLine>
             {props.children}
-        </div>
+            { cookies.user &&
+            <SupportChatModal></SupportChatModal>
+            }
+      
+      
       </FiltersProvider>
     
 
@@ -95,36 +103,58 @@ export const CheckoutPage = () => {
 
 export const SupportTicketsPage = () => {
   return <div className="App">
+      <AdminPanel>
       <SupportTicketsList></SupportTicketsList>
+      </AdminPanel>
     </div>
 }
 
 
-export const AdminPage = () =>  {
 
+
+export const AdminPage = () =>  {
   return <div className="App">
     <AdminPanel></AdminPanel>
   </div>
+}
 
+export const ModelPanelPage = () => {
+
+
+  return <div className="App"> 
+      <AdminPanel>
+        <ModelsPanel></ModelsPanel>
+      </AdminPanel>
+
+  </div>
 }
 
 export const ModelInstancesPage = () =>  {
   return <div className="App">
-    <ModelInstancesList></ModelInstancesList>
+     <AdminPanel>
+     <ModelInstancesList></ModelInstancesList>
+     </AdminPanel>
+    
   </div>
 }
 
 
 export const UpdateModelInstancePage = () => {
   return <div className="App">
-    <UpdateModelInstance></UpdateModelInstance>
+    <AdminPanel>
+      <UpdateModelInstance></UpdateModelInstance>
+    </AdminPanel>
+    
   </div>
 
 }
 
 export const CreateModalInstancePage = () => {
   return <div className="App">
-    <CreateModelInstance></CreateModelInstance>
+    <AdminPanel>
+      <CreateModelInstance></CreateModelInstance>
+    </AdminPanel>
+    
   </div>
 
   

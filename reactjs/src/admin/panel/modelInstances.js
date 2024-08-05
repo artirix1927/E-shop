@@ -1,9 +1,9 @@
 import { useMutation, useQuery } from "@apollo/client"
 import { useLocation, useNavigate } from "react-router-dom"
 import { GET_MODEL_INSTANCES } from "../../gql/queries"
-import { AdminPanel } from "./panel"
 import { useState } from "react"
 import { DELETE_INSTANCES } from "../../gql/mutations"
+import { ModelsPanel } from "./modelsPanel"
 
 
 
@@ -19,7 +19,7 @@ export const ModelInstancesList = () => {
     return <>
         <div>
             <div>
-                <AdminPanel></AdminPanel>
+                <ModelsPanel></ModelsPanel>
             </div>
 
 
@@ -95,7 +95,24 @@ const DeleteSelectedButton = ({selectedInstances, ...props}) => {
     }
 
     return <>
-    <button className="btn btn-secondary" onClick={deleteInstancesOnClick}>Delete Selected Instances?</button><br/><br/>
+    <button className="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#deleteInstances">Delete Selected Instances?</button>
+    <br/><br/>
+
+
+    <div class="modal" id="deleteInstances" tabindex="-1" aria-labelledby="deleteInstances" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" >You sure you want to delete selected instances?</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onClick={deleteInstancesOnClick}>Yes</button>
+                </div>
+            </div>
+        </div>
+    </div>
     
     </>
 }

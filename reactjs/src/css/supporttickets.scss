@@ -1,12 +1,20 @@
+@use './adminpanel.scss' as adminpanel; 
+
 @import './bodyStyles';
+
+
+
+
+$content-height: adminpanel.$height-after-navbar;
 
 .support-tickets-list{
     padding: 1% 0%;
-   
-    width: 25%;
+    
+    width: 25vw;
     float:left;
     background-color: aliceblue;
-    height: 100vh;
+
+    height: $content-height;
 
     overflow-y: visible;
  
@@ -63,18 +71,18 @@
    
 }
 
-
 .chat-modal-container{
-    height: 100vh;
-    float:inline-start;
-    width: 75%;
-    max-width: 75%;
+    
+    height:$content-height;
+    float:inline-end;
+    width: 75vw;
+    max-width: 75vw;
     background-color: antiquewhite;
     z-index: 2;
     
     .chat-modal{
         
-        height: 100vh;
+        height: $content-height;
         display: none;
         position: relative;
         padding: 1% 2%;
@@ -91,6 +99,11 @@
                     display:flex;
                     flex-direction: column-reverse;
                 }
+
+                .rce-mbox{
+                    max-width: 75%;
+                }
+
                 
             }
         }
@@ -127,3 +140,5 @@
 
 
 }
+
+

@@ -1,7 +1,7 @@
 import graphene
 
 
-from .mutations_logic import UpdateInstance, DeleteInstances, CreateInstance
+from admin.gql.mutations_logic import UpdateInstance, DeleteInstances, CreateInstance
 
 
 class ModelInstanceMutations(graphene.ObjectType):

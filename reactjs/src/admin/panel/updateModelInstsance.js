@@ -3,10 +3,9 @@ import { useLocation } from "react-router-dom"
 import { GET_MODEL_INSTANCE_FORM } from "../../gql/queries"
 import { Form, Formik } from "formik"
 
-import { AdminPanel } from "./panel"
-
 import { GetField } from "./formikFields"
 import { UPDATE_MODEL_INSTANCE } from "../../gql/mutations"
+import { ModelsPanel } from "./modelsPanel"
 
 
 export const UpdateModelInstance = () => {
@@ -23,7 +22,7 @@ export const UpdateModelInstance = () => {
     return <>
     <div>
             <div>
-                <AdminPanel></AdminPanel>
+                <ModelsPanel></ModelsPanel>
             </div>
             
             <div className="update-instance-div">

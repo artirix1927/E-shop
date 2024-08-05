@@ -133,8 +133,19 @@ export const GET_SUPPORT_TICKETS = gql`
     }
   
   }
+`
 
 
+export const GET_SUPPORT_TICKETS_BY_USER = gql`
+  query TicketsByUser($user:Int!){
+    ticketsByUser(user:$user){
+      id
+      closed
+      user{
+        username
+      }
+    }
+  }
 `
 
 export const GET_SUPPORT_TICKET_MESSAGES = gql`
@@ -192,6 +203,9 @@ export const GET_MODEL_CREATE_FORM = gql`
       form
     }
 }
+
+
+
 
 
 `

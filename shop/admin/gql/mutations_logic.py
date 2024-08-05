@@ -79,7 +79,6 @@ class CreateInstance(graphene.Mutation):
         form_files_dict = create_multivalue_dict_for_files(files)
         form_data = json.loads(form_values)
         
-        
         form = form_class(data=form_data, files=form_files_dict)
         form.save(commit=True)
         

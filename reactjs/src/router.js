@@ -1,5 +1,6 @@
 import { AdminPage, CartPage, CheckoutPage, CreateModalInstancePage, LoginPage, LogoutPage, MainPage, 
     ModelInstancesPage, 
+    ModelPanelPage, 
     ProductDetailsPage, RegisterPage, SupportTicketsPage, 
     UpdateModelInstancePage} from "./pages";
 
@@ -32,7 +33,9 @@ const router = createBrowserRouter(
         </Route>
 
         <Route path="admin/" element={<AdminRoute/>}>
+
           <Route path="" element={<AdminPage/>}></Route>
+          <Route path="models-panel" element={<ModelPanelPage/>}></Route>
           <Route path="tickets" element={<SupportTicketsPage/>}></Route>
           <Route path="model-instances" element={<ModelInstancesPage/>}></Route>
           <Route path="instance-update" element={<UpdateModelInstancePage/>}></Route>

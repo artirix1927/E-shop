@@ -53,7 +53,7 @@ export const MessagesInfiniteScroll = (props) => {
             setHasMore(messages.length > 0);
             setIndex((prevIndex) => prevIndex + limit);
         }
-    }, [data, setMessagesState]);
+    }, [data]);
 
     useEffect(() => {
         if (props.ticketId !== ticketId) {
@@ -62,7 +62,7 @@ export const MessagesInfiniteScroll = (props) => {
             setIndex(0);
             setHasMore(true);
         }
-    }, [props.ticketId, setMessagesState, ticketId]);
+    }, [props.ticketId]);
 
     return (
         <InfiniteScroll

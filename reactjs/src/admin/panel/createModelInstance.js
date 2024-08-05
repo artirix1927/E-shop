@@ -3,9 +3,10 @@ import { GET_MODEL_CREATE_FORM, GET_MODEL_INSTANCES } from "../../gql/queries"
 import { useLocation, useNavigate } from "react-router-dom"
 
 import { useMutation, useQuery } from "@apollo/client"
-import { AdminPanel } from "./panel"
+
 import { CREATE_MODEL_INSTANCE } from "../../gql/mutations"
 import { GetField } from "./formikFields"
+import { ModelsPanel } from "./modelsPanel"
 
 export const CreateModelInstance = () => {
 
@@ -21,9 +22,9 @@ export const CreateModelInstance = () => {
     return <>
     <div>
     
-        <div>
-            <AdminPanel></AdminPanel>
-        </div>
+            <div>
+                <ModelsPanel></ModelsPanel>
+            </div>
         
         <div className="update-instance-div">
             <ModelForm form={form}/>

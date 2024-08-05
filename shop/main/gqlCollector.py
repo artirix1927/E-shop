@@ -51,6 +51,7 @@ class GqlQueriesAndMutationCollector():
         return gql_folder_path
 
     def process_app_files(self, app):
+        
         gql_folder_path = self.get_app_gql_folder_path(app)
                 
         gql_folder_contents = os.listdir(gql_folder_path)
@@ -78,8 +79,9 @@ class GqlQueriesAndMutationCollector():
         spec.loader.exec_module(module)
 
         for name, obj in inspect.getmembers(module, inspect.isclass):
+            
             if 'Queries' in name: 
-                self.query_classes.append(obj)    
+                self.query_classes.append(obj)   
     
             if 'Mutations' in name: 
                 self.mutation_classes.append(obj)

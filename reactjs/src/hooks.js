@@ -1,5 +1,5 @@
 
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export const useBodyClass = (className) => {
   useEffect(() => {
@@ -14,3 +14,30 @@ export const useBodyClass = (className) => {
 };
 
 
+
+export const useChatWs = (currentTicketId) => {
+
+  const wsRef = useRef() 
+  const [isConnected, setIsConnected] = useState(false)
+
+  useEffect(()=>{
+
+    const websocket = new WebSocket(
+        'ws://' + window.location.hostname + ':8000/ws/ticket/' + currentTicketId + '/'
+    );
+
+    websocket.onopen = () => setIsConnected(true)
+
+    websocket.onclose = () => setIsConnected(false)
+
+    wsRef.current = websocket;
+
+    return () => websocket.close()
+
+
+  },[currentTicketId])
+
+
+  return [wsRef,isConnected]
+
+}
