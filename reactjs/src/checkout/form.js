@@ -3,7 +3,7 @@ import { Field, Form, Formik} from "formik"
 
 import { useCookies } from "react-cookie"
 import { useMutation } from "@apollo/client"
-import { CREATE_ORDER } from "../gql/mutations"
+import { CREATE_ORDER } from "./gql/mutations"
 
 import * as Yup from 'yup';
 

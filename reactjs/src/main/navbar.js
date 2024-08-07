@@ -9,7 +9,7 @@ import { filtersContext } from '../providers/filtersProvider';
 
 // import { GET_CATEGORIES, GET_PRODUCTS_BY_CATEGORY, GET_PRODUCTS, GET_PRODUCTS_BY_SEARCH, ADD_TO_CART} from '../gqlQueries';
 
-import { GET_CATEGORIES, GET_PRODUCTS_BY_CATEGORY, GET_PRODUCTS_BY_SEARCH } from '../gql/queries';
+import { GET_CATEGORIES, GET_PRODUCTS_BY_CATEGORY, GET_PRODUCTS_BY_SEARCH } from './gql/queries';
 
 
 import { useCookies } from 'react-cookie';

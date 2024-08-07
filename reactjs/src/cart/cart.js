@@ -6,7 +6,7 @@ import { useCookies } from 'react-cookie';
 
 import { useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
-import { GET_CART_BY_USER} from '../gql/queries';
+import { GET_CART_BY_USER} from './gql/queries';
 import { CartItem } from './cartItem';
 
 

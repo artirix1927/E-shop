@@ -3,6 +3,7 @@ import graphene
 from cart.gql.types import CartItemType
 
 from cart.models import CartItem
+
 from django.contrib.auth.models import User
 
 from cart.funcs import  adjust_cart_item_quantity_to_pieces_left

@@ -1,18 +1,20 @@
 
 from graphene_django import DjangoObjectType
-from ..models import Category, Product, Attachment ,AvailableCharacteristics, Characteristics
+#from ..models import Category, Product, Attachment ,AvailableCharacteristics, Characteristics
+
+import products.models as db_models
 
 
 
 class CategoryType(DjangoObjectType):
 
     class Meta:
-        model = Category
+        model = db_models.Category
         fields = '__all__'
 
 class ProductType(DjangoObjectType):
     class Meta:
-        model = Product
+        model = db_models.Product
         fields = '__all__'
        
 
@@ -21,18 +23,18 @@ class AttachmentType(DjangoObjectType):
         return info.context.build_absolute_uri(self.image.url)
     
     class Meta:
-        model=Attachment
+        model=db_models.Attachment
         #fields = ('image', 'product')
         fields = '__all__'
 
 
 class AvailableCharacteristicsType(DjangoObjectType):
     class Meta:
-        model = AvailableCharacteristics
+        model = db_models.AvailableCharacteristics
         fields = '__all__'
 
 class CharacteristicsType(DjangoObjectType):
     class Meta:
-        model = Characteristics
+        model = db_models.Characteristics
         fields = '__all__'
 

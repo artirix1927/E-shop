@@ -1,10 +1,10 @@
 import { useMutation, useQuery } from "@apollo/client"
 import { useLocation } from "react-router-dom"
-import { GET_MODEL_INSTANCE_FORM } from "../../gql/queries"
+import { GET_MODEL_INSTANCE_FORM } from ".././gql/queries"
 import { Form, Formik } from "formik"
 
 import { GetField } from "./formikFields"
-import { UPDATE_MODEL_INSTANCE } from "../../gql/mutations"
+import { UPDATE_MODEL_INSTANCE } from ".././gql/mutations"
 import { ModelsPanel } from "./modelsPanel"
 
 

@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 
 
 
-import { ADD_TO_CART } from '../gql/mutations';
+import { ADD_TO_CART } from './gql/mutations';
 
 import { useCookies } from 'react-cookie';
 

@@ -1,6 +1,6 @@
 import graphene
 
-from products.gql.types import CategoryType, ProductType
+import products.gql.types as gql_types
 
 from products.models import Category, Product
 
@@ -10,10 +10,10 @@ from products.funcs import get_category_by_dropdown_value
 from django.db.models import Q
 
 class ProductQueries(graphene.ObjectType):
-    all_products = graphene.List(ProductType, offset=graphene.Int(), limit=graphene.Int())
-    products_by_category = graphene.List(ProductType, category=graphene.String(), offset=graphene.Int(), limit=graphene.Int())
-    product_by_id = graphene.Field(ProductType, offset=graphene.Int(), limit=graphene.Int(), id=graphene.Int())
-    products_by_search = graphene.List(ProductType, offset=graphene.Int(), limit=graphene.Int(), search=graphene.String(), category=graphene.String())
+    all_products = graphene.List(gql_types.ProductType, offset=graphene.Int(), limit=graphene.Int())
+    products_by_category = graphene.List(gql_types.ProductType, category=graphene.String(), offset=graphene.Int(), limit=graphene.Int())
+    product_by_id = graphene.Field(gql_types.ProductType, offset=graphene.Int(), limit=graphene.Int(), id=graphene.Int())
+    products_by_search = graphene.List(gql_types.ProductType, offset=graphene.Int(), limit=graphene.Int(), search=graphene.String(), category=graphene.String())
 
     def resolve_all_products(root,info, offset, limit):
         return Product.objects.prefetch_related('attachments').all()[offset:offset+limit]
@@ -38,7 +38,7 @@ class ProductQueries(graphene.ObjectType):
 
 
 class CategoryQueries(graphene.ObjectType):
-    all_categories = graphene.List(CategoryType)
+    all_categories = graphene.List(gql_types.CategoryType)
 
     def resolve_all_categories(root, info):
         return Category.objects.all()

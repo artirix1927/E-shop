@@ -3,10 +3,6 @@ import importlib.util
 import inspect
 from django.apps import apps
 
-from main.schema import set_schema
-
-import graphene
-
 class GqlQueriesAndMutationCollector():
     '''class that collects all the mutations and queries classes in all apps gql folders'''
     

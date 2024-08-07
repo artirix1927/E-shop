@@ -1,8 +1,8 @@
 import { useEffect } from "react"
 import { useCookies } from "react-cookie"
 import { useNavigate } from "react-router-dom"
-// import { LOGOUT_USER } from "../gqlQueries"
-import { LOGOUT_USER } from "../gql/mutations"
+
+import { LOGOUT_USER } from "./gql/mutations"
 import { useMutation } from "@apollo/client"
 
 export const Logout = () => {

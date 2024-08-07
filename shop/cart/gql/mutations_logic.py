@@ -2,9 +2,9 @@ import graphene
 
 from django.contrib.auth.models import User
 
-from ..models import CartItem,Product, Order
+import cart.models as db_models
 
-from ..funcs import exclude_from_dict, get_cart_items_by_ids
+import  cart.funcs as funcs
 
 import json
 
@@ -22,14 +22,14 @@ class AddToCart(graphene.Mutation):
 
     def mutate(self, info, user_id, product_id, quantity):
         user = User.objects.get(id=user_id)
-        product = Product.objects.get(id=product_id)
-        user_cart_item = CartItem.objects.filter(user=user, product=product).first()
+        product = db_models.Product.objects.get(id=product_id)
+        user_cart_item = db_models.CartItem.objects.filter(user=user, product=product).first()
        
 
         if user_cart_item:
             user_cart_item.quantity+=quantity
         else:
-            user_cart_item = CartItem(product=product, user=user, quantity=quantity)
+            user_cart_item = db_models.CartItem(product=product, user=user, quantity=quantity)
 
         user_cart_item.save()
         
@@ -45,7 +45,7 @@ class ChangeCartItemQuantity(graphene.Mutation):
 
     def mutate(self, info, id, quantity):
         
-        user_cart_item = CartItem.objects.get(pk=id) 
+        user_cart_item = db_models.CartItem.objects.get(pk=id) 
     
         user_cart_item.quantity = quantity
         user_cart_item.save()
@@ -59,7 +59,7 @@ class DeleteFromCart(graphene.Mutation):
 
 
     def mutate(self, info, id):
-        CartItem.objects.get(id=id).delete()
+        db_models.CartItem.objects.get(id=id).delete()
         return DeleteFromCart(success=True)
     
 
@@ -83,11 +83,11 @@ class CreateOrder(graphene.Mutation):
         
         items_id = json.loads(kwargs['items'])
       
-        cart_items = get_cart_items_by_ids(items_id)
+        cart_items = funcs.get_cart_items_by_ids(items_id)
 
-        data_for_order = exclude_from_dict(kwargs, ('items','user'))
+        data_for_order = funcs.exclude_from_dict(kwargs, ('items','user'))
 
-        order = Order.objects.create(**data_for_order, user=user)
+        order = db_models.Order.objects.create(**data_for_order, user=user)
         order.items.set(cart_items)
 
         #cart_items.delete()

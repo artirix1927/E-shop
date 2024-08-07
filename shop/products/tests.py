@@ -2,8 +2,6 @@ import json
 
 from graphene_django.utils.testing import GraphQLTestCase
 
-from products.models import Product,Category
-
 from shop.test_utils import get_reponse_data, create_product_examples
 
 

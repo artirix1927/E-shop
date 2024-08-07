@@ -1,5 +1,5 @@
 from typing import Sequence
-from django.db.models import  QuerySet
+from django.db.models import QuerySet
 from .models import CartItem
 
 

@@ -1,7 +1,7 @@
 import { forwardRef, useState } from "react";
 import { useCookies } from "react-cookie";
 import { Link, useParams } from "react-router-dom";
-import { ADD_TO_CART } from "../gql/mutations";
+import { ADD_TO_CART } from "./gql/mutations";
 import { IsInStock, Quantity } from "../global_components";
 import { useMutation } from "@apollo/client";
 

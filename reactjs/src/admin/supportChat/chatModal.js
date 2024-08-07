@@ -46,22 +46,13 @@ export const ChatModal = forwardRef((props,ref) =>{
         <div className="chat-modal-container">
             <div ref={ref} className="chat-modal">
 
-                    
-                
-                    {props.isConnected ?
-                    <>
+            
                     <ChatMessagesList messagesSource={messagesSource} 
                                         setMessagesSource={setMessagesSource} c
-                                        urrentTicketId={props.currentTicketId}/>
+                                        currentTicketId={props.currentTicketId}/>
 
                     <ChatSendMessageForm wsRef={props.wsRef} 
-                                        currentTicketId={props.currentTicketId}/>
-                    </>
-
-                    :
-
-                    <h6 style={{textAlign:"center"}}>SORRY SOMETHING WENT WRONG...</h6>
-                    }
+                                     currentTicketId={props.currentTicketId}/>
                     
             </div>
         </div>

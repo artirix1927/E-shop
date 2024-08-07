@@ -1,17 +1,18 @@
 
 from graphene_django import DjangoObjectType
-from ..models import CartItem, Order
+
+import cart.models as db_models 
                     
 
 class CartItemType(DjangoObjectType):
     class Meta:
-        model = CartItem
+        model = db_models.CartItem
         fields = '__all__'
 
 
 class OrderType(DjangoObjectType):
     class Meta:
-        model = Order
+        model = db_models.Order
         fields = '__all__'
 
 

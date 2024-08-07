@@ -1,11 +1,11 @@
 import graphene
-from .types import UserType
+from main.gql.types import UserType
+
 
 from django.contrib.auth import authenticate #login, logout
 from django.core.exceptions import PermissionDenied
 
 from django.contrib.auth.models import User
-
 from django.contrib.auth.models import update_last_login
 
 class CreateUser(graphene.Mutation):

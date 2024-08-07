@@ -3,8 +3,8 @@ import { useMutation} from "@apollo/client";
 import { IsInStock, Quantity } from '../global_components';
 
 import { Link } from 'react-router-dom';
-import { GET_CART_BY_USER} from '../gql/queries';
-import { CHANGE_CART_ITEM_QUANTITY, DELETE_FROM_CART } from "../gql/mutations";
+import { GET_CART_BY_USER} from './gql/queries';
+import { CHANGE_CART_ITEM_QUANTITY, DELETE_FROM_CART } from "./gql/mutations";
 
 
 

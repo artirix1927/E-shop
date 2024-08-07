@@ -4,7 +4,7 @@ import { useLazyQuery } from "@apollo/client";
 
 import { filtersContext } from '../providers/filtersProvider';
 
-import {  GET_PRODUCTS } from '../gql/queries';
+import {  GET_PRODUCTS } from './gql/queries';
 
 import InfiniteScroll from 'react-infinite-scroll-component';
 

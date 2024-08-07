@@ -12,7 +12,7 @@ import { useParams } from "react-router-dom";
 
 // import { ADD_TO_CART, GET_PRODUCT_BY_ID } from '../gqlQueries';
 
-import { GET_PRODUCT_BY_ID } from '../gql/queries';
+import { GET_PRODUCT_BY_ID } from './gql/queries';
 import { BuyCard } from './buyCard';
 import { Gallery } from './gallery';
 

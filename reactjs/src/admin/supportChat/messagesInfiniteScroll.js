@@ -1,5 +1,5 @@
 import { useLazyQuery,} from "@apollo/client";
-import { GET_SUPPORT_TICKET_MESSAGES } from "../../gql/queries";
+import { GET_SUPPORT_TICKET_MESSAGES } from ".././gql/queries";
 
 import { useCallback, useEffect, useState} from "react";
 
@@ -22,7 +22,6 @@ export const MessagesInfiniteScroll = (props) => {
 
     const [getMessages, { data }] = useLazyQuery(GET_SUPPORT_TICKET_MESSAGES);
 
-
     const getMessageToPush = (msg) => {  
         const msgFloat = (parseInt(cookies.user.id) === msg.sentBy.id) ? 'right' : 'left';
         return {
@@ -40,22 +39,26 @@ export const MessagesInfiniteScroll = (props) => {
 
 
     useEffect(() => {
-        if (!props.items.length) {
+
+        if (!props.items.length && hasMore) {
             fetchMoreMessages();
         }
     }, [props.items]);
 
     useEffect(() => {
+
         if (data) {
             const messages = Object.values(data)[0];
             const messagesToSet = messages.map((msg) => getMessageToPush(msg));
             setMessagesState((prevItems) => [...prevItems, ...messagesToSet]);
-            setHasMore(messages.length > 0);
             setIndex((prevIndex) => prevIndex + limit);
+            setHasMore(messages.length > 0);
+            
         }
     }, [data]);
 
     useEffect(() => {
+        
         if (props.ticketId !== ticketId) {
             setMessagesState([]);
             setTicketId(props.ticketId);

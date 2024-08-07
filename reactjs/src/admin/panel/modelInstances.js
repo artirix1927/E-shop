@@ -1,8 +1,8 @@
 import { useMutation, useQuery } from "@apollo/client"
 import { useLocation, useNavigate } from "react-router-dom"
-import { GET_MODEL_INSTANCES } from "../../gql/queries"
+import { GET_MODEL_INSTANCES } from ".././gql/queries"
 import { useState } from "react"
-import { DELETE_INSTANCES } from "../../gql/mutations"
+import { DELETE_INSTANCES } from ".././gql/mutations"
 import { ModelsPanel } from "./modelsPanel"
 
 

@@ -1,5 +1,5 @@
 import { useQuery } from "@apollo/client"
-import { GET_SUPPORT_TICKETS_BY_USER } from "../../gql/queries"
+import { GET_SUPPORT_TICKETS_BY_USER } from ".././gql/queries"
 import { useCookies } from "react-cookie"
 import { useRef, useState } from "react"
 import { ClientChatModal } from "./chatModal"

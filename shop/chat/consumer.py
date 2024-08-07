@@ -1,41 +1,20 @@
 import json
 
-from asgiref.sync import async_to_sync
-from channels.generic.websocket import WebsocketConsumer
-
 
 import json
 
 from channels.generic.websocket import AsyncWebsocketConsumer
 
-from .models import Message, SupportTicket
+
 
 from asgiref.sync import sync_to_async
 
-from .serializers import MessageSerializer
+#from chat.funcs import get_camelcased_dict, serialize_message, create_message
 
-from django.contrib.auth.models import User
-
-
-@sync_to_async
-def create_message(message, ticket_id, user_id):
-    ticket = SupportTicket.objects.get(id=ticket_id)
-    user = User.objects.get(id=user_id)
-
-    m = Message(message=message,ticket=ticket,sent_by=user)
-    m.save()
-
-    return m
+import chat.funcs as funcs
 
 
-@sync_to_async
-def get_all_chat_messages():
-    queryset = Message.objects.all().order_by('datetime')
-    return queryset
 
-@sync_to_async
-def serialize_message(message):
-    return MessageSerializer(instance=message).data
 
 
 
@@ -43,12 +22,12 @@ class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         self.room_name = self.scope["url_route"]["kwargs"]["ticket_id"]
         self.room_group_name = f"chat_{self.room_name}"
-        # Join room group
         
         await self.channel_layer.group_add(self.room_group_name, self.channel_name)
         
         
         await self.accept()
+        # sending previous message through websockets
         # async for m in await get_all_chat_messages():
         #     await self.send(text_data=json.dumps({"message": f"user {str(m)}" }))
 
@@ -66,7 +45,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         ticket_id = text_data_json["ticket_id"]
         user_id = text_data_json["user_id"]
 
-        msg = await create_message(message, ticket_id, user_id)
+        msg = await funcs.create_message(message, ticket_id, user_id)
 
         # Send message to room group
         await self.channel_layer.group_send(
@@ -78,31 +57,9 @@ class ChatConsumer(AsyncWebsocketConsumer):
         message = event["message"]
        
         # Send message to WebSocket
-        serialized_message = await serialize_message(message)
+        serialized_message = await sync_to_async(funcs.serialize_message)(message)
 
-        serialized_message = await get_camelcased_dict(serialized_message)
+        serialized_message = await sync_to_async(funcs.get_camelcased_dict)(serialized_message)
         
         await self.send(text_data=json.dumps(serialized_message))
 
-
-
-@sync_to_async
-def get_camelcased_dict(dictionary: dict):
-    new_dict = {}
-    for key,value in dictionary.items():
-
-        new_key = underscore_to_camelcase(key)
-
-        new_dict[new_key] = value
-
-    return new_dict
-
-
-def underscore_to_camelcase(value):
-    def camelcase(): 
-        yield str.lower
-        while True:
-            yield str.capitalize
-
-    c = camelcase()
-    return "".join(next(c)(x) if x else '' for x in value.split("_"))

@@ -1,7 +1,7 @@
 
 import { useQuery } from '@apollo/client'
 import '../../css/adminpanel.scss'
-import { GET_ADMIN_APPS } from '../../gql/queries'
+import { GET_ADMIN_APPS } from '.././gql/queries'
 
 import { useNavigate } from "react-router-dom";
 

@@ -3,11 +3,9 @@ import graphene
 
 from graphene_file_upload.scalars import Upload
 
-from django.apps import apps
-
 import json
 
-from ..funcs import get_model_by_app_and_name, get_model_form_class_by_model, create_multivalue_dict_for_files
+import admin.funcs as funcs
 
 class UpdateInstance(graphene.Mutation):
     success = graphene.Field(graphene.Boolean)
@@ -22,13 +20,13 @@ class UpdateInstance(graphene.Mutation):
         
     def mutate(self, info, app_name, model_name, instance_id, form_values, files):
     
-        picked_model = get_model_by_app_and_name(app_name, model_name)
+        picked_model = funcs.get_model_by_app_and_name(app_name, model_name)
         instance = picked_model.objects.get(id=instance_id)
             
-        form_class = get_model_form_class_by_model(picked_model)
+        form_class = funcs.get_model_form_class_by_model(picked_model)
 
 
-        form_files_dict = create_multivalue_dict_for_files(files)
+        form_files_dict = funcs.create_multivalue_dict_for_files(files)
         form_data = json.loads(form_values)
         
         
@@ -50,7 +48,7 @@ class DeleteInstances(graphene.Mutation):
     def mutate(self, info, app_name, model_name, instances):
         instances_ids = json.loads(instances)
     
-        model = get_model_by_app_and_name(app_name, model_name)
+        model = funcs.get_model_by_app_and_name(app_name, model_name)
         instances_to_delete = model.objects.filter(pk__in=instances_ids)
         instances_to_delete.delete()
 
@@ -71,12 +69,12 @@ class CreateInstance(graphene.Mutation):
         
     def mutate(self, info, app_name, model_name, form_values, files):
 
-        picked_model = get_model_by_app_and_name(app_name, model_name)
+        picked_model = funcs.get_model_by_app_and_name(app_name, model_name)
             
-        form_class = get_model_form_class_by_model(picked_model)
+        form_class = funcs.get_model_form_class_by_model(picked_model)
 
 
-        form_files_dict = create_multivalue_dict_for_files(files)
+        form_files_dict = funcs.create_multivalue_dict_for_files(files)
         form_data = json.loads(form_values)
         
         form = form_class(data=form_data, files=form_files_dict)

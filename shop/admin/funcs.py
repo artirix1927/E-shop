@@ -15,10 +15,10 @@ def get_apps_with_models(apps: list[AppConfig]) -> list[AppConfig]:
     return [app for app in apps if list(app.get_models())]
    
 
-def exclude_apps_from_settings(apps: list[AppConfig]):
+def exclude_apps_from_settings(apps: list[AppConfig]) -> list[str]:
     result = []
     for app in apps:
-        if  get_app_name_without_dots(app.name) not in settings.EXCLUDE_FROM_ADMIN:
+        if get_app_name_without_dots(app.name) not in settings.EXCLUDE_FROM_ADMIN:
             result.append(app)
     return result
 

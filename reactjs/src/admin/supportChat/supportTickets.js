@@ -1,12 +1,12 @@
 import { useMutation } from "@apollo/client";
-import { GET_SUPPORT_TICKETS } from "../../gql/queries";
+import { GET_SUPPORT_TICKETS } from ".././gql/queries";
 
 import '../../css/supporttickets.scss'
 import { createRef , useState} from "react";
 
 
 import { ChatModal } from "./chatModal";
-import { CLOSE_TICKET } from "../../gql/mutations";
+import { CLOSE_TICKET } from ".././gql/mutations";
 import { TicketsInfiniteScroll } from "./ticketsInfiniteScroll";
 import { useChatWs } from "../../hooks";
 

@@ -1,5 +1,5 @@
 import { useLazyQuery,} from "@apollo/client";
-import { GET_SUPPORT_TICKETS } from "../../gql/queries";
+import { GET_SUPPORT_TICKETS } from ".././gql/queries";
 
 import { useCallback, useEffect, useState} from "react";
 
@@ -23,10 +23,10 @@ export const TicketsInfiniteScroll = (props) => {
 
     useEffect(()=>{
         //init fetching if no items on the screen
-        if (!props.items.length){
+        if (!props.items.length && hasMore){
             fetchMoreTickets()
         }
-    }, [props.items, fetchMoreTickets])
+    }, [props.items, fetchMoreTickets, hasMore])
 
 
     useEffect(() => {

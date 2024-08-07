@@ -1,15 +1,11 @@
 from graphene_django.utils.testing import GraphQLTestCase
+
 from shop.test_utils import get_reponse_data,create_product_examples
 import json
 
-from products.models import Product
 from django.contrib.auth.models import User
 
-from .models import CartItem,Order
-
-from .signals import send_order_email_to_user
-
-from django.test.utils import override_settings
+from .models import CartItem
 
 from django.db.models.signals import post_save
 

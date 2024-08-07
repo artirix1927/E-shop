@@ -1,5 +1,5 @@
 
-import { GET_AVAILABLE_COUNTRIES, GET_CITIES_BY_COUNTRY_STATE, GET_STATES_BY_COUNTRY } from "../gql/queries"
+import { GET_AVAILABLE_COUNTRIES, GET_CITIES_BY_COUNTRY_STATE, GET_STATES_BY_COUNTRY } from "./gql/queries"
 
 
 import { SelectFieldFormik } from "../global_components"

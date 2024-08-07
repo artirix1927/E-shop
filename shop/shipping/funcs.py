@@ -24,7 +24,7 @@ from requests.exceptions import HTTPError
 #         return True
 
 
-def get_states_by_country(country: str, *args, **kwargs) -> tuple['str']:
+def get_states_by_country(country: str, *args, **kwargs) -> tuple[str]:
     '''Get tuple of states/provinces in specific country by name'''
     request_parameters = {"country": country}
     

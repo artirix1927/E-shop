@@ -1,13 +1,13 @@
 
 import graphene
-from cart.gql.mutations_logic import * 
 
+import cart.gql.mutations_logic as mutations_logic
 
 class CartMutations(graphene.ObjectType):
-    add_to_cart = AddToCart.Field()
-    change_cart_item_quantity = ChangeCartItemQuantity.Field()
-    delete_from_cart = DeleteFromCart.Field()
+    add_to_cart = mutations_logic.AddToCart.Field()
+    change_cart_item_quantity = mutations_logic.ChangeCartItemQuantity.Field()
+    delete_from_cart = mutations_logic.DeleteFromCart.Field()
 
 
 class OrderMutations(graphene.ObjectType):
-    create_order = CreateOrder.Field()
+    create_order = mutations_logic.CreateOrder.Field()

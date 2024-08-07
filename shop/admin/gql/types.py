@@ -2,12 +2,6 @@ from django.apps import apps
 
 import graphene
 
-#from django.core.serializers import serialize
-
-
-
-
-model_type_cache = {}
 
 class ModelInstanceType(graphene.ObjectType):
     model_name = graphene.String()

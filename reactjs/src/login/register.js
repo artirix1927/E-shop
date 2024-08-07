@@ -1,8 +1,7 @@
 import { useMutation } from "@apollo/client";
 import { Link, useNavigate } from "react-router-dom";
-// import { CREATE_USER } from "../gqlQueries";
 
-import { CREATE_USER } from "../gql/mutations";
+import { CREATE_USER } from "./gql/mutations";
 
 import '../css/login.scss'
 
