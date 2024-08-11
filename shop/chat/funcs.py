@@ -1,9 +1,10 @@
-import chat.models as db_models
 
-from .serializers import MessageSerializer
 
 from django.contrib.auth.models import User
 
+from .serializers import MessageSerializer
+
+import chat.models as db_models
 
 
 
@@ -19,7 +20,7 @@ def get_camelcased_dict(dictionary: dict) -> dict:
     return new_dict
 
 
-def underscore_to_camelcase(value) -> str:
+def underscore_to_camelcase(value: str) -> str:
     def camelcase(): 
         yield str.lower
         while True:
@@ -29,14 +30,14 @@ def underscore_to_camelcase(value) -> str:
     return "".join(next(c)(x) if x else '' for x in value.split("_"))
 
 
-def serialize_message(message) -> dict:
+def serialize_message(message: db_models.Message) -> dict:
     return MessageSerializer(instance=message).data
 
 
-async def create_message(message, ticket_id, user_id) -> db_models.Message:
+async def create_message(message: db_models.Message, ticket_id: int, user_id: int) -> db_models.Message:
     ticket = await db_models.SupportTicket.objects.aget(id=ticket_id)
     user = await User.objects.aget(id=user_id)
-    m = await db_models.Message.objects.acreate(message=message,ticket=ticket,sent_by=user)
+    msg = await db_models.Message.objects.acreate(message=message,ticket=ticket,sent_by=user)
    
-    return m
+    return msg
 

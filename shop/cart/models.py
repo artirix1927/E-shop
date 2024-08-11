@@ -18,11 +18,20 @@ class CartItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.IntegerField()
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="cart_items", blank=True)
-    ordered = models.BooleanField(default=False)
+    #ordered = models.BooleanField(default=False) #dont need it if i will create order item model
 
     def __str__(self) -> str:
-        return f'{self.product.name}({self.quantity}) => {self.user.username}'
+        return f'Cart Item #{self.id} :{self.product.name}({self.quantity}) => {self.user.username}'
 
+
+
+class OrderItem(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.IntegerField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="order_items", blank=True)
+    #shipped = boolean ?
+    def __str__(self) -> str:
+        return f'Order Item #{self.id} : {self.product.name}({self.quantity}) => {self.user.username}'
 
 class Order(models.Model):
     full_name = models.TextField(null=False)
@@ -37,7 +46,7 @@ class Order(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     
     user = models.ForeignKey(User, related_name="orders", on_delete=models.CASCADE)
-    items = models.ManyToManyField('CartItem')
+    items = models.ManyToManyField('OrderItem')
 
     def order_total_price(self) -> float:
         sum_for_each_item = self.items.all().annotate(sum=F('product__price')*F('quantity'))

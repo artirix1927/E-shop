@@ -1,7 +1,7 @@
 import os
 import importlib.util
 import inspect
-from django.apps import apps
+from django.apps import apps, AppConfig
 
 class GqlQueriesAndMutationCollector():
     '''class that collects all the mutations and queries classes in all apps gql folders'''
@@ -20,13 +20,13 @@ class GqlQueriesAndMutationCollector():
         Queries = type('Queries', tuple(self.query_classes), {})
         return {"Mutations": Mutations, "Queries":Queries}
     
-    def collect_and_process_files(self):
+    def collect_and_process_files(self) -> None:
         apps_to_look_in = [app for app in apps.get_app_configs() if not self.is_installed_package(app)]
         for app in apps_to_look_in:
             self.process_app_files(app)
             
 
-    def is_installed_package(self, app):
+    def is_installed_package(self, app: AppConfig) -> bool:
         '''if package is installed the app will be in venv directory'''
         app_path = self.get_app_path(app)
         
@@ -35,7 +35,7 @@ class GqlQueriesAndMutationCollector():
         return ".venv" in path_component
     
     
-    def get_app_gql_folder_path(self, app): 
+    def get_app_gql_folder_path(self, app: AppConfig) -> str: 
         app_path = self.get_app_path(app)
         
         gql_folder_path = None
@@ -46,7 +46,7 @@ class GqlQueriesAndMutationCollector():
                 
         return gql_folder_path
 
-    def process_app_files(self, app):
+    def process_app_files(self, app: AppConfig) -> None:
         
         gql_folder_path = self.get_app_gql_folder_path(app)
                 
@@ -59,7 +59,7 @@ class GqlQueriesAndMutationCollector():
             self.add_gql_classes_to_scheme_list(file_path)
             
             
-    def get_app_path(self, app):
+    def get_app_path(self, app: AppConfig) -> str | None:
         try:
             module = importlib.import_module(app.name)
             return os.path.dirname(module.__file__)
@@ -69,7 +69,7 @@ class GqlQueriesAndMutationCollector():
             
             
 
-    def add_gql_classes_to_scheme_list(self, file_path):
+    def add_gql_classes_to_scheme_list(self, file_path:str) -> None:
         spec = importlib.util.spec_from_file_location("module.name", file_path)
         module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(module)

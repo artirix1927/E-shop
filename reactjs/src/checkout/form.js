@@ -10,6 +10,8 @@ import * as Yup from 'yup';
 import { useNavigate } from "react-router-dom";
 import { SelectCitiesField, SelectCountriesField, SelectStatesField } from "./customFormFields";
 
+import {GET_CART_BY_USER} from './../cart/gql/queries'
+
 
 const OrderValidationScheme = Yup.object().shape({
     fullName: Yup.string().min('2').max('50').required('Required'),
@@ -35,7 +37,7 @@ export const OrderForm = (props) => {
        
         const requestData = Object.assign({user: parseInt(userId), items: JSON.stringify(itemsId)}, values)
        
-        createOrder({variables: requestData})
+        createOrder({variables: requestData, refetchQueries:[GET_CART_BY_USER,'CartById']})
 
         nav('/cart')
     }

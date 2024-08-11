@@ -1,3 +1,4 @@
+from statistics import quantiles
 import graphene
 
 from django.contrib.auth.models import User
@@ -86,10 +87,14 @@ class CreateOrder(graphene.Mutation):
         cart_items = funcs.get_cart_items_by_ids(items_id)
 
         data_for_order = funcs.exclude_from_dict(kwargs, ('items','user'))
-
+        
+        order_items = funcs.create_order_items_for_cart_items(cart_items)
+    
         order = db_models.Order.objects.create(**data_for_order, user=user)
-        order.items.set(cart_items)
-
-        #cart_items.delete()
+        order.items.set(order_items)
+        
+        funcs.change_product_pieces_left_after_order(order_items)
+        
+        cart_items.delete()
 
         return CreateOrder(success=True)
