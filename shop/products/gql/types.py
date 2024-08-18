@@ -3,8 +3,7 @@ from graphene_django import DjangoObjectType
 #from ..models import Category, Product, Attachment ,AvailableCharacteristics, Characteristics
 
 import products.models as db_models
-
-
+import graphene
 
 class CategoryType(DjangoObjectType):
 
@@ -12,13 +11,8 @@ class CategoryType(DjangoObjectType):
         model = db_models.Category
         fields = '__all__'
 
-class ProductType(DjangoObjectType):
-    class Meta:
-        model = db_models.Product
-        fields = '__all__'
-       
 
-class AttachmentType(DjangoObjectType):
+class ProductAttachmentType(DjangoObjectType):
     def resolve_image(self, info, **kwargs):
         return info.context.build_absolute_uri(self.image.url)
     
@@ -38,3 +32,10 @@ class CharacteristicsType(DjangoObjectType):
         model = db_models.Characteristics
         fields = '__all__'
 
+
+class ProductType(DjangoObjectType):
+    class Meta:
+        model = db_models.Product
+        fields = '__all__'
+        
+       

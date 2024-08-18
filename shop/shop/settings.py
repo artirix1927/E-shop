@@ -47,7 +47,8 @@ INSTALLED_APPS = [
     'products.apps.ProductsConfig',
     'shipping.apps.ShippingConfig',
     'chat.apps.ChatConfig',
-    'admin.apps.AdminConfig'
+    'reviews.apps.ReviewsConfig',
+    'admin.apps.AdminConfig',
 ]
 
 MIDDLEWARE = [

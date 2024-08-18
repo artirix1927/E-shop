@@ -10,10 +10,12 @@ from products.funcs import get_category_by_dropdown_value
 from django.db.models import Q
 
 class ProductQueries(graphene.ObjectType):
-    all_products = graphene.List(gql_types.ProductType, offset=graphene.Int(), limit=graphene.Int())
-    products_by_category = graphene.List(gql_types.ProductType, category=graphene.String(), offset=graphene.Int(), limit=graphene.Int())
-    product_by_id = graphene.Field(gql_types.ProductType, offset=graphene.Int(), limit=graphene.Int(), id=graphene.Int())
-    products_by_search = graphene.List(gql_types.ProductType, offset=graphene.Int(), limit=graphene.Int(), search=graphene.String(), category=graphene.String())
+    limit_and_offset_params = {'offset': graphene.Int(), 'limit': graphene.Int()}
+    
+    all_products = graphene.List(gql_types.ProductType, **limit_and_offset_params)
+    products_by_category = graphene.List(gql_types.ProductType, category=graphene.String(), **limit_and_offset_params)
+    product_by_id = graphene.Field(gql_types.ProductType, id=graphene.Int(), **limit_and_offset_params)
+    products_by_search = graphene.List(gql_types.ProductType, search=graphene.String(), category=graphene.String(), **limit_and_offset_params)
 
     def resolve_all_products(root,info, offset, limit):
         return Product.objects.prefetch_related('attachments').all()[offset:offset+limit]
@@ -25,7 +27,6 @@ class ProductQueries(graphene.ObjectType):
         return Product.objects.prefetch_related('attachments').filter(category__name=category)[offset:offset+limit]
     
     def resolve_products_by_search(root, info, offset, limit, category, search):
-        
         category_for_filter = get_category_by_dropdown_value(category)
         
         products_with_name_annotated = Product.objects.prefetch_related('attachments').annotate(name_matches=Q(name__icontains=search))
