@@ -14,9 +14,10 @@ $height-after-navbar: 94vh;
     display: flex;             /* establish flex container */
     align-items: center;       /* center ul container vertically */
     flex-direction: row;
+    position: fixed;
 
     width: 100%;
-    a, a:hover{
+    a, a:hover, a:visited{
 
         color: white;
         text-decoration: none;
@@ -24,13 +25,17 @@ $height-after-navbar: 94vh;
 }
 
 
+.content-after-navbar{
+    padding-top: $navbar-height;
+}
+
 
 .sidebar{
     margin: 0;
     padding: 0;
     height: $height-after-navbar;
     min-height: $height-after-navbar;
-    position:fixed;
+    
 
     overflow-y: scroll;
 
@@ -39,6 +44,7 @@ $height-after-navbar: 94vh;
    
     width: $sidebar-width;
     float:left;
+    position: fixed;
 
 
 

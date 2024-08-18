@@ -18,8 +18,10 @@ export const AdminPanel = ({children, ...props}) => {
     </nav>
 
     
-
-    {children}
+    <div className="content-after-navbar">
+        {children}
+    </div>
+    
     </>
 
 
