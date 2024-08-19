@@ -20,7 +20,7 @@ class CreateReview(graphene.Mutation):
         product_id = graphene.Int()
         files = Upload(required=False)
         
-    def mutate(self, info, user_id, stars, text,product_id, files=None):
+    def mutate(self, info, user_id, stars, text, product_id, files=None):
         user = User.objects.get(id=user_id)
         
         product = Product.objects.get(id=product_id)

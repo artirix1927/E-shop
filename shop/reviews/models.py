@@ -28,6 +28,6 @@ class Review(models.Model):
     product = models.ForeignKey(Product,  on_delete=models.CASCADE, related_name='reviews')
     
     def __str__(self) -> str:
-        return f"Review for {self.product.name} -> {self.stars} stars"
+        return f"Review for {self.product.name} -> {self.stars} stars : {self.user.username}"
     
  
