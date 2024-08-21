@@ -1,7 +1,7 @@
 
 import graphene
 
-import main.gql.mutations_logic as mutations_logic 
+import auth.gql.mutations_logic as mutations_logic 
 
 class RegistrationMutations(graphene.ObjectType):
     create_user= mutations_logic.CreateUser.Field()

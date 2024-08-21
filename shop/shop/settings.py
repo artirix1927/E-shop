@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'channels', #websockets
     'graphene_django',  #gql lib
     'shop.apps.ShopConfig',
-    'main.apps.MainConfig', 
+    'auth.apps.AuthConfig', 
     'cart.apps.CartConfig',
     'products.apps.ProductsConfig',
     'shipping.apps.ShippingConfig',
@@ -138,7 +138,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 GRAPHENE = {
-    "SCHEMA": "main.schema.schema"
+    "SCHEMA": "shop.schema.schema"
 }
 
 CORS_ORIGIN_ALLOW_ALL = True

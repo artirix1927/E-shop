@@ -1,5 +1,5 @@
 import graphene
-from main.gql.types import UserType
+from auth.gql.types import UserType
 
 
 from django.contrib.auth import authenticate #login, logout
