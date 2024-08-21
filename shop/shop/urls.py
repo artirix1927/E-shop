@@ -24,14 +24,6 @@ from django.conf.urls.static import static
 
 from django.urls import path
 
-# def test_email(request):
-#     subject = 'Test Email'
-#     message = 'This is a test email.'
-#     email_from = settings.EMAIL_HOST_USER
-#     recipient_list = ['mrartem1927@gmail.com',]
-#     send_mail(subject=subject, message=message, from_email=email_from, recipient_list=recipient_list, fail_silently=False)
-#     return HttpResponse()
-
 from graphene_file_upload.django import FileUploadGraphQLView
 
 
@@ -40,8 +32,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("graphql", csrf_exempt(FileUploadGraphQLView.as_view(graphiql=True))),
     path("", csrf_exempt(FileUploadGraphQLView.as_view(graphiql=True))),
-
-    #path('testmail/', test_email)
 ]
 
 

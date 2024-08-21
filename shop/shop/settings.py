@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'django_cleanup.apps.CleanupConfig', #unused images cleanup
     'corsheaders',
     'channels', #websockets
-    "graphene_django",  #gql lib
+    'graphene_django',  #gql lib
+    'shop.apps.ShopConfig',
     'main.apps.MainConfig', 
     'cart.apps.CartConfig',
     'products.apps.ProductsConfig',
