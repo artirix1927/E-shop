@@ -4,7 +4,7 @@ import shipping.gql.types as gql_types
 
 from shipping.models import AvailableCountries
 
-from shipping.funcs import *
+from shipping.classes import CountriesApi 
 
 
 class GeoQueries(graphene.ObjectType):
@@ -17,10 +17,10 @@ class GeoQueries(graphene.ObjectType):
         return AvailableCountries.objects.all()
     
     def resolve_states_by_country(root, info, country):
-        return (gql_types.StatesType(name=state) for state in get_states_by_country(country))
+        return (gql_types.StatesType(name=state) for state in CountriesApi.get_states_by_country(country))
     
     def resolve_cities_by_country_state(root,info,country,state):
-        return (gql_types.CitiesType(name=city) for city in get_cities_by_country_state(country, state))
+        return (gql_types.CitiesType(name=city) for city in CountriesApi.get_cities_by_country_state(country, state))
     
 
 
