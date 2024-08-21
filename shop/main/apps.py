@@ -13,7 +13,7 @@ class MainConfig(AppConfig):
     def ready(self):
         import main.signals
         
-        schema_classes: dict = GqlQueriesAndMutationCollector()()
+        schema_classes: dict = GqlQueriesAndMutationCollector().collect()
         
         new_schema = Schema(mutation=schema_classes['Mutations'], query=schema_classes['Queries'])
         

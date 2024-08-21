@@ -13,7 +13,7 @@ class GqlQueriesAndMutationCollector():
     directory_to_look_in= 'gql'
     files_to_look_in = ['queries.py', 'mutations.py']
     
-    def __call__(self, *args, **kwargs) -> dict:
+    def collect(self, *args, **kwargs) -> dict:
         self.collect_and_process_files()
        
         Mutations = type('Mutations', tuple(self.mutation_classes), {})
