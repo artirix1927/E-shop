@@ -4,7 +4,6 @@ import products.gql.types as gql_types
 
 from products.models import Category, Product
 
-from products.funcs import get_category_by_dropdown_value
 
 
 from django.db.models import Q
@@ -26,7 +25,7 @@ class ProductQueries(graphene.ObjectType):
     
     def resolve_products_by_search(root, info, offset, limit, category, search):
         
-        category_for_filter = get_category_by_dropdown_value(category)
+        category_for_filter = Category.get_category_by_dropdown_value(category)
         
         products_with_name_annotated = Product.objects.prefetch_related('attachments').annotate(name_matches=Q(name__icontains=search))
         products_filtered_by_search = products_with_name_annotated.filter((Q(description__icontains=search) | Q(name_matches=True)) & category_for_filter)

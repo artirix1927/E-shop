@@ -1,5 +1,6 @@
 from django.db import models
 
+
 # Create your models here.
 class Category(models.Model):
     '''Category for product model'''
@@ -9,6 +10,13 @@ class Category(models.Model):
 
     class Meta:
         verbose_name_plural = "Categories"
+        
+        
+    @classmethod
+    def get_category_by_dropdown_value(cls,category_name: str) -> models.Q:
+        category = cls.objects.filter(name=category_name).first()
+
+        return models.Q(category=category) if category else models.Q()   
 
     def __str__(self) -> str:
         return f"{self.name} : {self.shortname}"
