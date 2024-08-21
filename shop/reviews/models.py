@@ -15,6 +15,9 @@ class Attachment(models.Model):
     
     image = models.ImageField(upload_to=review_save_path)
     review = models.ForeignKey('Review', on_delete=models.CASCADE, related_name='attachments')
+    
+    def __str__(self) -> str:
+        return f"Attachment for review #{self.review.id}"
 
 
 

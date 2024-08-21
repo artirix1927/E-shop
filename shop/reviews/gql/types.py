@@ -17,3 +17,4 @@ class ReviewType(DjangoObjectType):
     class Meta:
         model = db_models.Review
         fields = '__all__'
+        convert_choices_to_enum = False

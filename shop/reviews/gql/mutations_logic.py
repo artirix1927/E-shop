@@ -27,11 +27,11 @@ class CreateReview(graphene.Mutation):
         
         product = Product.objects.get(id=product_id)
         review = db_models.Review.objects.create(user=user, stars=stars, text=text, product=product)
-        
+        print(files)
         
         if files:
             for file_field in files:
-                db_models.Attachment.objects.create(image = file_field['file'], review=review)
+                db_models.Attachment.objects.create(image = file_field, review=review)
         
         
         return CreateReview(success=True)
