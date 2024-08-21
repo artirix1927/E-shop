@@ -1,3 +1,4 @@
+from ast import mod
 from django.db import models
 
 from phonenumber_field.modelfields import PhoneNumberField 
@@ -29,6 +30,7 @@ class OrderItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.IntegerField()
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="order_items", blank=True)
+    order = models.ForeignKey('Order', on_delete=models.CASCADE, related_name="order_items")
     #shipped = boolean ?
     def __str__(self) -> str:
         return f'Order Item #{self.id} : {self.product.name}({self.quantity}) => {self.user.username}'
@@ -46,7 +48,6 @@ class Order(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     
     user = models.ForeignKey(User, related_name="orders", on_delete=models.CASCADE)
-    items = models.ManyToManyField('OrderItem')
 
     def order_total_price(self) -> float:
         sum_for_each_item = self.items.all().annotate(sum=F('product__price')*F('quantity'))
