@@ -8,7 +8,11 @@ query{
         text 
         user{
             username
-        }    
+        }
+
+        attachments{
+            image
+        }
     }
 }
 

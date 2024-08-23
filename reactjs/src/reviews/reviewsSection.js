@@ -2,7 +2,7 @@
 import { useMutation, useQuery } from '@apollo/client'
 import '../css/reviews.scss'
 
-import React, { useRef, useState } from 'react'
+import React, { forwardRef, useEffect, useRef, useState } from 'react'
 import { Rating } from 'react-simple-star-rating'
 import { CREATE_REVIEW } from './gql/mutations'
 import { useCookies } from 'react-cookie'
@@ -17,6 +17,8 @@ export const ReviewSection = () => {
     <LeaveReviewSection/>
 
     <ReviewList/>
+
+    <FullScreenImageModal/>
 
   </div>
 
@@ -66,16 +68,20 @@ const ReviewList = (props) => {
 
   data = data.allReviews; 
 
+
   return <div className='review-list-container'>
 
     <h5>Other Reviews</h5>
     <ul className='review-list'>
       {data.map((review,index) => {
 
-
+        const filesSrcArray = []
+        review.attachments.map((file)=>(filesSrcArray.push(file.image)))
 
         return <li key={index}>
           <ReviewUsernameRow review={review}/>
+          
+          <ReviewUploadedFiles files={filesSrcArray}/>
 
           <p>{review.text}</p>
 
@@ -85,7 +91,6 @@ const ReviewList = (props) => {
 
 
     </ul>
-
   </div>
 
 }
@@ -149,6 +154,20 @@ const UploadFiles = ({setUploadedFiles, uploadedFiles, ...props}) => {
     }
   };
   
+  const [filesSrcArray, setFilesSrcArray] = useState([])
+
+
+  
+
+  useEffect(()=>{
+    
+    const newFilesArray = []
+
+    uploadedFiles.map((file)=>{newFilesArray.push(URL.createObjectURL(file))})
+
+    setFilesSrcArray(newFilesArray)
+
+  }, [uploadedFiles])
 
   return <div className='upload-files'>
 
@@ -156,26 +175,47 @@ const UploadFiles = ({setUploadedFiles, uploadedFiles, ...props}) => {
         <br/>
         <input type="file" accept="image/*" onChange={handleFileChange} />
 
-        <UploadedFilesGallery files={uploadedFiles}/>
+        <ReviewUploadedFiles files={filesSrcArray}/>
   
   </div>
 }
 
+const ReviewUploadedFiles = ({files, ...props}) => {
 
 
-const UploadedFilesGallery = ({files, ...props}) => {
+  const imageModalRef = useRef()
 
 
   return <div>
-    <ul style={{margin:0, padding:0, listStyleType:'none'}}>
+    <ul className='gallery-list'>
       {files.map((file, index) => {
-        console.log(file)
-        return <li key={index} style={{display:"inline"}}>
+        return <li key={index} className='gallery-list-element'>
 
-          <img style={{height:200, width:200, objectFit:"contain"}} 
-                    src={URL.createObjectURL(file)} alt=''/>
+          <img className='gallery-list-img'
+              src={file} alt='' onClick={()=>{imageModalRef.current.style.display='flex';}}/>
+
+          <FullScreenImageModal fileSrc={file} ref={imageModalRef}/>
         </li>
       })}
     </ul>
   </div>
 }
+
+
+const FullScreenImageModal = forwardRef((props,ref) => {
+
+  const closeModalOnOutsideClick = (e) => {
+
+    e.target.style.display = 'none';
+
+  }
+
+  return <div className='fullscreen-image' ref={ref} onClick={closeModalOnOutsideClick}>
+      <div>
+        <img src={props.fileSrc}/>
+      </div>
+
+  </div>
+  
+
+})
