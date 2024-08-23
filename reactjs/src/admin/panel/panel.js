@@ -5,13 +5,13 @@ export const AdminPanel = ({children, ...props}) => {
     return <>
 
     <nav className="nav-wrapper">
-        <ul class="nav">
+        <ul className="nav">
             <li>
-                <Link class="nav-link" to="/admin/models-panel/">Models</Link>
+                <Link className="nav-link" to="/admin/models-panel/">Models</Link>
             </li>
 
             <li>
-                <Link class="nav-link" to="/admin/tickets/">Tickets</Link>
+                <Link className="nav-link" to="/admin/tickets/">Tickets</Link>
             </li>
         </ul>
         

@@ -91,13 +91,14 @@ const ProductContent = (props) => {
 
 const CharacteristicsTable = (props) => {
     return <table className='characteristics-table table table-borderless'>
-                        
-                        {props.characteristics.map((char)=>{
-                        return <tr>
-                                <td>{char.characteristic.name} :</td>
-                                <td>{char.value}</td>
-                            </tr>
-                        })}
+            <tbody>
+                {props.characteristics.map((char, index)=>{
+                return <tr key={index}>
+                        <td>{char.characteristic.name} :</td>
+                        <td>{char.value}</td>
+                    </tr>
+                })}
+            </tbody>
                     
         </table>
 }

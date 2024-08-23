@@ -77,8 +77,8 @@ const TicketsList = ({data,setCurrentTicketId, closeChat, ...props}) => {
        
         <div className="support-tickets-list">
             <i  className="bi bi-x-lg close-chat" onClick={closeChat}></i>
-            {data.map((ticket) => (
-                <div className="support-ticket-item">
+            {data.map((ticket,index) => (
+                <div className="support-ticket-item" key={index}>
                     <button className="support-ticket-item-btn" id={ticket.id} onClick={handleTicket}>Ticket #{ticket.id}</button>
                 </div>
             ))}

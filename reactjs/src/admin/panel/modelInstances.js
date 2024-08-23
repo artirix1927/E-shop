@@ -12,10 +12,11 @@ export const ModelInstancesList = () => {
 
     const [selectedInstances, setSelectedInstances] = useState([])
 
-    const {data,loading} = useQuery(GET_MODEL_INSTANCES, {variables: {appName: state.appName, modelName: state.modelName}})
+    const {data,loading, error} = useQuery(GET_MODEL_INSTANCES, {variables: {appName: state.appName, modelName: state.modelName}})
     
     if (loading) return <></>
 
+    if (error) return console.log(error.message)
     return <>
         <div>
             <div>
@@ -99,16 +100,16 @@ const DeleteSelectedButton = ({selectedInstances, ...props}) => {
     <br/><br/>
 
 
-    <div class="modal" id="deleteInstances" tabindex="-1" aria-labelledby="deleteInstances" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" >You sure you want to delete selected instances?</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div className="modal" id="deleteInstances" tabIndex="-1" aria-labelledby="deleteInstances" aria-hidden="true">
+        <div className="modal-dialog">
+            <div className="modal-content">
+                <div className="modal-header">
+                    <h1 className="modal-title fs-5" >You sure you want to delete selected instances?</h1>
+                    <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onClick={deleteInstancesOnClick}>Yes</button>
+                <div className="modal-footer">
+                    <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                    <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={deleteInstancesOnClick}>Yes</button>
                 </div>
             </div>
         </div>

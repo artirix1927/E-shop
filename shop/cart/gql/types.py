@@ -10,6 +10,11 @@ class CartItemType(DjangoObjectType):
         fields = '__all__'
 
 
+class OrderItemType(DjangoObjectType):
+    class Meta:
+        model = db_models.OrderItem
+        fields = '__all__'
+
 class OrderType(DjangoObjectType):
     class Meta:
         model = db_models.Order
