@@ -24,11 +24,12 @@ def adjust_cart_item_quantity_to_pieces_left(user_cart_items: QuerySet[db_models
     return user_cart_items
 
 
-def create_order_items_for_cart_items(items:QuerySet[db_models.CartItem]) -> list[db_models.OrderItem]:
+def create_order_items_for_cart_items(items:QuerySet[db_models.CartItem], order: db_models.Order) -> list[db_models.OrderItem]:
     return [db_models.OrderItem.objects.create(
                                         product=item.product, 
                                         quantity=item.quantity, 
-                                        user=item.user) 
+                                        user=item.user,
+                                        order=order) 
             for item in items]
     
     
