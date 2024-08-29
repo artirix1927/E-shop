@@ -10,4 +10,5 @@ class CartMutations(graphene.ObjectType):
 
 
 class OrderMutations(graphene.ObjectType):
-    create_order = mutations_logic.CreateOrder.Field()
+    create_order_from_cart = mutations_logic.CreateOrderFromCart.Field()
+    create_buy_now_order = mutations_logic.CreateBuyNowOrder.Field()

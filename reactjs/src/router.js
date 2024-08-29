@@ -1,4 +1,4 @@
-import { AdminPage, CartPage, CheckoutPage, CreateModalInstancePage, LoginPage, LogoutPage, MainPage, 
+import { AdminPage, BuyNowCheckoutPage, CartPage, CartCheckoutPage, CreateModalInstancePage, LoginPage, LogoutPage, MainPage, 
     ModelInstancesPage, 
     ModelPanelPage, 
     ProductDetailsPage, RegisterPage, SupportTicketsPage, 
@@ -29,7 +29,8 @@ const router = createBrowserRouter(
         
         <Route path="/" element={<AuthenticatedRoute />}>
           <Route path="cart" element={<CartPage />} />
-          <Route path="checkout" element={<CheckoutPage />} />
+          <Route path="checkout" element={<CartCheckoutPage />} />
+          <Route path="buy-now-checkout" element={<BuyNowCheckoutPage/>}/>
         </Route>
 
         <Route path="admin/" element={<AdminRoute/>}>

@@ -2,7 +2,7 @@ import { Login } from "./login/login";
 import {useBodyClass} from "./hooks";
 import { Register } from "./login/register";
 import { Logout } from "./login/logout";
-import { Checkout } from "./checkout/checkout";
+import { BuyNowCheckout, CartCheckout } from "./checkout/checkout";
 
 import { Cart } from "./cart/cart";
 import { FiltersProvider } from "./providers/filtersProvider";
@@ -93,10 +93,17 @@ export const LogoutPage = () => {
 
   }
 
-export const CheckoutPage = () => {
+export const CartCheckoutPage = () => {
 
     return <div className="App">
-      <Checkout></Checkout>
+      <CartCheckout></CartCheckout>
+    </div>
+  }
+
+  export const BuyNowCheckoutPage = () => {
+
+    return <div className="App">
+      <BuyNowCheckout></BuyNowCheckout>
     </div>
   }
 

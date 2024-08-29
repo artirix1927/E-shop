@@ -45,7 +45,7 @@ export const ProductDetails = () => {
             </div>
 
             <div className='card col-4'>
-                <BuyCard price={data.price} piecesLeft={data.piecesLeft} ref={buyCardRef}></BuyCard>
+                <BuyCard product={data} ref={buyCardRef}></BuyCard>
             </div>
             
 

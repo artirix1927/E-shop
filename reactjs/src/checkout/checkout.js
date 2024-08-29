@@ -3,10 +3,13 @@
 import '../css/checkout.scss'
 import { Link, useLocation, } from "react-router-dom"
 import { useEffect, useState } from "react"
-import { OrderForm } from "./form"
+import { BuyNowOrderForm, CartOrderForm } from "./form"
 
 
-export const Checkout = () => {
+
+
+
+export const CartCheckout = () => {
     const params = useLocation()
 
     const selectedItems = params.state.selectedItems
@@ -24,7 +27,36 @@ export const Checkout = () => {
         </div>
 
         <div>
-            <OrderForm selectedItems={selectedItems}></OrderForm>
+            <CartOrderForm selectedItems={selectedItems}></CartOrderForm>
+        </div>
+
+
+    </div>
+}
+
+
+
+export const BuyNowCheckout = () => {
+    const params = useLocation()
+
+    const productInfo = params.state
+
+    const itemDictForSummaryCard = {product:productInfo.product, quantity:productInfo.quantity, productId:productInfo.productId}
+
+    const backToCartModalId = 'back-to-cart'
+
+    return <div className="container">
+
+        <div>
+            <SummaryCard selectedItems={[itemDictForSummaryCard]} backToCartModalId={backToCartModalId}></SummaryCard>
+        </div>
+
+        <div>
+            <BackToCartModal backToCartModalId={backToCartModalId}></BackToCartModal>
+        </div>
+
+        <div>
+            <BuyNowOrderForm selectedItem={itemDictForSummaryCard}></BuyNowOrderForm>
         </div>
 
 
@@ -54,7 +86,7 @@ const SummaryCard = (props) => {
         <div className="card">
             <div className="card-body">
                 <h5 className="card-title">Order summary:</h5>
-                <h6 className="card-title" data-bs-toggle="modal" data-bs-target={modalIdForToggle}>Items: {itemsCounter}</h6>
+                <h6 className="card-title" data-bs-toggle="modal" data-bs-target={modalIdForToggle}>Items: {itemsCounter}</h6> 
                 <h6 className="card-title">Total: {sum}</h6>
             </div>
         </div>

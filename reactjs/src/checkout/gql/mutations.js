@@ -1,11 +1,11 @@
 import { gql } from "@apollo/client";
 
 
-export const CREATE_ORDER = gql`
-  mutation CreateOrder($country: String!, $state: String!,  $fullName: String!, $phoneNumber: String!,
+export const CREATE_ORDER_FROM_CART = gql`
+  mutation CreateOrderFromCart($country: String!, $state: String!,  $fullName: String!, $phoneNumber: String!,
    $adress: String!, $city: String!, $postalCode: String!, $user: Int!, $items: String!){
 
-    createOrder(country:$country, state: $state, fullName:$fullName, phoneNumber:$phoneNumber, 
+    createOrderFromCart(country:$country, state: $state, fullName:$fullName, phoneNumber:$phoneNumber, 
     adress:$adress, city:$city, postalCode:$postalCode, user:$user, items:$items){
       success
     
@@ -13,3 +13,20 @@ export const CREATE_ORDER = gql`
    }
 
 `
+
+
+
+export const CREATE_BUY_NOW_ORDER = gql`
+  mutation CreateBuyNowOrder($country: String!, $state: String!,  $fullName: String!, $phoneNumber: String!,
+   $adress: String!, $city: String!, $postalCode: String!, $user: Int!, $productId:Int!, $quantity:Int!){
+
+    createBuyNowOrder(country:$country, state: $state, fullName:$fullName, phoneNumber:$phoneNumber, 
+    adress:$adress, city:$city, postalCode:$postalCode, user:$user, productId: $productId, quantity:$quantity){
+      success
+    
+    }
+   }
+
+`
+
+

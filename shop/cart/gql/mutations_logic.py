@@ -1,4 +1,3 @@
-from statistics import quantiles
 import graphene
 
 from django.contrib.auth.models import User
@@ -64,8 +63,7 @@ class DeleteFromCart(graphene.Mutation):
         return DeleteFromCart(success=True)
     
 
-
-class CreateOrder(graphene.Mutation):
+class CreateOrderFromCart(graphene.Mutation):
     success = graphene.Boolean()
 
     class Arguments:
@@ -88,13 +86,50 @@ class CreateOrder(graphene.Mutation):
 
         data_for_order = funcs.exclude_from_dict(kwargs, ('items','user'))
         
-        order_items = funcs.create_order_items_for_cart_items(cart_items)
-    
         order = db_models.Order.objects.create(**data_for_order, user=user)
-        order.items.set(order_items)
         
+        order_items = funcs.create_order_items_for_cart_items(cart_items, order)
+
         funcs.change_product_pieces_left_after_order(order_items)
         
         cart_items.delete()
 
-        return CreateOrder(success=True)
+        return CreateOrderFromCart(success=True)
+    
+    
+    
+class CreateBuyNowOrder(graphene.Mutation):
+    success = graphene.Boolean()
+    
+    class Arguments:
+        
+        product_id = graphene.Int()
+        quantity = graphene.Int()
+        user = graphene.Int()#id
+        
+        full_name = graphene.String()
+        phone_number = graphene.String()
+        country = graphene.String()
+        adress = graphene.String()
+        city = graphene.String()
+        state = graphene.String()
+        postal_code = graphene.String()
+        
+    def mutate(self, info, *args, **kwargs):
+        
+        print(312321321)
+        user = User.objects.get(pk = kwargs['user'])
+        
+        kwargs.pop('user')
+        
+        data_for_order = funcs.exclude_from_dict(kwargs, ('product_id','quantity'))
+        
+        data_for_order_item = funcs.exclude_from_dict(kwargs, data_for_order.keys())
+    
+        order = db_models.Order.objects.create(**data_for_order, user=user)
+        order_item = db_models.OrderItem.objects.create(**data_for_order_item, order=order, user=user)
+        
+        funcs.change_product_pieces_left_after_order([order_item])
+        
+        return CreateBuyNowOrder(success=True)
+    

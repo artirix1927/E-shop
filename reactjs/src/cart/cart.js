@@ -95,7 +95,7 @@ const SubtotalCard = (props) => {
                 <h5 className="card-title">Subtotal ({itemsCounter} items),</h5>
                 <h5 className="card-title"> {props.sum} $CAD</h5>
             </div>
-            <Link to='/checkout' className='btn btn-warning' state={{ selectedItems: props.selectedItems  }}>Procced to checkout</Link>
+            <Link to='/checkout' className='btn btn-warning' state={{ selectedItems: props.selectedItems}}>Procced to checkout</Link>
         </div>
     </>
 }
