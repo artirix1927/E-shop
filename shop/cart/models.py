@@ -50,11 +50,11 @@ class Order(models.Model):
     user = models.ForeignKey(User, related_name="orders", on_delete=models.CASCADE)
 
     def order_total_price(self) -> float:
-        sum_for_each_item = self.items.all().annotate(sum=F('product__price')*F('quantity'))
+        sum_for_each_item = self.order_items.all().annotate(sum=F('product__price')*F('quantity'))
 
         sum_for_all = sum_for_each_item.aggregate(total_sum=Sum('sum'))
         
         return sum_for_all.get('total_sum')
 
     def __str__(self) -> str:
-        return f"{self.user.username} ({self.items.count()} items) : {self.order_total_price()} : {str(self.created_at.strftime(DATE_FORMAT))}"
+        return f"{self.user.username} ({self.order_items.count()} items) : {self.order_total_price()} : {str(self.created_at.strftime(DATE_FORMAT))}"
