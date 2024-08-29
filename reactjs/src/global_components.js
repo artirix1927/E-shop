@@ -23,7 +23,7 @@ export const Quantity = (props) => {
 
     const handleDropdownClick = (e) =>{
         setDropdownValue(e.target.innerText)
-
+        props.setDropdownValue && props.setDropdownValue(e.target.innerText)
         props.extendHandle && props.extendHandle(e)
     }
 
