@@ -28,14 +28,20 @@ class ProductsTests(GraphQLTestCase):
         self.assertEqual(resp_data, [{"name": "Phones"}, {"name":"Accessories"}])
     
     def test_all_products(self):
+        operation_name="AllProducts"
+        operation_variables = {"offset":0, "limit":10}
 
         response = self.query('''
-        query{
-            allProducts{
-                name
-            }
+        query AllProducts($offset:Int!, $limit:Int!){
+          
+                allProducts(offset:$offset, limit:$limit){
+                    name
+                }
+            
         }
         ''',
+        operation_name=operation_name,
+        variables=operation_variables
         )
 
         self.assertResponseNoErrors(response)
@@ -67,11 +73,11 @@ class ProductsTests(GraphQLTestCase):
     
     def test_product_by_category(self):
         operation_name="ProductsByCategory"
-        operation_variables = {"category": "Phones"}
+        operation_variables = {"category": "Phones", "offset":0, "limit":10}
 
         response = self.query('''
-        query ProductsByCategory($category: String!){
-            productsByCategory(category:$category){
+        query ProductsByCategory($category: String!, $offset:Int!, $limit:Int!){
+            productsByCategory(category:$category, offset:$offset, limit:$limit){
                 name
             }
         }
@@ -87,12 +93,12 @@ class ProductsTests(GraphQLTestCase):
     
     def test_products_by_search_with_category(self):
         operation_name="ProductsBySearch"
-        operation_variables = {"category": "Phones","search": "15"}
+        operation_variables = {"category": "Phones","search": "15", "offset":0, "limit":10}
 
         response = self.query(
         '''
-        query ProductsBySearch($category: String!, $search:String!){
-            productsBySearch(category:$category, search:$search){
+        query ProductsBySearch($category: String!, $search:String!, $offset:Int!, $limit:Int!){
+            productsBySearch(category:$category, search:$search, offset:$offset, limit:$limit){
                 name
             }
         }
@@ -109,10 +115,10 @@ class ProductsTests(GraphQLTestCase):
 
     def test_products_by_search_without_category(self):
         operation_name="ProductsBySearch"
-        operation_variables = {"category": "all","search": "15"}
+        operation_variables = {"category": "all","search": "15",  "offset":0, "limit":10}
         response = self.query('''
-        query ProductsBySearch($category: String!, $search:String!){
-            productsBySearch(category:$category, search:$search){
+        query ProductsBySearch($category: String!, $search:String!, $offset:Int!, $limit:Int!){
+            productsBySearch(category:$category, search:$search, offset:$offset, limit:$limit){
                 name
             }
         }

@@ -118,7 +118,7 @@ class OrderTests(GraphQLTestCase):
         CartItem(user=user,product=first_product, quantity=2).save()
 
 
-    def test_create_order(self):
+    def test_create_cart_order(self):
               
         operation_name = "CreateOrder"
         operation_variables = {"fullName":"art", "phoneNumber":"+972533302094", "country":"Canada", 
@@ -131,9 +131,35 @@ class OrderTests(GraphQLTestCase):
                               $adress: String!, $city: String!, $state: String!, 
                               $postalCode: String!, $user:Int!, $items:String!){
 
-            createOrder(fullName:$fullName, phoneNumber:$phoneNumber, country:$country, 
+            createOrderFromCart(fullName:$fullName, phoneNumber:$phoneNumber, country:$country, 
                         adress:$adress,city:$city,state:$state, postalCode:$postalCode, 
                         user:$user, items:$items)
+                        {
+                            success
+                        }
+        }
+
+        ''',operation_name=operation_name, variables=operation_variables)
+
+
+        self.assertResponseNoErrors(response)   
+        
+        
+    def test_create_buy_now_order(self):
+        operation_name = "CreateBuyNowOrder"
+        operation_variables = {"fullName":"art", "phoneNumber":"+972533302094", "country":"Canada", 
+                        "adress":"marconi","city":"london","state":"ontario", "postalCode":"n5y zxc", 
+                        "user":1, "productId": 1, "quantity":1}
+
+
+        response = self.query('''
+        mutation CreateBuyNowOrder($fullName: String!, $phoneNumber: String!, $country: String!, 
+                              $adress: String!, $city: String!, $state: String!, 
+                              $postalCode: String!, $user:Int!, $productId:Int!, $quantity:Int!){
+
+            createBuyNowOrder(fullName:$fullName, phoneNumber:$phoneNumber, country:$country, 
+                        adress:$adress,city:$city,state:$state, postalCode:$postalCode, 
+                        user:$user, productId:$productId, quantity:$quantity)
                         {
                             success
                         }
