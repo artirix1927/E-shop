@@ -48,7 +48,7 @@ class FormSerializer(BaseSerializer):
             field_data["choices"] = choices
 
         # gotta do something with password fields in the future
-        if field_name is 'password':
+        if field_name == 'password':
             field_data['readonly'] = True
 
         return field_data
