@@ -1,6 +1,8 @@
 from django.db import models
 
 # Create your models here.
+
+
 class AvailableCountries(models.Model):
     name = models.TextField(null=False)
 
@@ -9,4 +11,3 @@ class AvailableCountries(models.Model):
 
     def __str__(self) -> str:
         return f"{self.name}"
-    

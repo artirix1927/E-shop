@@ -37,13 +37,13 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    "django.contrib.staticfiles", # Required for GraphiQL
-    'django_cleanup.apps.CleanupConfig', #unused images cleanup
+    "django.contrib.staticfiles",  # Required for GraphiQL
+    'django_cleanup.apps.CleanupConfig',  # unused images cleanup
     'corsheaders',
-    'channels', #websockets
-    'graphene_django',  #gql lib
+    'channels',  # websockets
+    'graphene_django',  # gql lib
     'shop.apps.ShopConfig',
-    'auth.apps.AuthConfig', 
+    'auth.apps.AuthConfig',
     'cart.apps.CartConfig',
     'products.apps.ProductsConfig',
     'shipping.apps.ShippingConfig',
@@ -60,7 +60,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    
+
 ]
 
 ROOT_URLCONF = 'shop.urls'
@@ -164,18 +164,14 @@ USE_TZ = True
 TIME_ZONE = 'Canada/Eastern'
 
 
-
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_USE_TLS=True
+EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = "bytemartproj@gmail.com"
 EMAIL_HOST_PASSWORD = "wddy xdih hkfp fmva"
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 EMAIL_USE_SSL = False
-
-
-
 
 
 CHANNEL_LAYERS = {
@@ -188,8 +184,7 @@ ASGI_APPLICATION = 'shop.asgi.application'
 
 X_FRAME_OPTIONS = '*'
 
-XS_SHARING_ALLOWED_METHODS = ['POST','GET','OPTIONS', 'PUT', 'DELETE']
-
+XS_SHARING_ALLOWED_METHODS = ['POST', 'GET', 'OPTIONS', 'PUT', 'DELETE']
 
 
 EXCLUDE_FROM_ADMIN = ['sessions', 'admin', 'contenttypes']

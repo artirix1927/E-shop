@@ -6,7 +6,7 @@ from .funcs import delete_empty_dirs
 import os
 
 
-#//without django cleanup
+# //without django cleanup
 # @receiver(post_delete, sender=Attachment)
 # def delete_file(sender, instance, **kwargs):
 #     print(4321)
@@ -17,7 +17,6 @@ import os
 #             os.remove(file_path)
 #         dir_path = os.path.dirname(file_path)
 #         delete_empty_dirs(dir_path)
-
 
 
 @receiver(cleanup_post_delete)

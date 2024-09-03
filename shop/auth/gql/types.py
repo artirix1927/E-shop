@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 
 import graphene
 
+
 class UserType(DjangoObjectType):
     id = graphene.Int(source='pk')
 

@@ -14,9 +14,6 @@ class AvailableCountriesAdmin(admin.ModelAdmin):
                                   'cols': 80,
                                   'style': 'height: 1.5em;'})},
     }
-    
-
-
 
 
 admin.site.register(AvailableCountries, AvailableCountriesAdmin)

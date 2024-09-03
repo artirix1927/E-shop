@@ -18,7 +18,11 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='orderitem',
             name='order',
-            field=models.ForeignKey(default=11, on_delete=django.db.models.deletion.CASCADE, related_name='order_items', to='cart.order'),
+            field=models.ForeignKey(
+                default=11,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name='order_items',
+                to='cart.order'),
             preserve_default=False,
         ),
     ]

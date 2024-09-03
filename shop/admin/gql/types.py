@@ -14,26 +14,18 @@ class AppType(graphene.ObjectType):
 
     def resolve_models(self, info):
         app = apps.get_app_config(self.app_name)
-        
+
         return [model.__name__ for model in app.get_models()]
-    
+
 
 class ModelInstanceFormType(graphene.ObjectType):
     app_name = graphene.String()
     model_name = graphene.String()
     instance_id = graphene.Int()
     form = graphene.String()
-    
-    
+
+
 class ModelCreateFormType(graphene.ObjectType):
     app_name = graphene.String()
     model_name = graphene.String()
     form = graphene.String()
-
-
-
-
-
-
-    
-

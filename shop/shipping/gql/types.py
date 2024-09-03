@@ -4,13 +4,10 @@ import graphene
 from ..models import AvailableCountries
 
 
-
 class AvailableCountriesType(DjangoObjectType):
     class Meta:
         model = AvailableCountries
         fields = '__all__'
-
-
 
 
 class StatesType(graphene.ObjectType):
@@ -19,7 +16,3 @@ class StatesType(graphene.ObjectType):
 
 class CitiesType(graphene.ObjectType):
     name = graphene.String()
-    
-
-
-

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Category,Attachment,Product, AvailableCharacteristics, Characteristics
+from .models import Category, Attachment, Product, AvailableCharacteristics, Characteristics
 
 from django.utils.html import mark_safe
 
@@ -12,26 +12,24 @@ from django.db import models
 class AttachmentAdmin(admin.ModelAdmin):
 
     def show_image(self, obj):
-        return mark_safe('<img src="{url}" width="500" height="500" style="object-fit:contain"/>'.format(
-            url = obj.image.url,
-            width=obj.image.width,
-            height=obj.image.height,
-            )
-    )
-    fields = ('product', 'image','show_image')
+        return mark_safe(
+            '<img src="{url}" width="500" height="500" style="object-fit:contain"/>'.format(
+                url=obj.image.url,
+                width=obj.image.width,
+                height=obj.image.height,
+            ))
+    fields = ('product', 'image', 'show_image')
     list_filter = ('product__name',)
     readonly_fields = ('show_image',)
 
-    
-
-    
-  
 
 class AttachmentInline(admin.StackedInline):
-    model=Attachment
+    model = Attachment
+
 
 class ProductsInline(admin.StackedInline):
     model = Product
+
 
 class CategoryAdmin(admin.ModelAdmin):
     formfield_overrides = {
@@ -40,13 +38,13 @@ class CategoryAdmin(admin.ModelAdmin):
                                   'cols': 80,
                                   'style': 'min-height: 1.5em;'})},
     }
-    #inlines = [ProductsInline]
+    # inlines = [ProductsInline]
 
 
 class ProductAdmin(admin.ModelAdmin):
     list_filter = ('category',)
-    readonly_fields= ('created_at', 'last_edited_at')
-    inlines=[AttachmentInline]
+    readonly_fields = ('created_at', 'last_edited_at')
+    inlines = [AttachmentInline]
 
     formfield_overrides = {
         models.TextField: {'widget': Textarea(
@@ -54,11 +52,11 @@ class ProductAdmin(admin.ModelAdmin):
                                   'cols': 80,
                                   'style': 'min-height: 1.5em;'})},
     }
-    
 
 
 class CharacteristicsAdmin(admin.ModelAdmin):
     pass
+
 
 class AvailableCharacteristicsAdmin(admin.ModelAdmin):
     formfield_overrides = {
@@ -69,9 +67,8 @@ class AvailableCharacteristicsAdmin(admin.ModelAdmin):
     }
 
 
-
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Attachment, AttachmentAdmin)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(AvailableCharacteristics, AvailableCharacteristicsAdmin)
-admin.site.register(Characteristics,CharacteristicsAdmin)
+admin.site.register(Characteristics, CharacteristicsAdmin)
