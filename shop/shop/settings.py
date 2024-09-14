@@ -189,3 +189,8 @@ XS_SHARING_ALLOWED_METHODS = ['POST', 'GET', 'OPTIONS', 'PUT', 'DELETE']
 
 
 EXCLUDE_FROM_ADMIN = ['sessions', 'admin', 'contenttypes']
+
+
+KAFKA_CONFIG = {
+    'bootstrap.servers': 'localhost:9092',
+}
