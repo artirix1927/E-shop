@@ -18,6 +18,7 @@ import { CreateModelInstance } from "./admin/panel/createModelInstance";
 import { ModelsPanel } from "./admin/panel/modelsPanel";
 import { SupportChatModal } from "./main/supportChat/supportChat";
 import { useCookies } from "react-cookie";
+import { ReviewSection } from "./reviews/reviewsSection";
 
 
 const NavbarPageMixin = (props) => {
@@ -55,6 +56,7 @@ export const ProductDetailsPage = () => {
     return <div className="App">
       <NavbarPageMixin>
         <ProductDetails/>
+        <ReviewSection/>
       </NavbarPageMixin>
     </div>
 }
