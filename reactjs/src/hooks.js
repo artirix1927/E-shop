@@ -23,7 +23,7 @@ export const useChatWs = (currentTicketId) => {
   useEffect(()=>{
     if (currentTicketId){
     const websocket = new WebSocket(
-        'ws://' + window.location.hostname + ':8000/ws/ticket/' + currentTicketId + '/'
+        'ws://' + window.location.hostname + ':8008/ws/ticket/' + currentTicketId + '/'
     );
 
     websocket.onopen = () => setIsConnected(true)

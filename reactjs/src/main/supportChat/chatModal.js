@@ -18,7 +18,7 @@ export const ClientChatModal = (props) =>{
     const [messagesSource, setMessagesSource] = useState([])
 
     const getMessageToPush = useCallback((msg) => {  
-        const msgFloat = (parseInt(cookies.user.id) === msg.sentBy.id) ? 'right' : 'left';
+        const msgFloat = (parseInt(cookies.user.id) === parseInt(msg.sentBy.id)) ? 'right' : 'left';
 
         return {position: msgFloat,
                 title: msg.sentBy.username,

@@ -23,7 +23,8 @@ export const MessagesInfiniteScroll = (props) => {
     const [getMessages, { data }] = useLazyQuery(GET_SUPPORT_TICKET_MESSAGES);
 
     const getMessageToPush = (msg) => {  
-        const msgFloat = (parseInt(cookies.user.id) === msg.sentBy.id) ? 'right' : 'left';
+        console.log(parseInt(cookies.user.id), msg.sentBy.id)
+        const msgFloat = (parseInt(cookies.user.id) === parseInt(msg.sentBy.id)) ? 'right' : 'left';
         return {
             position: msgFloat,
             title: msg.sentBy.username,

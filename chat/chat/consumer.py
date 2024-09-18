@@ -10,8 +10,11 @@ from asgiref.sync import sync_to_async
 
 # from chat.funcs import get_camelcased_dict, serialize_message, create_message
 
+from .kafka.kafka_producer import send_chat_message_to_kafka
 import chat.funcs as funcs
 
+from django.contrib.auth.models import User
+from .serializers import UserSerializer
 
 class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
@@ -36,9 +39,12 @@ class ChatConsumer(AsyncWebsocketConsumer):
         message = text_data_json["message"]
         ticket_id = text_data_json["ticket_id"]
         user_id = text_data_json["user_id"]
-
-        msg = await funcs.create_message(message, ticket_id, user_id)
-
+        
+        user = await User.objects.aget(id=user_id)
+        
+        # msg = await funcs.create_message(message, ticket_id, user_id)
+        msg = {"sentBy": UserSerializer(user).data, "message": message, "ticket": ticket_id}
+        await sync_to_async(send_chat_message_to_kafka)(msg)
         # Send message to room group
         await self.channel_layer.group_send(
             self.room_group_name, {"type": "chat.message", "message": msg}
@@ -49,8 +55,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
         message = event["message"]
 
         # Send message to WebSocket
-        serialized_message = await sync_to_async(funcs.serialize_message)(message)
+        # serialized_message = await sync_to_async(funcs.serialize_message)(message)
 
-        serialized_message = await sync_to_async(funcs.get_camelcased_dict)(serialized_message)
+        # serialized_message = await sync_to_async(funcs.get_camelcased_dict)(serialized_message)
 
-        await self.send(text_data=json.dumps(serialized_message))
+        await self.send(text_data=json.dumps(message))

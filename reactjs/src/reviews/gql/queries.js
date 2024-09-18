@@ -2,8 +2,8 @@ import { gql } from "@apollo/client";
 
 export const GET_ALL_REVIEWS = gql`
 
-query{
-    allReviews{ 
+query @api(name: app){
+    allReviews { 
         stars
         text 
         user{

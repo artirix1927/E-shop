@@ -4,13 +4,14 @@ import { useCookies } from "react-cookie"
 import { useRef, useState } from "react"
 import { ClientChatModal } from "./chatModal"
 import { useChatWs } from "../../hooks"
+import { parse } from "graphql"
 
 
 export const SupportChatModal = (props) => {
     const [cookies] = useCookies(['user'])
-
-    let {data, loading} = useQuery(GET_SUPPORT_TICKETS_BY_USER, {variables:{user:parseInt(cookies.user.id)}})
-
+    console.log(parseInt(cookies.user.id))
+    let {data, loading, error} = useQuery(GET_SUPPORT_TICKETS_BY_USER, {variables:{user:parseInt(cookies.user.id)}})
+    if (error) console.log(error.message)
     const chatRef = useRef()
 
     const [currentTicketId, setCurrentTicketId] = useState()
@@ -29,7 +30,7 @@ export const SupportChatModal = (props) => {
 
     if (loading) return <></>
 
-    data = data.ticketsByUser
+    data = data ? data.ticketsByUser : []
 
     
 

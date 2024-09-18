@@ -1,18 +1,39 @@
 import React from 'react';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 
-import createUploadLink from 'apollo-upload-client/createUploadLink.mjs';
+import { MultiAPILink } from '@habx/apollo-multi-endpoint-link';
 
-const uploadLink = createUploadLink({
-  uri: 'http://localhost:8000/graphql',
-});
+import { ApolloLink, createHttpLink } from '@apollo/client/core';
 
-export const client = new ApolloClient({
-  link: uploadLink,
+
+
+// const uploadLink = createUploadLink({
+//   uri: 'http://localhost:8000/graphql',
+// });
+
+// const chatUploadLink = createUploadLink({
+//   uri: 'http://localhost:8001/graphql',
+// });
+
+
+export const appClient = new ApolloClient({
+  link: ApolloLink.from([
+    new MultiAPILink({
+        endpoints: {
+            chat: 'http://localhost:8008',
+            app: 'http://localhost:8000',
+        },
+        createHttpLink: () => createHttpLink(),
+      }),
+  ]),
   cache: new InMemoryCache(),
-});
+ })
 
 const ApolloAppProvider = ({ children }) => {
-  return <ApolloProvider client={client}>{children}</ApolloProvider>;
+  return <ApolloProvider  client={appClient}>{children}</ApolloProvider >;
 };
 export default ApolloAppProvider;
+
+
+
+

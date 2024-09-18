@@ -1,8 +1,8 @@
 
 import graphene
 
-from .types import SupportTicketType
-from ..models import SupportTicket
+from chat.gql.types import SupportTicketType
+from chat.models import SupportTicket
 
 
 class CloseTicket(graphene.Mutation):
