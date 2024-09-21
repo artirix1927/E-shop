@@ -2,6 +2,7 @@
 from confluent_kafka import Consumer, KafkaError, KafkaException
 from django.conf import settings
 
+
 def consume_messages(topic):
     conf = {
         **settings.KAFKA_CONFIG,

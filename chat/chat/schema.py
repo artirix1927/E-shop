@@ -3,10 +3,10 @@
 from graphene import Schema
 
 
-
 import chat.gql.mutations as gql_mutations
 
 import chat.gql.queries as gql_queries
+
 
 class Queries(gql_queries.SupportTicketQueries, gql_queries.MessageQueries):
     pass
@@ -15,6 +15,7 @@ class Queries(gql_queries.SupportTicketQueries, gql_queries.MessageQueries):
 class Mutations(gql_mutations.SupportTicketMutations):
     pass
 
+
 schema = Schema(
-            mutation=Mutations,
-            query=Queries)
+    mutation=Mutations,
+    query=Queries)

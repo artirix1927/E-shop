@@ -119,22 +119,20 @@ class Order(LifecycleModel):
                 str(
                     self.created_at.strftime(DATE_FORMAT))}"
 
-
     @hook(AFTER_CREATE)
     def on_order_create_send_email(self):
-        
+
         subject = 'New Bytemart order!'
         message = f'Hi {
             self.user.username}, thank you for buying at our place.'
         email_from = settings.EMAIL_HOST_USER
         recipient_list = [self.user.email,]
-        
-        
+
         email_data = {
-            'subject':subject,
-            'message':message,
-            'email_from':email_from,
-            'recipient_list':recipient_list,
+            'subject': subject,
+            'message': message,
+            'email_from': email_from,
+            'recipient_list': recipient_list,
         }
-      
+
         send_email_to_kafka(email_data)

@@ -6,5 +6,5 @@ class CartConfig(AppConfig):
     name = 'cart'
 
     def ready(self) -> None:
-        #import cart.signals
+        # import cart.signals
         pass

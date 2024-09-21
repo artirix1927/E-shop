@@ -15,7 +15,8 @@ class MessageType(DjangoObjectType):
     class Meta:
         model = Message
         fields = '__all__'
-        
+
+
 class UserType(DjangoObjectType):
     class Meta:
         model = User

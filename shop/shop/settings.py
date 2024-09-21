@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'cart.apps.CartConfig',
     'products.apps.ProductsConfig',
     'shipping.apps.ShippingConfig',
-    #'chat.apps.ChatConfig',
+    # 'chat.apps.ChatConfig',
     'reviews.apps.ReviewsConfig',
     'admin.apps.AdminConfig',
 ]

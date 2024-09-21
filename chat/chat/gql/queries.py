@@ -18,14 +18,13 @@ class SupportTicketQueries(graphene.ObjectType):
         user=graphene.Int())
 
     def resolve_all_tickets(self, info, offset: int, limit: int):
-        
+
         return db_models.SupportTicket.objects.all().order_by('closed')[
             offset: offset + limit]
 
     def resolve_tickets_by_user(self, info, user: int):
         user = User.objects.get(id=user)
         return db_models.SupportTicket.objects.filter(user=user, closed=False)
-       
 
 
 class MessageQueries(graphene.ObjectType):

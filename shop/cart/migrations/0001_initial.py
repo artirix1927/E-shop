@@ -19,18 +19,23 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='CartItem',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.BigAutoField(auto_created=True,
+                 primary_key=True, serialize=False, verbose_name='ID')),
                 ('quantity', models.IntegerField()),
-                ('product', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='products.product')),
-                ('user', models.ForeignKey(blank=True, on_delete=django.db.models.deletion.CASCADE, related_name='cart_items', to=settings.AUTH_USER_MODEL)),
+                ('product', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE, to='products.product')),
+                ('user', models.ForeignKey(blank=True, on_delete=django.db.models.deletion.CASCADE,
+                 related_name='cart_items', to=settings.AUTH_USER_MODEL)),
             ],
         ),
         migrations.CreateModel(
             name='Order',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.BigAutoField(auto_created=True,
+                 primary_key=True, serialize=False, verbose_name='ID')),
                 ('full_name', models.TextField()),
-                ('phone_number', phonenumber_field.modelfields.PhoneNumberField(max_length=128, region=None)),
+                ('phone_number', phonenumber_field.modelfields.PhoneNumberField(
+                    max_length=128, region=None)),
                 ('country', models.TextField()),
                 ('state', models.TextField()),
                 ('city', models.TextField()),
@@ -38,7 +43,8 @@ class Migration(migrations.Migration):
                 ('postal_code', models.TextField()),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('items', models.ManyToManyField(to='cart.cartitem')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='orders', to=settings.AUTH_USER_MODEL)),
+                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE,
+                 related_name='orders', to=settings.AUTH_USER_MODEL)),
             ],
         ),
     ]

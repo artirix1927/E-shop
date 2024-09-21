@@ -16,6 +16,7 @@ import chat.funcs as funcs
 from django.contrib.auth.models import User
 from .serializers import UserSerializer
 
+
 class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         self.room_name = self.scope["url_route"]["kwargs"]["ticket_id"]
@@ -39,11 +40,12 @@ class ChatConsumer(AsyncWebsocketConsumer):
         message = text_data_json["message"]
         ticket_id = text_data_json["ticket_id"]
         user_id = text_data_json["user_id"]
-        
+
         user = await User.objects.aget(id=user_id)
-        
+
         # msg = await funcs.create_message(message, ticket_id, user_id)
-        msg = {"sentBy": UserSerializer(user).data, "message": message, "ticket": ticket_id}
+        msg = {"sentBy": UserSerializer(
+            user).data, "message": message, "ticket": ticket_id}
         await sync_to_async(send_chat_message_to_kafka)(msg)
         # Send message to room group
         await self.channel_layer.group_send(

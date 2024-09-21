@@ -17,19 +17,24 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='SupportTicket',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.BigAutoField(auto_created=True,
+                 primary_key=True, serialize=False, verbose_name='ID')),
                 ('closed', models.BooleanField(default=False)),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='support_tickets', to=settings.AUTH_USER_MODEL)),
+                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE,
+                 related_name='support_tickets', to=settings.AUTH_USER_MODEL)),
             ],
         ),
         migrations.CreateModel(
             name='Message',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.BigAutoField(auto_created=True,
+                 primary_key=True, serialize=False, verbose_name='ID')),
                 ('message', models.TextField()),
                 ('datetime', models.DateTimeField(auto_now_add=True)),
-                ('sent_by', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='messages', to=settings.AUTH_USER_MODEL)),
-                ('ticket', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='messages', to='chat.supportticket')),
+                ('sent_by', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE,
+                 related_name='messages', to=settings.AUTH_USER_MODEL)),
+                ('ticket', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE,
+                 related_name='messages', to='chat.supportticket')),
             ],
         ),
     ]

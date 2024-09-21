@@ -99,7 +99,8 @@ class FormRenderer():
     def set_html_input_types(self) -> None:
 
         new_fields = [self.set_html_input_type(
-            field) for field in self.instance.get('fields')]  # for regular fields
+            # for regular fields
+            field) for field in self.instance.get('fields')]
 
         return {'fields': new_fields}
 

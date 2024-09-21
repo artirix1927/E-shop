@@ -16,7 +16,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='AvailableCharacteristics',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.BigAutoField(auto_created=True,
+                 primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.TextField(max_length=24)),
             ],
             options={
@@ -26,7 +27,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Category',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.BigAutoField(auto_created=True,
+                 primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.TextField(max_length=20)),
                 ('shortname', models.TextField(max_length=10, unique=True)),
                 ('description', models.TextField(blank=True, max_length=256)),
@@ -38,7 +40,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Product',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.BigAutoField(auto_created=True,
+                 primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.TextField(max_length=80)),
                 ('price', models.DecimalField(decimal_places=2, max_digits=6)),
                 ('pieces_left', models.IntegerField()),
@@ -46,16 +49,20 @@ class Migration(migrations.Migration):
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('last_edited_at', models.DateTimeField(auto_now=True)),
                 ('weight', models.FloatField()),
-                ('category', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='products', to='products.category')),
+                ('category', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT,
+                 related_name='products', to='products.category')),
             ],
         ),
         migrations.CreateModel(
             name='Characteristics',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.BigAutoField(auto_created=True,
+                 primary_key=True, serialize=False, verbose_name='ID')),
                 ('value', models.TextField()),
-                ('characteristic', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='characteristics', to='products.availablecharacteristics')),
-                ('product', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='characteristics', to='products.product')),
+                ('characteristic', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE,
+                 related_name='characteristics', to='products.availablecharacteristics')),
+                ('product', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE,
+                 related_name='characteristics', to='products.product')),
             ],
             options={
                 'verbose_name_plural': 'Characteristics',
@@ -64,9 +71,12 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Attachment',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('image', models.ImageField(upload_to=products.models.Attachment.product_save_path)),
-                ('product', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='attachments', to='products.product')),
+                ('id', models.BigAutoField(auto_created=True,
+                 primary_key=True, serialize=False, verbose_name='ID')),
+                ('image', models.ImageField(
+                    upload_to=products.models.Attachment.product_save_path)),
+                ('product', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE,
+                 related_name='attachments', to='products.product')),
             ],
         ),
     ]
