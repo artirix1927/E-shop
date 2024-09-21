@@ -4,8 +4,12 @@ import products.gql.types as gql_types
 
 from products.models import Category, Product
 
-
 from django.db.models import Q
+
+from shop.redis_cache_class import QuerysetCache
+
+
+redis_cache = QuerysetCache("products")
 
 
 class ProductQueries(graphene.ObjectType):
@@ -31,15 +35,20 @@ class ProductQueries(graphene.ObjectType):
         category=graphene.String())
 
     def resolve_all_products(root, info, offset, limit):
-        return Product.objects.prefetch_related('attachments').all()[
-            offset:offset + limit]
+        query = Product.objects.prefetch_related('attachments').all()[
+            offset: offset+limit]
+        queryset = redis_cache.get(query)
+        return queryset
 
     def resolve_product_by_id(root, info, id):
         return Product.objects.get(pk=id)
 
     def resolve_products_by_category(root, info, offset, limit, category):
-        return Product.objects.prefetch_related('attachments').filter(
+        query = Product.objects.prefetch_related('attachments').filter(
             category__name=category)[offset:offset + limit]
+
+        queryset = redis_cache.get(query)
+        return queryset
 
     def resolve_products_by_search(
             root,
@@ -58,7 +67,7 @@ class ProductQueries(graphene.ObjectType):
         products_ordered_by_name_matches = products_filtered_by_search.order_by(
             "-name_matches")
 
-        return products_ordered_by_name_matches[offset:offset + limit]
+        return redis_cache.get(products_ordered_by_name_matches[offset:offset + limit])
 
 
 class CategoryQueries(graphene.ObjectType):

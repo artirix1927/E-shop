@@ -12,6 +12,12 @@ from django.core.serializers.json import DjangoJSONEncoder
 from admin.classes import FormSerializer, FormRenderer
 
 
+from shop.redis_cache_class import QuerysetCache
+
+
+redis_cache = QuerysetCache("admin")
+
+
 class AdminQueries(graphene.ObjectType):
     all_apps = graphene.List(gql_types.AppType)
 
@@ -46,10 +52,11 @@ class AdminQueries(graphene.ObjectType):
     def resolve_model_instances(self, info, app_name, model_name):
         model = funcs.get_model_by_app_and_name(app_name, model_name)
 
-        instances = model.objects.all().order_by('id')
+        query = model.objects.all().order_by('id')
+        queryset = redis_cache.get(query)
 
         instances_repr_for_type = [
-            {'instance': str(intsance), 'id': intsance.id} for intsance in instances]
+            {'instance': str(intsance), 'id': intsance.id} for intsance in queryset]
 
         return gql_types.ModelInstanceType(
             model_name=model_name,
