@@ -34,7 +34,6 @@ const LeaveReviewSection = () =>{
   const textareaRef = useRef()
 
   const handleLeaveReview = (e) => {
-
     createReview({variables:{userId:cookies.user.id, stars:rating, text:textareaRef.current.value, productId:1, files: uploadedFiles}})
 
   }
@@ -66,7 +65,7 @@ const ReviewList = (props) => {
 
   if (loading) return <></>
 
-  data = data.allReviews; 
+  data = (data) ? data.allReviews : []; 
 
 
   return <div className='review-list-container'>
