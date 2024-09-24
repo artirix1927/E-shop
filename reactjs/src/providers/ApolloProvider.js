@@ -6,6 +6,7 @@ import { MultiAPILink } from '@habx/apollo-multi-endpoint-link';
 import { ApolloLink, createHttpLink } from '@apollo/client/core';
 
 
+import createUploadLink from 'apollo-upload-client/createUploadLink.mjs';
 
 // const uploadLink = createUploadLink({
 //   uri: 'http://localhost:8000/graphql',
@@ -15,7 +16,6 @@ import { ApolloLink, createHttpLink } from '@apollo/client/core';
 //   uri: 'http://localhost:8001/graphql',
 // });
 
-
 export const appClient = new ApolloClient({
   link: ApolloLink.from([
     new MultiAPILink({
@@ -23,9 +23,9 @@ export const appClient = new ApolloClient({
             chat: 'http://localhost:8008',
             app: 'http://localhost:8000',
         },
-        createHttpLink: () => createHttpLink(),
+        createHttpLink: () => createUploadLink(),
       }),
-  ]),
+      ]),
   cache: new InMemoryCache(),
  })
 
