@@ -1,0 +1,25 @@
+# Exclude node_modules
+node_modules/
+node_modules
+
+# Ignore build artifacts
+build/
+dist/
+
+# Ignore .git folder
+.git/
+
+# Ignore logs and temp files
+*.log
+*.tmp
+
+
+.idea/
+.idea
+
+**/.idea
+
+**/.idea
+**/node_modules
+
+__pycache__ 
