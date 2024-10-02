@@ -1,17 +1,13 @@
 
 import graphene
 
-from django.apps import apps
-
 import admin.gql.types as gql_types
-
-import admin.funcs as funcs
 
 import json
 from django.core.serializers.json import DjangoJSONEncoder
-from admin.classes import FormSerializer, FormRenderer
+from admin.classes.admin import admin
 
-
+# from admin.classes.serializers import FilterSerializer
 from shop.redis_cache_class import QuerysetCache
 
 
@@ -37,26 +33,31 @@ class AdminQueries(graphene.ObjectType):
         app_name=graphene.String(),
         model_name=graphene.String())
 
+    model_filters = graphene.Field(
+        gql_types.ModelFiltersType,
+        app_name=graphene.String(),
+        model_name=graphene.String()
+
+    )
+
     def resolve_all_apps(self, info):
-        app_configs = apps.get_app_configs()
+        models_by_apps = admin.apps.get_registered_models_by_apps()
 
-        app_configs = funcs.get_apps_with_models(app_configs)
+        # for app, models in models_by_apps.items():
 
-        app_configs = funcs.exclude_apps_from_settings(app_configs)
+        #     admin.filters.get_admin_list_filters(models[0], info.context)
 
-        return [
-            gql_types.AppType(
-                funcs.get_app_name_without_dots(
-                    app.name)) for app in app_configs]
+        prepared_types_list = [gql_types.AppType(app_name=app, models=[models])
+                               for app, models in models_by_apps.items()]
+
+        return prepared_types_list
 
     def resolve_model_instances(self, info, app_name, model_name):
-        model = funcs.get_model_by_app_and_name(app_name, model_name)
-
-        query = model.objects.all().order_by('id')
-        queryset = redis_cache.get(query)
+        instances = admin.apps.get_model_instances_by_model_and_app(
+            app_name, model_name)
 
         instances_repr_for_type = [
-            {'instance': str(intsance), 'id': intsance.id} for intsance in queryset]
+            {'instance': str(intsance), 'id': intsance.id} for intsance in instances]
 
         return gql_types.ModelInstanceType(
             model_name=model_name,
@@ -64,18 +65,16 @@ class AdminQueries(graphene.ObjectType):
 
     def resolve_model_instance_form(self, info, app_name, model_name, id):
 
-        picked_model = funcs.get_model_by_app_and_name(app_name, model_name)
-        instance = picked_model.objects.get(id=id)
+        model = admin.apps.get_model_by_app_and_name(
+            app_name, model_name)
 
-        form_class = funcs.get_model_form_class_by_model(picked_model)
+        instance = model.objects.get(id=id)
 
-        form = form_class(instance=instance)
-
-        form = FormSerializer(form).data
-
-        rendered_form = FormRenderer(form).render()
+        rendered_form = admin.forms.get_rendered_form_data(model, instance)
 
         json_form = json.dumps(rendered_form, cls=DjangoJSONEncoder)
+
+        admin.forms.get_rendered_form_html(model, instance)
 
         # create metaclass for form
         return gql_types.ModelInstanceFormType(
@@ -85,18 +84,25 @@ class AdminQueries(graphene.ObjectType):
             form=json_form)
 
     def resolve_model_create_form(self, info, app_name, model_name):
+        model = admin.apps.get_model_by_app_and_name(
+            app_name, model_name)
 
-        picked_model = funcs.get_model_by_app_and_name(app_name, model_name)
-
-        form_class = funcs.get_model_form_class_by_model(picked_model)
-
-        form = form_class()
-
-        form = FormSerializer(form).data
-
-        rendered_form = FormRenderer(form).render()
+        rendered_form = admin.forms.get_rendered_form_data(model)
 
         json_form = json.dumps(rendered_form, cls=DjangoJSONEncoder)
 
+        admin.forms.get_rendered_form_html(model)
+
         return gql_types.ModelCreateFormType(
             app_name=app_name, model_name=model_name, form=json_form)
+
+    def resolve_model_filters(self, info, app_name, model_name):
+        model = admin.apps.get_model_by_app_and_name(
+            app_name, model_name)
+
+        filters = admin.filters.get_admin_list_filters(model, info.context)
+
+        # beacuse there is lazy content in here
+        filters = str(filters)
+
+        return gql_types.ModelFiltersType(app_name=app_name, model_name=model_name, filters_data=json.dumps(str(filters)))

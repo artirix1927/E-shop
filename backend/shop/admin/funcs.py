@@ -38,22 +38,6 @@ def is_jsonable(x: Any) -> bool:
         return False
 
 
-def get_model_by_app_and_name(app_name: str, model_name: str) -> Model:
-    app_config = apps.get_app_config(app_name)
-    model = app_config.get_model(model_name)
-
-    return model
-
-
-def get_model_form_class_by_model(picked_model: Model):
-
-    class Meta:
-        model = picked_model
-        fields = '__all__'
-
-    return type(f'{picked_model.__name__}Form', (ModelForm,), {"Meta": Meta})
-
-
 def create_multivalue_dict_for_files(files: list[dict]) -> MultiValueDict:
     files_multidict = MultiValueDict()
     for file_field in files:

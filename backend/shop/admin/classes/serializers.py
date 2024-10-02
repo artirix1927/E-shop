@@ -1,23 +1,17 @@
+
+
 from rest_framework.serializers import BaseSerializer
+from django.contrib.admin.filters import FieldListFilter
 
-from .funcs import is_jsonable
 
-# import django.forms.renderers
-
-# from django.core.serializers.json import DjangoJSONEncoder
-
-# class DecimalEncoder(DjangoJSONEncoder):
-#     def default(self, o):
-#         if isinstance(o, decimal.Decimal):
-#             return str(o)
-#         return super(DecimalEncoder, self).default(o)
+from admin.funcs import is_jsonable
 
 
 class FormSerializer(BaseSerializer):
     '''Custom Form Serializer that
     serializes model form  in order to get that form in admin'''
 
-    def to_representation(self, instance: dict):
+    def to_representation(self, instance):
         return self.serialize_form()
 
     def serialize_form(self):
@@ -34,9 +28,15 @@ class FormSerializer(BaseSerializer):
 
     def get_field_data(self, field_name, field) -> dict:
         '''getting dict with data that every field has'''
+
+        input_type = field.widget.input_type if hasattr(
+            field.widget, "input_type") else 'text'
+
+        # input_type = str(input_type)
         field_data = {
             "name": field_name,
-            "type": field.widget.__class__.__name__,
+            "widget": field.widget.__class__.__name__,
+            "type": input_type,
             "required": field.required,
             "label": field.label,
             "help_text": field.help_text,
@@ -72,46 +72,28 @@ class FormSerializer(BaseSerializer):
             raise e
 
 
-class FormRenderer():
-    DJANGO_WIDGET_TO_HTML_INPUT = {
-        "TextInput": "text",
-        "NumberInput": "number",
-        "Textarea": "textarea",
-        "Select": "select",
-        "DateInput": "date",
-        "EmailInput": "email",
-        "URLInput": "url",
-        "PasswordInput": "password",
-        "CheckboxInput": "checkbox",
-        "DateTimeInput": "datetime",
-        "SelectMultiple": "select",
-        "ClearableFileInput": "file",
-    }
+class FilterSerializer(BaseSerializer):
 
-    def __init__(self, serialized_instance: dict):
-        self.instance = serialized_instance.copy()
-        self.rendered_instance = {}
+    '''serializes filter_data intsance_field that is a subclass of simple list filter
+    just calls for __dict__.items() for that field
+    '''
 
-    def render(self) -> dict:
-        self.rendered_instance = self.set_html_input_types()
-        return self.rendered_instance
+    def to_representation(self, instance: list):
+        # print(instance)
+        return self.serialize_filter_data()
 
-    def set_html_input_types(self) -> None:
+    def serialize_filter_data(self) -> list:
+        serialized_filter_data = [self.serialize_one_filter(
+            filter) for filter in self.instance]
 
-        new_fields = [self.set_html_input_type(
-            # for regular fields
-            field) for field in self.instance.get('fields')]
+        return serialized_filter_data
 
-        return {'fields': new_fields}
+    def serialize_one_filter(self, filter: dict) -> dict:
+        '''serializing one filter dict'''
+        filter = filter.copy()
+        for key, value in filter.items():
 
-    def set_html_input_type(self, field: dict) -> dict:
-        # making copy of every field because it is dict and
-        # if we change it it will affect the pre rendered dict
+            if isinstance(value, FieldListFilter):
+                filter[key] = value.__dict__.copy()
 
-        field_to_change = field.copy()
-        field_to_change['multiple'] = True if field_to_change['type'] == 'SelectMultiple' else False
-
-        field_to_change['type'] = self.DJANGO_WIDGET_TO_HTML_INPUT.get(
-            field_to_change.get('type'))
-
-        return field_to_change
+        return filter

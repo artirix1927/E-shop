@@ -29,3 +29,9 @@ class ModelCreateFormType(graphene.ObjectType):
     app_name = graphene.String()
     model_name = graphene.String()
     form = graphene.String()
+
+
+class ModelFiltersType(graphene.ObjectType):
+    app_name = graphene.String()
+    model_name = graphene.String()
+    filters_data = graphene.String()

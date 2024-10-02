@@ -1,5 +1,7 @@
 from django.contrib import admin
 
+from admin.classes.admin import admin as admin_api
+
 from .models import Category, Attachment, Product, AvailableCharacteristics, Characteristics
 
 from django.utils.html import mark_safe
@@ -68,7 +70,9 @@ class AvailableCharacteristicsAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Category, CategoryAdmin)
-admin.site.register(Attachment, AttachmentAdmin)
-admin.site.register(Product, ProductAdmin)
+# admin.site.register(Attachment, AttachmentAdmin)
+# admin.site.register(Product, ProductAdmin)
 admin.site.register(AvailableCharacteristics, AvailableCharacteristicsAdmin)
 admin.site.register(Characteristics, CharacteristicsAdmin)
+admin_api.register(Product, ProductAdmin)
+admin_api.register(Attachment, AttachmentAdmin)
