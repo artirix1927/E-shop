@@ -31,3 +31,8 @@ __pycache__
 *.sqlite3
 .idea/
 
+
+
+./kafka-data
+./kafka
+/kafka-data
