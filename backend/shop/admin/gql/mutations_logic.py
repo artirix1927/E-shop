@@ -5,7 +5,9 @@ from graphene_file_upload.scalars import Upload
 
 import json
 
+
 import admin.funcs as funcs
+from admin.classes.admin import admin
 
 
 from .queries import redis_cache
@@ -32,10 +34,11 @@ class UpdateInstance(graphene.Mutation):
 
         print(files)
 
-        picked_model = funcs.get_model_by_app_and_name(app_name, model_name)
+        picked_model = admin.apps.get_model_by_app_and_name(
+            app_name, model_name)
         instance = picked_model.objects.get(id=instance_id)
 
-        form_class = funcs.get_model_form_class_by_model(picked_model)
+        form_class = admin.forms.get_rendered_form_data(picked_model)
 
         form_files_dict = funcs.create_multivalue_dict_for_files(files)
         form_data = json.loads(form_values)
@@ -63,7 +66,7 @@ class DeleteInstances(graphene.Mutation):
     def mutate(self, info, app_name, model_name, instances):
         instances_ids = json.loads(instances)
 
-        model = funcs.get_model_by_app_and_name(app_name, model_name)
+        model = admin.apps.get_model_by_app_and_name(app_name, model_name)
         instances_to_delete = model.objects.filter(pk__in=instances_ids)
         instances_to_delete.delete()
 
@@ -85,9 +88,10 @@ class CreateInstance(graphene.Mutation):
     def mutate(self, info, app_name, model_name, form_values, files):
         print(files)
 
-        picked_model = funcs.get_model_by_app_and_name(app_name, model_name)
+        picked_model = admin.apps.get_model_by_app_and_name(
+            app_name, model_name)
 
-        form_class = funcs.get_model_form_class_by_model(picked_model)
+        form_class = admin.forms.get_rendered_form_data(picked_model)
 
         form_files_dict = funcs.create_multivalue_dict_for_files(files)
         form_data = json.loads(form_values)
