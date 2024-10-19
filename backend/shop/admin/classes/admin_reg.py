@@ -4,8 +4,7 @@ from django.db import models
 # from admin.classes.check_chain import BasicAdminChecksChain
 # from admin.classes.forms_classes import FormRenderer, FormSerializer
 # from django.core.serializers.json import DjangoJSONEncoder
-from backend.shop.admin.classes.renderers import FormRenderer
-from admin.classes.serializers import FormSerializer
+
 from admin.classes.managers import AppModelManager, FilterModelManager, FormModelManager
 from shop.redis_cache_class import QuerysetCache
 

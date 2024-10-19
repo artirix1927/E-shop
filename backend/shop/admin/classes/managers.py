@@ -7,7 +7,7 @@ from django.contrib.admin import ModelAdmin
 from django.forms import ModelForm
 
 
-from backend.shop.admin.classes.renderers import FormRenderer
+from admin.classes.renderers import FormRenderer
 from admin.classes.serializers import FormSerializer
 
 from shop.redis_cache_class import QuerysetCache
@@ -172,7 +172,7 @@ class FilterModelManager(BasicManager):
             filter_data['choices'] = list(
                 default_filter_instance.choices(change_list))
 
-        serialized_filters.append(filter_data)
+            serialized_filters.append(filter_data)
 
         return serialized_filters
 
