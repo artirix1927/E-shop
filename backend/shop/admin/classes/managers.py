@@ -142,7 +142,7 @@ class FilterModelManager(BasicManager):
         if not model_admin:
             return None
 
-        if not model_admin.filters:
+        if not model_admin.list_filter:
             return None
 
         serialized_filters = []
