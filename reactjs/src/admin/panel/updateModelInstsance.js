@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@apollo/client"
-import { useLocation } from "react-router-dom"
+import { useLocation, useParams } from "react-router-dom"
 import { GET_MODEL_INSTANCE_FORM } from ".././gql/queries"
 import { Form, Formik } from "formik"
 
@@ -10,9 +10,9 @@ import { ModelsPanel } from "./modelsPanel"
 
 export const UpdateModelInstance = () => {
 
-    const {state} = useLocation()
+    const {appName,modelName,id} = useParams()
    
-    const {data,loading, error} = useQuery(GET_MODEL_INSTANCE_FORM, {variables: {appName: state.appName, modelName: state.modelName, id:parseInt(state.id)}})
+    const {data,loading, error} = useQuery(GET_MODEL_INSTANCE_FORM, {variables: {appName: appName, modelName: modelName, id:parseInt(id)}})
 
     if (loading) return <></>
     if (error) return <p>{error.message}</p>
@@ -51,7 +51,7 @@ const InstanceForm = (props) => {
         }   
     )
 
-    const {state} = useLocation()
+    const {appName, modelName, id} = useParams()
     
     const [updateInstance] = useMutation(UPDATE_MODEL_INSTANCE)
 
@@ -69,9 +69,9 @@ const InstanceForm = (props) => {
 
 
         const mutationVariables = {
-            appName: state.appName,
-            modelName: state.modelName,
-            instanceId: parseInt(state.id),
+            appName: appName,
+            modelName: modelName,
+            instanceId: parseInt(id),
             formValues: JSON.stringify(values),
             files: formFileValues,
         };

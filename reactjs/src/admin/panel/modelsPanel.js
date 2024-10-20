@@ -33,13 +33,13 @@ const AppSection = (props) => {
 
 
     const modelOnClick = (event) => {
-        navigate('/admin/model-instances', {state:{appName: props.name, modelName:event.target.innerHTML}})
+        navigate(`/admin/model-instances/${props.name}/${event.target.innerHTML}`, {state:{appName: props.name, modelName:event.target.innerHTML}})
 
     }
 
 
     const CreateOnClick = (event, model) => {
-        navigate('/admin/instance-create', {state:{appName: props.name, modelName:model}})
+        navigate(`/admin/instance-create/${props.name}/${model}`, {state:{appName: props.name, modelName:model}})
 
     }
 
