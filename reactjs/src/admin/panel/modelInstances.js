@@ -195,16 +195,16 @@ const ModelFilters = () => {
         <div className="filters-div">
             {parsedFiltersData && parsedFiltersData.map((elem)=>{
                 
-                return <div style={{color:"black"}}>
+                return <div className="filters-content">
                     
-                    <p>{elem.field_name}</p>
+                    <p> By {elem.field_name}</p>
                     <div>
                         {elem.choices.map((choice)=>{
                         return <>
                         <a value={choice.query_string} selected={choice.selected} onClick={filterOnClick}>
-                                {choice.display}
+                            {choice.display}  
                         </a> <br/></>})}
-                        <br/>
+                       
                     </div>
 
                 </div>
