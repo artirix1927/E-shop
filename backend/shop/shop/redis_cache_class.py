@@ -1,5 +1,6 @@
 
 import hashlib
+from pydoc import cli
 from django.core.cache import cache
 
 from django.db.models import QuerySet
@@ -12,29 +13,8 @@ from functools import wraps
 import time
 
 
-def timeit(func):
-    @wraps(func)
-    def timeit_wrapper(*args, **kwargs):
-        start_time = time.perf_counter()
-        result = func(*args, **kwargs)
-        end_time = time.perf_counter()
-        total_time = end_time - start_time
-        print(f'Function {func.__name__}{args} {
-              kwargs} Took {total_time:.4f} seconds')
-        return result
-    return timeit_wrapper
-
-# @timeit
-# def get_cached_products_queryset(offset: int, limit: int, filter: dict) -> QuerySet:
-#     cache_key = f'products_{offset}:{offset+limit}'
-#     queryset = cache.get(cache_key)
-
-#     print(queryset)
-#     if not queryset:
-#         queryset = list(db_models.Product.objects.prefetch_related('attachments').all()[offset: offset+limit])
-#         cache.set(cache_key, queryset, timeout=300)
-
-#     return queryset
+from django.conf import settings
+import redis
 
 
 class QuerysetCache:
@@ -47,10 +27,13 @@ class QuerysetCache:
         return f"{self.key_prefix}:{query_key}"
 
     def get(self, queryset: QuerySet):
-        cache_key = self.get_cache_key(queryset)
-        result = cache.get(cache_key)
+        connect = self.check_for_connection()
 
-        if result is None:
+        if connect:
+            cache_key = self.get_cache_key(queryset)
+            result = cache.get(cache_key)
+
+        if not result:
             result = list(queryset)
             cache.set(cache_key, result, self.timeout)
 
@@ -59,3 +42,12 @@ class QuerysetCache:
     def clear_by_prefix(self, prefix: str) -> None:
         keys_found_by_prefix = cache.keys(f'{prefix}:*')
         cache.delete_many(keys_found_by_prefix)
+
+    def check_for_connection(self) -> bool:
+        client = redis.StrictRedis.from_url(
+            settings.CACHES['default']['LOCATION'])
+        try:
+            client.ping()
+            return True
+        except Exception:
+            return False
