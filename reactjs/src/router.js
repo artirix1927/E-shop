@@ -38,10 +38,10 @@ const router = createBrowserRouter(
           <Route path="" element={<AdminPage/>}></Route>
           <Route path="models-panel" element={<ModelPanelPage/>}></Route>
           <Route path="tickets" element={<SupportTicketsPage/>}></Route>
-          <Route path="model-instances" element={<ModelInstancesPage/>}></Route>
-          <Route path="instance-update" element={<UpdateModelInstancePage/>}></Route>
+          <Route path="model-instances/:appName/:modelName" element={<ModelInstancesPage/>}></Route>
+          <Route path="instance-update/:appName/:modelName/:id" element={<UpdateModelInstancePage/>}></Route>
 
-          <Route path="instance-create" element={<CreateModalInstancePage/>}></Route>
+          <Route path="instance-create/:appName/:modelName/" element={<CreateModalInstancePage/>}></Route>
         </Route>
       </>
     )
