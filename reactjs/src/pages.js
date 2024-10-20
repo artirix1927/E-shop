@@ -140,9 +140,11 @@ export const ModelPanelPage = () => {
 
 export const ModelInstancesPage = () =>  {
   return <div className="App">
-     <AdminPanel>
-     <ModelInstancesList></ModelInstancesList>
-     </AdminPanel>
+     <FiltersProvider>
+      <AdminPanel>
+      <ModelInstancesList></ModelInstancesList>
+      </AdminPanel>
+     </FiltersProvider>
     
   </div>
 }

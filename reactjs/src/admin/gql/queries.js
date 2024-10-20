@@ -39,6 +39,25 @@ export const GET_MODEL_INSTANCES = gql`
 `
 
 
+export const GET_MODEL_FILTERS = gql`
+  query ModelFilters($appName: String!, $modelName: String!) @api(name: app){
+    modelFilters(appName:$appName, modelName: $modelName){
+      filtersData
+    }
+  }
+
+`
+
+
+export const GET_FILTERED_INSTANCES = gql`
+  query FilteredInstances($appName: String!, $modelName: String!, $queryString: String!) @api(name: app){
+    runFilter(appName: $appName, modelName:$modelName, queryString: $queryString){
+      instances
+    }
+  }
+`
+
+
 export const GET_SUPPORT_TICKETS = gql`
   query AllTickets($offset: Int!, $limit: Int!) @api(name: chat){
     allTickets(offset: $offset, limit: $limit){
@@ -67,5 +86,8 @@ export const GET_SUPPORT_TICKET_MESSAGES = gql`
     }
 }
 `
+
+
+
 
 

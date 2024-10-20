@@ -105,7 +105,7 @@ $height-after-navbar: 94vh;
     padding: 1% 2%;
 
     table{
-        width: 100%;
+        width: 75%;
         th{
             font-weight: 500;
             padding: 6px 12px;
@@ -161,4 +161,17 @@ $height-after-navbar: 94vh;
 
 
 
+}
+
+
+
+.filters-div{
+    padding-block:0;
+    width: 20%;
+    float:right;
+    display:flex;
+    flex-direction: column;
+    background-color: antiquewhite;
+    position: relative;
+    
 }
