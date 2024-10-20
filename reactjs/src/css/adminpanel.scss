@@ -171,7 +171,14 @@ $height-after-navbar: 94vh;
     float:right;
     display:flex;
     flex-direction: column;
-    background-color: antiquewhite;
+    background-color: rgb(136, 161, 136);
     position: relative;
+    border-radius: 4px;
+
+
+    .filters-content{
+        color: white;
+        padding: 4% 8%;
+    }
     
 }

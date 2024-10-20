@@ -1,6 +1,8 @@
-@import '~bootstrap/scss/bootstrap.scss';
+//@import 'node_modules//bootstrap/scss/bootstrap.scss';
 
 @import './bodystyles.scss';
+
+
 
 .navbar{ 
     //padding-inline: 30px;
@@ -35,9 +37,6 @@
         font-size:14px;
     }
 
-    
-
-    
 }
 
 
@@ -117,18 +116,155 @@
 }
 
 
+// .support-tickets-chat{
+//     position: absolute;
+//     background-color: #f9f6f2; /* Light, neutral background */
+//     height: 50%;
+//     width: 350px; /* Slightly wider */
+//     bottom: 0;
+//     right: 0;
+//     display: none;
+//     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+//     border-radius: 12px 12px 0 0; /* Rounded corners at the top */
+//     overflow: hidden; /* Ensure content stays inside */
+//     transition: all 0.3s ease; /* Smooth transitions for opening */
+//     flex-direction: column;
+//     padding-block: 2px;
+
+//     .support-tickets-list{ 
+//         position: relative;
+//         height: max-content;
+//         display: flex;
+//         flex-direction: row;
+//         flex-wrap: nowrap;
+//         align-items: center;
+//         gap: 6px;
+//         overflow-x: scroll;
+//         scrollbar-width: thin;    
+//         width: 100%;
+//         border-bottom: 1px solid #ddd; /* Separate section visually */
+//         padding: 4px;
+      
+
+
+
+//         .close-chat{
+//             position:absolute; 
+//             right: 0px;
+//             font-size: 18px;
+//         }
+
+//         .support-ticket-item{
+//             //padding: 0px 2px;
+
+//             display: flex;
+//             align-items: center;
+//             padding: 2px 2px;
+//             background-color: #ccc;
+//             border-radius: 6px;
+//             cursor: pointer;
+//             transition: background-color 0.3s ease;
+
+
+//             .support-ticket-item-btn{
+//                 color:white;
+//                 //background-color: rgb(179, 179, 179);
+//                 background-color: #5a67d8; /* Soft blue color */
+//                 border:none;
+//                 outline: none;
+//                 height: 100%;
+//                 border-radius: 4px;
+//                 padding: 4px 10px;
+        
+
+//             }
+//         }
+//     }
+
+//     .client-chat-modal-container{
+//         position: absolute;
+//         height: 90%;
+//         float:inline-start;
+//         width: 100%;
+
+//         .chat-modal{
+//             height: 85%;
+//             width: 100%;
+//             position: absolute;
+        
+            
+//             .messages-list-wrapper{
+//                 scrollbar-width: none;    
+//                 overflow-y: scroll;
+//                 height: 100%;
+//                 width: 100%;
+//                 display:flex;
+//                 flex-direction: column-reverse;
+            
+//                 .messages-list{
+                    
+//                     height: 80%;
+//                     .rce-mlist{
+//                         display:flex;
+//                         flex-direction: column-reverse;
+
+//                         .rce-mbox{
+//                             max-width: 75%;
+//                         }
+//                     }
+
+
+                    
+//                 }
+//             }
+            
+            
+        
+//             .send-message-container{
+//                 width: 85%;
+//                 position: relative;
+//                 bottom: 0px;
+//                 justify-content: center;
+//                 padding-inline: 5%;
+        
+        
+//                 .send-message-form{
+//                     display: flex;
+//                     align-items: center;
+//                     min-width: 100%;
+//                     gap: 10px;
+//                     .message-input-field{
+//                         padding-inline: 10px;
+//                         border-radius: 8px;
+//                     }
+            
+//                     .message-input-button{
+//                         height: fit-content;
+//                     }
+        
+        
+//                 }
+//             }
+//         }
+//     }
+
+// }
+
+
 .support-tickets-chat{
-    position: fixed;
-    background-color: antiquewhite;
+    position: absolute;
+    background-color: #f9f6f2; /* Light, neutral background */
     height: 50%;
-    width: 320px;
+    width: 350px; /* Slightly wider */
     bottom: 0;
     right: 0;
     display: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    border-radius: 12px 12px 0 0; /* Rounded corners at the top */
+    overflow: hidden; /* Ensure content stays inside */
+    transition: all 0.3s ease; /* Smooth transitions for opening */
     flex-direction: column;
-    gap: 20px;
-    
-
+    padding-block: 2px;
 
     .support-tickets-list{ 
         position: relative;
@@ -141,46 +277,64 @@
         overflow-x: scroll;
         scrollbar-width: thin;    
         width: 100%;
+        border-bottom: 1px solid #ddd; /* Separate section visually */
+        padding: 4px;
+      
+
 
 
         .close-chat{
             position:absolute; 
-            right:0;
+            right: 0px;
+            font-size: 18px;
         }
 
         .support-ticket-item{
-            padding: 0px 2px;
+            //padding: 0px 2px;
+
+            display: flex;
+            align-items: center;
+            padding: 2px 2px;
+            background-color: #ccc;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+
+
             .support-ticket-item-btn{
-                color:black;
-                background-color: rgb(204, 204, 204);
+                color:white;
+                //background-color: rgb(179, 179, 179);
+                background-color: #5a67d8; /* Soft blue color */
                 border:none;
                 outline: none;
                 height: 100%;
+                border-radius: 4px;
+                padding: 4px 10px;
+        
 
-                
             }
         }
     }
 
-    .client-chat-modal-container{
+    .client-chat-modal-container {
         position: absolute;
         height: 90%;
-        float:inline-start;
+        float: inline-start;
         width: 100%;
-
-        .chat-modal{
-            height: 85%;
+    
+        .chat-modal {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
             width: 100%;
-        
-            
-            .messages-list-wrapper{
+    
+            .messages-list-wrapper {
                 scrollbar-width: none;    
                 overflow-y: scroll;
-                height: 100%;
-                width: 100%;
-                display:flex;
+                flex: 1; /* Takes up available space */
+                display: flex;
                 flex-direction: column-reverse;
-            
+                
                 .messages-list{
                     
                     height: 80%;
@@ -196,25 +350,25 @@
 
                     
                 }
+
+                
             }
-            
-            
-        
-            .send-message-container{
+    
+            .send-message-container {
                 width: 85%;
-                position: absolute;
-                bottom: 20px;
-                
-                
+                height: min-content;
+                display: flex;
                 justify-content: center;
+                padding: 10px;
+                box-sizing: border-box;
                 padding-inline: 5%;
-        
-        
-                .send-message-form{
+    
+                .send-message-form {
                     display: flex;
                     align-items: center;
-                    min-width: 100%;
+                    width: 100%;
                     gap: 10px;
+    
                     .message-input-field{
                         padding-inline: 10px;
                         border-radius: 8px;
@@ -223,8 +377,6 @@
                     .message-input-button{
                         height: fit-content;
                     }
-        
-        
                 }
             }
         }
