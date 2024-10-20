@@ -40,6 +40,14 @@ class AdminQueries(graphene.ObjectType):
 
     )
 
+    run_filter = graphene.Field(
+        gql_types.ModelInstanceType,
+        app_name=graphene.String(),
+        model_name=graphene.String(),
+        query_string=graphene.String(),
+
+    )
+
     def resolve_all_apps(self, info):
         models_by_apps = admin.apps.get_registered_models_by_apps()
 
@@ -101,8 +109,21 @@ class AdminQueries(graphene.ObjectType):
             app_name, model_name)
 
         filters = admin.filters.get_admin_list_filters(model, info.context)
+        if filters:
+            for i in range(len(filters)):
+                filters[i] = str(filters[i])
 
-        # beacuse there is lazy content in here
-        filters = str(filters)
+        return gql_types.ModelFiltersType(app_name=app_name, model_name=model_name, filters_data=json.dumps(filters))
 
-        return gql_types.ModelFiltersType(app_name=app_name, model_name=model_name, filters_data=json.dumps(str(filters)))
+    def resolve_run_filter(self, info, app_name, model_name, query_string):
+        model = admin.apps.get_model_by_app_and_name(
+            app_name, model_name)
+
+        queryset = admin.filters.run_filter(model, query_string)
+
+        prepared_instances_list = [
+            {'instance': str(intsance), 'id': intsance.id} for intsance in queryset]
+
+        return gql_types.ModelInstanceType(
+            model_name=model_name,
+            instances=prepared_instances_list)
