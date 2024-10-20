@@ -89,13 +89,13 @@ class FormModelManager(BasicManager):
         super().__init__(registered_models, redis_cache)
 
     def get_form_for_model_instance(self, model: models.Model, instance=None):
-        form_class = self._get_model_form_class_by_model(model)
+        form_class = self.get_model_form_class_by_model(model)
 
-        form = form_class(instance) if instance else form_class()
+        form = form_class(instance=instance) if instance else form_class()
 
         return form
 
-    def _get_model_form_class_by_model(self, model_to_form: models.Model) -> ModelForm:
+    def get_model_form_class_by_model(self, model_to_form: models.Model) -> ModelForm:
         class Meta:
             model = model_to_form
             fields = '__all__'
@@ -123,7 +123,6 @@ class FormModelManager(BasicManager):
             html_result_list.append(
                 field.widget.render(field_name, value_for_input))
 
-        print(html_result_list)
         return html_result_list
 
 
@@ -139,6 +138,12 @@ class FilterModelManager(BasicManager):
 
         # Get the list of filters from the model admin
         model_admin = self._registered_models.get(model)
+
+        if not model_admin:
+            return None
+
+        if not model_admin.filters:
+            return None
 
         serialized_filters = []
 
