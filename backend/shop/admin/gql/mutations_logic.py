@@ -86,12 +86,10 @@ class CreateInstance(graphene.Mutation):
         files = Upload(required=False)
 
     def mutate(self, info, app_name, model_name, form_values, files):
-        print(files)
-
         picked_model = admin.apps.get_model_by_app_and_name(
             app_name, model_name)
 
-        form_class = admin.forms.get_rendered_form_data(picked_model)
+        form_class = admin.forms.get_model_form_class_by_model(picked_model)
 
         form_files_dict = funcs.create_multivalue_dict_for_files(files)
         form_data = json.loads(form_values)
