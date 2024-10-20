@@ -67,9 +67,13 @@ const ModelForm = (props) => {
             formValues: JSON.stringify(values),
             files: formFileValues,
         };
-    
-        createInstance({ variables: mutationVariables, refetchQueries: [GET_MODEL_INSTANCES, "ModelInstances"]});
-        navigate('/admin/model-instances', {state:{appName:state.appName, modelName: state.modelName}})
+        
+
+        //the refetch query doesnt works there dont know why, 
+        //maybe becaus the model instances component is not mounted at that point
+        //even though the query must be in cache at that point
+        createInstance({ variables: mutationVariables, refetchQueries: ['ModelInstances']},);
+        navigate('/admin/models-panel')
     };
     
     const initialValues = {}
