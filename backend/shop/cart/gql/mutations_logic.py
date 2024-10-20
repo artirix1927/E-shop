@@ -2,9 +2,8 @@ import graphene
 
 from django.contrib.auth.models import User
 
-import cart.models as db_models
-
 import cart.funcs as funcs
+import cart.models as db_models
 
 import json
 
@@ -84,16 +83,17 @@ class CreateOrderFromCart(graphene.Mutation):
 
         items_id = json.loads(kwargs['items'])
 
-        cart_items = funcs.get_cart_items_by_ids(items_id)
+        cart_items = db_models.CartItem.get_cart_items_by_ids(items_id)
 
-        data_for_order = funcs.exclude_from_dict(kwargs, ('items', 'user'))
+        data_for_order = funcs.exclude_from_dict(
+            kwargs, ('items', 'user'))
 
         order = db_models.Order.objects.create(**data_for_order, user=user)
 
-        order_items = funcs.create_order_items_for_cart_items(
+        order_items = db_models.CartItem.create_order_items_for_cart_items(
             cart_items, order)
 
-        funcs.change_product_pieces_left_after_order(order_items)
+        db_models.CartItem.change_product_pieces_left_after_order(order_items)
 
         cart_items.delete()
 
@@ -118,8 +118,6 @@ class CreateBuyNowOrder(graphene.Mutation):
         postal_code = graphene.String()
 
     def mutate(self, info, *args, **kwargs):
-
-        print(312321321)
         user = User.objects.get(pk=kwargs['user'])
 
         kwargs.pop('user')
@@ -134,6 +132,6 @@ class CreateBuyNowOrder(graphene.Mutation):
         order_item = db_models.OrderItem.objects.create(
             **data_for_order_item, order=order, user=user)
 
-        funcs.change_product_pieces_left_after_order([order_item])
+        db_models.CartItem.change_product_pieces_left_after_order([order_item])
 
         return CreateBuyNowOrder(success=True)

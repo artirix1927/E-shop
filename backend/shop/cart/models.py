@@ -13,6 +13,10 @@ from products.models import Product
 from django_lifecycle import LifecycleModel, AFTER_CREATE, hook
 from django.conf import settings
 
+from typing import Self, Sequence
+from django.db.models import QuerySet
+# from .models import CartItem, OrderItem
+
 
 from cart.kafka_producer import send_email_to_kafka
 
@@ -30,6 +34,35 @@ class CartItem(models.Model):
         blank=True)
     # ordered = models.BooleanField(default=False) #dont need it if i will
     # create order item model
+
+    @classmethod
+    def get_cart_items_by_ids(cls,
+                              id_sequence: Sequence) -> QuerySet[Self]:
+        return CartItem.objects.filter(pk__in=id_sequence)
+
+    @classmethod
+    def adjust_cart_item_quantity_to_pieces_left(cls, user_cart_items: QuerySet[Self]) -> QuerySet[Self]:
+        for item in user_cart_items:
+            if item.quantity > item.product.pieces_left:
+                item.quantity = item.product.pieces_left
+                item.save()
+        return user_cart_items
+
+    @classmethod
+    def create_order_items_for_cart_items(cls, items: QuerySet[Self], order: 'Order') -> list['OrderItem']:
+        return [OrderItem.objects.create(
+            product=item.product,
+            quantity=item.quantity,
+            user=item.user,
+            order=order)
+            for item in items]
+
+    @classmethod
+    def change_product_pieces_left_after_order(cls, items: QuerySet['OrderItem']) -> QuerySet['OrderItem']:
+        for item in items:
+            item.product.pieces_left -= item.quantity
+
+        return items
 
     def __str__(self) -> str:
         return f'Cart Item #{self.id} :{self.product.name}({self.quantity}) => {self.user.username}'
