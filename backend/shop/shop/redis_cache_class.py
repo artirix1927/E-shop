@@ -28,14 +28,16 @@ class QuerysetCache:
 
     def get(self, queryset: QuerySet):
         connect = self.check_for_connection()
+        cache_key = self.get_cache_key(queryset)
 
         if connect:
-            cache_key = self.get_cache_key(queryset)
             result = cache.get(cache_key)
+            if not result:
+                result = list(queryset)
+                cache.set(cache_key, result, self.timeout)
 
-        if not result:
+        else:
             result = list(queryset)
-            cache.set(cache_key, result, self.timeout)
 
         return result
 
