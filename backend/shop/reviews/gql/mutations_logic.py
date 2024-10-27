@@ -1,9 +1,7 @@
 
-from math import fabs
-from urllib import request
+
 import graphene
 from graphene_file_upload.scalars import Upload
-from pkg_resources import require
 
 import reviews.models as db_models
 
