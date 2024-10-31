@@ -2,6 +2,7 @@ import pytest
 from django.contrib.auth.models import User
 
 import products.models as product_models
+import cart.models as cart_models
 
 from shop.schema import schema
 from graphene_django.utils.testing import graphql_query
@@ -65,3 +66,17 @@ def second_product(accessory_category):
     second_product = product_models.Product.objects.create(**producut_data)
     second_product.save()
     return second_product
+
+
+@pytest.fixture
+def first_cart_item(first_product, user):
+    cart_item = cart_models.CartItem.objects.create(
+        user=user, product=first_product, quantity=1)
+    return cart_item
+
+
+@pytest.fixture
+def second_cart_item(second_product, user):
+    cart_item = cart_models.CartItem.objects.create(
+        user=user, product=second_product, quantity=2)
+    return cart_item
