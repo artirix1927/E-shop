@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 import products.models as product_models
 import cart.models as cart_models
 import shipping.models as shipping_models
+import reviews.models as reviews_models
 
 from shop.schema import schema
 from graphene_django.utils.testing import graphql_query
@@ -86,3 +87,8 @@ def second_cart_item(second_product, user):
 @pytest.fixture
 def two_countries():
     return (shipping_models.AvailableCountries.objects.create(name="Canada"), shipping_models.AvailableCountries.objects.create(name="United States"))
+
+
+@pytest.fixture
+def first_review(user, first_product):
+    return reviews_models.Review.objects.create(user=user, product=first_product, stars=5, text="123,123,123")
