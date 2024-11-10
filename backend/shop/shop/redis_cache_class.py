@@ -1,20 +1,9 @@
-
 import hashlib
-from pydoc import cli
 from django.core.cache import cache
 
 from django.db.models import QuerySet
-import products.models as db_models
 
 from django.utils.encoding import force_bytes
-
-
-from functools import wraps
-import time
-
-
-from django.conf import settings
-import redis
 
 
 class QuerysetCache:
@@ -27,16 +16,14 @@ class QuerysetCache:
         return f"{self.key_prefix}:{query_key}"
 
     def get(self, queryset: QuerySet):
-        connect = self.check_for_connection()
         cache_key = self.get_cache_key(queryset)
 
-        if connect:
+        try:
             result = cache.get(cache_key)
-            if not result:
+            if result is None:
                 result = list(queryset)
                 cache.set(cache_key, result, self.timeout)
-
-        else:
+        except Exception as e:
             result = list(queryset)
 
         return result
@@ -44,12 +31,3 @@ class QuerysetCache:
     def clear_by_prefix(self, prefix: str) -> None:
         keys_found_by_prefix = cache.keys(f'{prefix}:*')
         cache.delete_many(keys_found_by_prefix)
-
-    def check_for_connection(self) -> bool:
-        client = redis.StrictRedis.from_url(
-            settings.CACHES['default']['LOCATION'])
-        try:
-            client.ping()
-            return True
-        except Exception:
-            return False
