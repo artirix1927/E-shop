@@ -1,7 +1,7 @@
 
 import { AdminPage, CreateModalInstancePage, ModelInstancesPage, ModelPanelPage, SupportTicketsPage, UpdateModelInstancePage } from "./pages/admin";
 import { LoginPage, LogoutPage, RegisterPage } from "./pages/auth";
-import { BuyNowCheckoutPage, CartCheckoutPage, CartPage, MainPage, ProductDetailsPage } from "./pages/other";
+import { BuyNowCheckoutPage, CartCheckoutPage, CartPage, MainPage, ProductDetailsPage, StripeTestCheckoutPage } from "./pages/other";
 import { AuthenticatedRoute, AdminRoute } from "./routeTypes";
 
 
@@ -25,6 +25,7 @@ const router = createBrowserRouter(
           <Route path="cart" element={<CartPage />} />
           <Route path="checkout" element={<CartCheckoutPage/>} />
           <Route path="buy-now-checkout" element={<BuyNowCheckoutPage/>}/>
+          <Route path="test-stripe" element={<StripeTestCheckoutPage/>}/>
         </Route>
 
         <Route path="/login" element={<LoginPage/>}/>
