@@ -1,0 +1,21 @@
+
+.form-container{
+
+    display: flex;
+    justify-content: center;
+
+    .stripe-form {
+        padding-block: 10%;
+        margin-block: 20px;
+        height: fit-content;
+        width: 15%;
+
+        .form-control{
+            margin-bottom: 4px;
+        }
+    }
+
+    .btn-success{
+        margin-block:14px;
+    }
+}

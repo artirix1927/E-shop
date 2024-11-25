@@ -3,10 +3,13 @@ import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import React, { useRef, useState } from "react";
 
 
-import { useLazyQuery } from "@apollo/client";
+import { useLazyQuery, useMutation } from "@apollo/client";
 import { GET_PAYMENT_INTENT } from "./gql/queries";
+import { SAVE_STRIPE_INFO } from "./gql/mutations";
 //import ApiService from "../api";
 
+
+import '../css/payment.scss'
 
 
 
@@ -18,6 +21,7 @@ const CheckoutForm = () => {
 
 
     const [paymentIntent, { data }] = useLazyQuery(GET_PAYMENT_INTENT)
+    const [saveStripeInfo] = useMutation(SAVE_STRIPE_INFO)
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -29,31 +33,32 @@ const CheckoutForm = () => {
             type: 'card',
             card: card
         })
-        console.log(paymentMethod,error)
-
+        if (paymentMethod)
+            saveStripeInfo({variables:{email: emailRef.current.value,paymentMethodData: paymentMethod}})
     }
 
 
     console.log(data)
-    return (
+    return <div className="form-container">
         <form onSubmit={handleSubmit} className="stripe-form">
             <div className="form-row">
-                <label htmlFor="email">Email Address</label>
-                <input className="form-input" id="email" name="name" type="email" placeholder="jenny.rosen@example.com" required
+                <label htmlFor="email" className="form-label">Email Address</label>
+                <input className="form-control" id="email" name="name" type="email" placeholder="jenny.rosen@example.com" required
                     ref={emailRef} />
             </div>
 
             <div className="form-row">
-                <label htmlFor="card-element">Credit or debit card</label>
+                <label htmlFor="card-element form-label">Credit or debit card</label>
 
-                <CardElement id="card-element" />
+                <CardElement id="card-element" className="form-control"/>
                 <div className="card-errors" role="alert"></div>
             </div>
-            <button type="submit" className="submit-btn">
+            <button type="submit" className="btn btn-success">
                 Submit Payment
             </button>
         </form>
-    );
+    </div>
+    
 };
 
 
