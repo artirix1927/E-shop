@@ -54,6 +54,10 @@ class Product(models.Model):
 
     weight = models.FloatField()
 
+    # stripe price and product ids
+    stripe_product_id = models.CharField(max_length=255, null=True, blank=True)
+    stripe_price_id = models.CharField(max_length=255, null=True, blank=True)
+
     def __str__(self) -> str:
         return f"{self.name} : {self.price}\n{self.category.name}"
 
