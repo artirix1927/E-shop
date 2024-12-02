@@ -13,9 +13,7 @@ class AppType(graphene.ObjectType):
     models = graphene.List(graphene.String)
 
     def resolve_models(self, info):
-        app = apps.get_app_config(self.app_name)
-
-        return [model.__name__ for model in app.get_models()]
+        return [model.__name__ for model in self.models]
 
 
 class ModelInstanceFormType(graphene.ObjectType):

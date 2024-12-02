@@ -54,8 +54,7 @@ class AdminQueries(graphene.ObjectType):
         # for app, models in models_by_apps.items():
 
         #     admin.filters.get_admin_list_filters(models[0], info.context)
-
-        prepared_types_list = [gql_types.AppType(app_name=app, models=[models])
+        prepared_types_list = [gql_types.AppType(app_name=app, models=models)
                                for app, models in models_by_apps.items()]
 
         return prepared_types_list
