@@ -15,8 +15,7 @@ import { ReviewSection } from "../reviews/reviewsSection";
 
 
 
-import { Elements } from '@stripe/react-stripe-js';
-import { loadStripe } from "@stripe/stripe-js/pure";
+import { CreateOrderAndRedirect } from "../checkout/createOrderAfterCheckout";
 import CheckoutForm from "../payments/checkoutForm";
 
 const NavbarPageMixin = (props) => {
@@ -88,4 +87,11 @@ export const StripeTestCheckoutPage = () => {
 
 
   return <CheckoutForm/>
+}
+
+
+
+
+export const CreateOrderAfterCheckout = () =>{
+  return <CreateOrderAndRedirect/>
 }
