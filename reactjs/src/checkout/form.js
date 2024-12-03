@@ -47,7 +47,7 @@ export const CartOrderForm = (props) => {
     
     useEffect(()=>{
         if (data)
-            window.open(data.createCheckoutSession.checkoutUrl, '_blank')
+            window.open(data.createCheckoutSession.checkoutUrl, '_self')
 
     }, [data])
 
@@ -84,9 +84,10 @@ export const CartOrderForm = (props) => {
 export const BuyNowOrderForm = (props) => {
     
     const [cookies] = useCookies()
-    const [createOrder, {data}] = useMutation(CREATE_CHECKOUT_SESSION)
+    const [createOrder, {data, loading, error}] = useMutation(CREATE_CHECKOUT_SESSION)
     const nav = useNavigate()
-
+    if (error)
+        console.log(error.message)
     const selectedItem = props.selectedItem
 
     const formOnSubmit = (values) =>{ 
@@ -105,7 +106,7 @@ export const BuyNowOrderForm = (props) => {
 
     useEffect(()=>{
         if (data)
-            window.open(data.createOrderFromCart.checkoutUrl, '_blank')
+            window.open(data.createCheckoutSession.checkoutUrl, '_self')
 
     }, [data])
 
