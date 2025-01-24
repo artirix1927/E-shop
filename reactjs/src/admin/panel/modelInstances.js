@@ -119,7 +119,7 @@ const DeleteSelectedButton = ({selectedInstances, ...props}) => {
     }
 
     return <>
-    <button className="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#deleteInstances">Delete Selected Instances?</button>
+    <button className="btn btn-secondary delete-button" data-bs-toggle="modal" data-bs-target="#deleteInstances">Delete Selected Instances?</button>
     <br/><br/>
 
 

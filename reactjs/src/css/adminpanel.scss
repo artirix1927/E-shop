@@ -93,92 +93,251 @@ $height-after-navbar: 94vh;
     }
 }
 
-.instances-table{
+.instances-table {
     background-color: $content-background-color;
-    //height: 100vh;
-    width: $other-content-width;
-    float:inline-end;
-    color:white;
+    width: calc(100% - $sidebar-width); // Ensures it adjusts dynamically
+    margin-left: $sidebar-width;       // Offsets for the fixed sidebar
+    color: white;
     min-height: $height-after-navbar;
-    max-height: fit-content;
+    padding: 2% 3%;
+    border-radius: 8px;               // Softens the edges for a modern look
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); // Adds depth with shadow effect
 
-    padding: 1% 2%;
+    table {
+        width: 100%; // Ensures the table spans the container
+        border-collapse: collapse;   // Removes spacing between table cells
 
-    table{
-        width: 75%;
-        th{
-            font-weight: 500;
-            padding: 6px 12px;
+        th, td {
+            padding: 10px 16px;      // Adds padding for readability
+            text-align: left;        // Aligns text for consistency
+            font-size: 14px;         // Sets a readable font size
         }
-        tr:nth-child(odd){
-            background-color:$odd-child-background-color;
+
+        th {
+            background-color: rgb(0, 48, 0); // Darker header for distinction
+            color: white;
+            font-weight: bold;
+            text-transform: uppercase; // Adds emphasis with capitalization
+            border-bottom: 2px solid white; // Separates header visually
         }
+
+        tr {
+            transition: background-color 0.3s ease; // Smooth hover effect
+        }
+
+        tr:nth-child(odd) {
+            background-color: $odd-child-background-color;
+        }
+
         tr:nth-child(even) {
             background-color: $even-child-background-color;
         }
+
+        tr:hover {
+            background-color: rgb(34, 94, 34); // Highlight row on hover
+            cursor: pointer; // Indicates interactivity
+        }
     }
 
-    .modal{
+    .modal {
+        color: black;
+    }
 
-        color:black;
+    .table-footer {
+        margin-top: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 14px;
+
+        .pagination {
+            display: flex;
+            gap: 10px;
+
+            button {
+                background-color: rgb(0, 48, 0);
+                color: white;
+                border: none;
+                padding: 8px 12px;
+                border-radius: 4px;
+                transition: background-color 0.3s ease;
+
+                &:hover {
+                    background-color: rgb(34, 94, 34);
+                }
+
+                &:disabled {
+                    background-color: rgba(0, 48, 0, 0.5);
+                    cursor: not-allowed;
+                }
+            }
+        }
+
+        .item-count {
+            color: rgb(200, 200, 200);
+        }
+    }
+
+    .delete-button {
+        background-color: rgb(0, 48, 0); // Matches the navbar color for consistency
+        color: white;
+        padding: 10px 20px;
+        border: 2px solid white;
+        border-radius: 6px; // Soft corners for modern styling
+        font-size: 14px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    
+        &:hover {
+            background-color: rgb(34, 94, 34); // Slightly lighter shade for hover effect
+            border-color: rgb(200, 255, 200); // Highlights border on hover
+        }
+    
+        &:disabled {
+            background-color: rgba(0, 48, 0, 0.5); // Dims the button if disabled
+            cursor: not-allowed;
+            border-color: rgba(255, 255, 255, 0.5);
+        }
     }
 }
 
 
 
-.update-instance-div{
+.update-instance-div {
     width: $other-content-width;
     float: inline-end;
-    padding: 1% 2%;
+    padding: 2% 3%; // Increased padding for better spacing
     height: 100vh;
     max-height: fit-content;
     background-color: $content-background-color;
     display: flex;
     justify-content: center;
-    
+    align-items: center; // Centers the form vertically within the div
 
-    .update-instance-form{
-        width: 60%;
+    .update-instance-form {
+        width: 50%; // Slightly narrower for a cleaner appearance
         background-color: whitesmoke;
-        border: 1px solid wheat;
-        border-radius: 6px;
-        padding: 4% 8%;
-    
+        border: 1px solid #ddd; // Softer border color for a polished look
+        border-radius: 12px; // More rounded corners for modern UI
+        padding: 3% 6%;
+        box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.1); // Subtle shadow for depth
+        display: flex;
+        flex-direction: column;
+        gap: 20px; // Add spacing between form elements
 
-    
-    
-    
-        input[type=file]::file-selector-button {
-            border: 1px solid #000000;
-            padding: 0.2em 0.4em;
-            border-radius: 0.2em;
-            background-color: white;
-            transition: 1s;
+        h3 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+            font-weight: 600;
         }
-    
+
+        label {
+            font-size: 14px;
+            color: #444;
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+
+        input[type="text"], 
+        input[type="file"], 
+        textarea, 
+        select {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+
+            &:focus {
+                border-color: rgb(34, 139, 34); // Highlight border on focus
+                outline: none;
+            }
+        }
+
+        input[type="file"]::file-selector-button {
+            border: 1px solid #444;
+            padding: 6px 12px;
+            border-radius: 4px;
+            background-color: white;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+
+            &:hover {
+                background-color: rgb(29, 107, 29);
+                color: white;
+            }
+        }
+
+        button {
+            background-color: rgb(34, 139, 34);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 16px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+
+            &:hover {
+                background-color: rgb(20, 59, 20);
+            }
+        }
     }
-
-
-
-
 }
 
 
 
-.filters-div{
-    padding-block:0;
-    width: 20%;
-    float:right;
-    display:flex;
+
+.filters-div {
+    padding:10px;
+    width: 15%; // Slightly wider for better readability
+    float: right;
+    display: flex;
     flex-direction: column;
-    background-color: rgb(136, 161, 136);
-    position: relative;
-    border-radius: 4px;
+    background-color: $odd-child-background-color; // Matches odd row color
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); // Adds depth with shadow effect
+    margin-right: 0px; // Space between filters window and table
+    margin-bottom: 20px; // Add vertical spacing
+    position: relative; // Ensures proper placement within the layout
 
-
-    .filters-content{
+    .filters-header {
         color: white;
-        padding: 4% 8%;
+        font-size: 16px;
+        font-weight: bold;
+        margin-bottom: 12px;
+        border-bottom: 1px solid white; // Separator for header
+        padding-bottom: 8px;
     }
-    
+
+    .filters-content {
+        color: white;
+        font-size: 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+
+        .filter-item {
+            padding: 6px 10px;
+            background-color: rgb(29, 107, 29); // Matches sidebar app-name background
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+
+            &:hover {
+                background-color: rgb(34, 94, 34); // Slight highlight on hover
+                cursor: pointer;
+            }
+        }
+
+        .active-filter {
+            background-color: rgb(20, 59, 20); // Differentiate active filter
+            font-weight: bold;
+        }
+    }
 }
