@@ -4,42 +4,95 @@
 
 
 
-.navbar{ 
-    //padding-inline: 30px;
-    background-color: rgb(0, 48, 0);
-    max-height: 60px;
-    max-width: 100%;
+// .navbar{ 
+//     //padding-inline: 30px;
+//     background-color: rgb(0, 48, 0);
+//     max-height: 60px;
+//     max-width: 100%;
 
-    a, a:hover, a:visited, a:link{
-        color: white ; 
+//     a, a:hover, a:visited, a:link{
+//         color: white ; 
+//         font-size: 20px;
+//         text-decoration: none;
+//         position: relative;
+//         margin:0 10px;
+//     }
+
+//     form{
+//         padding-inline: 10%;
+//         flex: 2;
+        
+//     }
+
+//     .dropdown-menu{
+//         li{
+//             a{
+//                 color:black ;
+//                 font-size:14px;
+//             }
+//         }
+        
+//     }
+//     .dropdown-toggle{
+//         font-size:14px;
+//     }
+
+// }
+
+
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4px 15px;
+    max-width: 100%;
+    background-color: rgb(0, 48, 0);
+
+    a, a:hover, a:visited, a:link {
+        color: white;
         font-size: 20px;
         text-decoration: none;
-        position: relative;
-        margin:0 10px;
+        margin: 0 10px;
     }
 
-    form{
-        padding-inline: 10%;
-        flex: 2;
-        
+    form {
+        display: flex; /* Align the form elements (search bar + buttons) in a row */
+        align-items: center; /* Vertically center the items */
+        justify-content: flex-start; /* Align the items to the left */
+        flex-grow: 1;
+        max-width: 600px;
+        margin: 0 auto;
+        gap: 0; /* Remove space between elements */
+        height: 40px; /* Set a consistent height for the form elements */
     }
 
-    .dropdown-menu{
-        li{
-            a{
-                color:black ;
-                font-size:14px;
+    .navbar form button {
+        height: 100%; /* Make the button take full height */
+        padding: 0 15px;
+        background-color: #5a67d8;
+        color: white;
+        border: 1px solid #ccc;
+        border-radius: 4px 0 0 4px; /* Rounded corners for the left side */
+        cursor: pointer;
+    }
+
+    .navbar form input[type="text"] {
+        height: 100%; /* Make the input take full height */
+        padding: 0 10px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 0 4px 4px 0; /* Rounded corners for the right side */
+    }
+
+    .dropdown-menu {
+        li {
+            a {
+                color: black;
+                font-size: 14px;
             }
         }
-        
     }
-    .dropdown-toggle{
-        font-size:14px;
-    }
-
 }
-
-
 
 .categories-line{
    background-color: rgb(0, 83, 0);
