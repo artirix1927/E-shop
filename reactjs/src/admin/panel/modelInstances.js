@@ -192,8 +192,8 @@ const ModelFilters = () => {
 
     
     return <>
-        <div className="filters-div">
-            {parsedFiltersData && parsedFiltersData.map((elem)=>{
+        {parsedFiltersData && <div className="filters-div">
+            {parsedFiltersData.map((elem)=>{
                 
                 return <div className="filters-content">
                     
@@ -210,6 +210,7 @@ const ModelFilters = () => {
                 </div>
             })}
         </div>
+        }
     
     
     
