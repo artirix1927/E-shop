@@ -36,10 +36,11 @@ export const Navbar = () =>{
             <div className="navbar-nav" style={{float:'left'}}>
                 <Link className='nav-link' to="/" onClick={resetProductContextOnHomeClick}>Home</Link>
             </div>
-            
-            <form className="d-flex input-group" action='/'>
-                    <SearchBar/>
-            </form>
+            <div className='center-container'>
+                <form className="d-flex input-group" action='/'>
+                        <SearchBar/>
+                </form>
+            </div>
             <div className="navbar-nav" style={{float:'right'}}>
                 
                 {(cookies.user) ? 
