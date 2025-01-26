@@ -10,6 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
+from django.core.cache.backends.base import InvalidCacheBackendError
+from django.core.cache import caches
 from pathlib import Path
 
 import os
@@ -199,19 +201,16 @@ KAFKA_CONFIG = {
 
 EXCLUDE_FROM_ADMIN = ['contenttypes', 'admin', 'sessions']
 
-CACHES = {
-    "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://redis-server:6379/1",
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
-            "CONNECTION_POOL_KWARGS": {
-                "retry_attempts": 3,
-            }
-        }
-    }
-}
-
+# CACHES = {
+#     "default": {
+#         "BACKEND": "django_redis.cache.RedisCache",
+#         "LOCATION": "redis://127.0.0.1:6379/1",
+#         "OPTIONS": {
+#             "CLIENT_CLASS": "django_redis.client.DefaultClient",
+#             "retry_on_timeout": True,  # Enable retrying on timeout
+#         },
+#     }
+# }
 
 # CACHES = {
 #     "default": {
@@ -220,8 +219,36 @@ CACHES = {
 #         "OPTIONS": {
 #             "CLIENT_CLASS": "django_redis.client.DefaultClient",
 #             "CONNECTION_POOL_KWARGS": {
-#                 "retry_attempts": 3,
+#                 # "retry_attempts": 3,
+#                 "max_connections": 100,  # Example of a valid paramete
 #             }
 #         }
 #     }
 # }
+
+
+# Configure CACHES first
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        "LOCATION": "fallback_cache",
+    },
+    "redis": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            "SOCKET_CONNECT_TIMEOUT": 1,  # Fast fail
+            "SOCKET_TIMEOUT": 1,
+        },
+    },
+}
+
+# Check if Redis is available
+try:
+    redis_cache = caches['redis']
+    redis_cache.set('test_key', 'test_value', timeout=1)
+    redis_cache.get('test_key')  # Ensure Redis is functional
+    DEFAULT_CACHE = 'redis'
+except (Exception):
+    DEFAULT_CACHE = 'default'
