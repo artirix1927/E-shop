@@ -64,14 +64,20 @@ class FilterModelManager(BasicManager):
 
         return serialized_filters
 
-    def run_filter(self, model: models.Model, query_string: str):
+    def get_query_params_by_string(self, query_string: str):
 
         encoded_query_string = urllib.parse.unquote_plus(
             query_string.strip("?"))
 
         query_params = dict((encoded_query_string.split("="),))
 
-        queryset = self._redis_cache.get(model.objects.filter(**query_params))
+        return query_params
+
+    def run_filter(self, model: models.Model, query_string: str):
+
+        query_params = self.get_query_params_by_string(query_string)
+        queryset = self._redis_cache.get(
+            model.objects.filter(**query_params))
 
         return queryset
 
