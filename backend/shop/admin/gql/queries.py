@@ -53,6 +53,7 @@ class AdminQueries(graphene.ObjectType):
         app_name=graphene.String(),
         model_name=graphene.String(),
         search_string=graphene.String(),
+        filter_query_string=graphene.String(),
 
 
     )
@@ -79,10 +80,10 @@ class AdminQueries(graphene.ObjectType):
             model_name=model_name,
             instances=instances_repr_for_type)
 
-    def resolve_run_search(self, info, app_name, model_name, search_string):
+    def resolve_run_search(self, info, app_name, model_name, search_string, filter_query_string=None):
         model = admin.apps.get_model_by_app_and_name(app_name, model_name)
-
-        search_results = admin.search.search(model, search_string)
+        search_results = admin.search.search(
+            model, search_string, filter_query_string)
 
         instances_repr_for_type = [
             {'instance': str(intsance), 'id': intsance.id} for intsance in search_results]
