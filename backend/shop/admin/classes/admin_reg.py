@@ -31,7 +31,7 @@ class Admin:
     search = SearchModelManager
 
     def __init__(self, redis_cache: QuerysetCache):
-        self.__admin_instance = self
+        Admin.__admin_instance = self
         self.__registered_models = dict()
         self.__redis_cache = redis_cache
 
@@ -50,7 +50,7 @@ class Admin:
         # self.__checks_chain = checks_chain
 
     @classmethod
-    def get_class_instance(cls, redis_cache: QuerysetCache):
+    def get_class_instance(cls, redis_cache: QuerysetCache = None):
         if not cls.__admin_instance:
             cls.__admin_instance = cls(redis_cache)
 
