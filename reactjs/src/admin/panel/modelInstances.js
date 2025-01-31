@@ -1,7 +1,7 @@
 import { useLazyQuery, useMutation, useQuery } from "@apollo/client"
-import { useLocation, useNavigate, useParams } from "react-router-dom"
-import { GET_FILTERED_INSTANCES, GET_MODEL_FILTERS, GET_MODEL_INSTANCES } from ".././gql/queries"
-import { useContext, useEffect, useState } from "react"
+import { useNavigate, useParams } from "react-router-dom"
+import { GET_FILTERED_INSTANCES, GET_MODEL_FILTERS, GET_MODEL_INSTANCES, GET_SEARCHED_INSTANCES } from ".././gql/queries"
+import { useContext, useEffect, useRef, useState } from "react"
 import { DELETE_INSTANCES } from ".././gql/mutations"
 import { ModelsPanel } from "./modelsPanel"
 import { filtersContext } from "../../providers/filtersProvider"
@@ -31,8 +31,11 @@ export const ModelInstancesList = () => {
 
 
             <div className="instances-table" >
-                <ModelFilters/>
+
+                <SearchingAndFiltering/>
+                
                 <DeleteSelectedButton selectedInstances={selectedInstances}/>
+                
                 <InstancesTable setSelectedInstances={setSelectedInstances} selectedInstances={selectedInstances}></InstancesTable>
             </div>
 
@@ -64,14 +67,11 @@ const InstancesTable = ({setSelectedInstances, selectedInstances, ...props}) => 
 
     useEffect(()=>{
         if (filterData){
-        
             setParsedInstances(JSON.parse(filterData.instances))
         }
 
     }
     ,[filterData])
-
-    
 
 
     const selectInstanceOnClick = (e, instanceId) => {
@@ -143,7 +143,18 @@ const DeleteSelectedButton = ({selectedInstances, ...props}) => {
 
 
 
-const ModelFilters = () => {
+const SearchingAndFiltering = (props)  => {
+    const [filterString, setFilterString] = useState()
+
+
+    return <>
+        <ModelFilters setFilterString={setFilterString}/>
+        <ModelSearch filterString={filterString}/>
+    
+    </>
+}
+
+const ModelFilters = (props) => {
     const {setFiltersData} = useContext(filtersContext)
 
 
@@ -152,13 +163,13 @@ const ModelFilters = () => {
     const [getInstances, res] = useLazyQuery(GET_FILTERED_INSTANCES);
 
     const filterOnClick = (e) => {
+        props.setFilterString(e.target.getAttribute("value"))
         getInstances({variables: {appName: appName, modelName: modelName, queryString: e.target.getAttribute("value")}})
     }
 
 
     useEffect(()=>{
         if (res.data){
-       
             setFiltersData(res.data.runFilter)
         }
     }
@@ -212,6 +223,47 @@ const ModelFilters = () => {
         </div>
     
     
+    
+    </>
+}
+
+
+
+const ModelSearch = (props) => {
+    const inputRef = useRef(null)
+
+    const {setFiltersData} = useContext(filtersContext);
+
+    const {appName,modelName} = useParams();
+
+    const [getInstances, res] = useLazyQuery(GET_SEARCHED_INSTANCES);
+
+    const searchOnClick = (e) => {
+        getInstances({variables: {appName: appName, modelName: modelName, searchString: inputRef.current.value, filterQueryString: props.filterString}});
+    }
+
+
+    useEffect(()=>{
+        if (res.data){  
+            setFiltersData(res.data.runSearch)
+        }
+    }
+    
+
+    ,[res])
+
+
+    useEffect(() => {
+        if (inputRef.current) {
+            inputRef.current.value = "";
+        }
+    }, [props.filterString]);
+
+    return <>
+    <div style={{display:"flex", flexDirection:"row", gap:"10px", marginBottom:"1%"}}>
+        <input className="form-control" placeholder="Search..." type="text" ref={inputRef} style={{width:"40%"}} defaultValue={""}/>
+        <button className="btn btn-light" onClick={searchOnClick}>Search</button>
+    </div>
     
     </>
 }
