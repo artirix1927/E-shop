@@ -10,11 +10,12 @@ from asgiref.sync import sync_to_async
 
 # from chat.funcs import get_camelcased_dict, serialize_message, create_message
 
-from .kafka.kafka_producer import send_chat_message_to_kafka
 import chat.funcs as funcs
 
 from django.contrib.auth.models import User
 from .serializers import UserSerializer
+
+from streaming_logic.produce import send_chat_message_to_streaming
 
 
 class ChatConsumer(AsyncWebsocketConsumer):
@@ -46,7 +47,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         # msg = await funcs.create_message(message, ticket_id, user_id)
         msg = {"sentBy": UserSerializer(
             user).data, "message": message, "ticket": ticket_id}
-        await sync_to_async(send_chat_message_to_kafka)(msg)
+        await sync_to_async(send_chat_message_to_streaming)(msg)
         # Send message to room group
         await self.channel_layer.group_send(
             self.room_group_name, {"type": "chat.message", "message": msg}

@@ -2,7 +2,7 @@
 
 from django.core.management.base import BaseCommand
 
-from chat.kafka.kafka_consumer import kafka_consumer
+from streaming_logic.consume import consume_chat_message
 
 
 class Command(BaseCommand):
@@ -10,5 +10,5 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         self.stdout.write(self.style.SUCCESS('Starting Kafka consumer...'))
-        kafka_consumer()
+        consume_chat_message()
         self.stdout.write(self.style.SUCCESS('Kafka consumer stopped'))
