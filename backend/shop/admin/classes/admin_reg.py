@@ -30,7 +30,7 @@ class Admin:
 
     def __init__(self, redis_cache: QuerysetCache):
         self.__admin_instance = self
-        self.__registered_models = dict()
+        self.__registered_models = admin.site._registry
         self.__redis_cache = redis_cache
 
         self.apps = AppModelManager(
