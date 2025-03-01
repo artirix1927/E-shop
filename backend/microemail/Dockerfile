@@ -8,6 +8,7 @@ RUN apt-get update && apt-get install -y \
     gcc \
     libffi-dev \
     librdkafka-dev \
+    git \
     && apt-get clean
     
 
@@ -15,6 +16,7 @@ RUN apt-get update && apt-get install -y \
 COPY requirements.txt .
 
 # Install dependencies
+RUN pip install git+https://github.com/artirix1927/Common-Streaming-Package.git#egg=common-streaming
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the rest of your application code

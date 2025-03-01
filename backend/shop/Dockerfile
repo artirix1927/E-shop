@@ -8,10 +8,14 @@ RUN apt-get update && apt-get install -y \
     gcc \
     libffi-dev \
     librdkafka-dev \
+    git \
     && apt-get clean
 
 # Copy the requirements file and install dependencies
+
 COPY requirements.txt .
+RUN pip install git+https://github.com/artirix1927/Common-Streaming-Package.git#egg=common-streaming
+
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the shop source code
