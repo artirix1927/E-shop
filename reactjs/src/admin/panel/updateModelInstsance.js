@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@apollo/client"
-import { useLocation, useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { GET_MODEL_INSTANCE_FORM } from ".././gql/queries"
 import { Form, Formik } from "formik"
 
@@ -44,6 +44,8 @@ export const UpdateModelInstance = () => {
 const InstanceForm = (props) => {
     const form = props.form
 
+    const navigate = useNavigate()
+
     const initialValues = {}
 
     form.fields.map((field) => {
@@ -76,7 +78,8 @@ const InstanceForm = (props) => {
             files: formFileValues,
         };
     
-        updateInstance({ variables: mutationVariables, refetchQueries:[GET_MODEL_INSTANCE_FORM, 'ModelInstanceForm']} );
+        updateInstance({ variables: mutationVariables, refetchQueries:['ModelInstanceForm', 'ModelInstances']} );
+        navigate(-1)
     };
 
 

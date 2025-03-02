@@ -1,5 +1,5 @@
 import { Formik, Form} from "formik"
-import { GET_MODEL_CREATE_FORM, GET_MODEL_INSTANCES } from ".././gql/queries"
+import { GET_MODEL_CREATE_FORM } from ".././gql/queries"
 import { useLocation, useNavigate } from "react-router-dom"
 
 import { useMutation, useQuery } from "@apollo/client"
@@ -72,8 +72,8 @@ const ModelForm = (props) => {
         //the refetch query doesnt works there dont know why, 
         //maybe becaus the model instances component is not mounted at that point
         //even though the query must be in cache at that point
-        createInstance({ variables: mutationVariables, refetchQueries: ['ModelInstances']},);
-        navigate('/admin/models-panel')
+        createInstance({ variables: mutationVariables, refetchQueries: ['ModelInstances',]});
+        navigate(-1)
     };
     
     const initialValues = {}
