@@ -38,7 +38,7 @@ class UpdateInstance(graphene.Mutation):
             app_name, model_name)
         instance = picked_model.objects.get(id=instance_id)
 
-        form_class = admin.forms.get_rendered_form_data(picked_model)
+        form_class = admin.forms.get_model_form_class_by_model(picked_model)
 
         form_files_dict = funcs.create_multivalue_dict_for_files(files)
         form_data = json.loads(form_values)
