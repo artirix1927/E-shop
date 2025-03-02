@@ -15,7 +15,7 @@ export const ModelInstancesList = () => {
 
     const [selectedInstances, setSelectedInstances] = useState([])
     //fetch policy bcz when deleting the instance, refetch query doesnt work
-    const {data, loading, error} = useQuery(GET_MODEL_INSTANCES, {variables: {appName: appName, modelName: modelName}, fetchPolicy:"network-only"})
+    const {data, loading, error} = useQuery(GET_MODEL_INSTANCES, {variables: {appName: appName, modelName: modelName}})
     
     useEffect(()=>{
         if (data)
