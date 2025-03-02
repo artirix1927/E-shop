@@ -58,6 +58,16 @@ export const GET_FILTERED_INSTANCES = gql`
 `
 
 
+export const GET_SEARCHED_INSTANCES  = gql`
+  query SearchedInstances($appName: String!, $modelName: String!, $searchString: String!,  $filterQueryString: String) @api(name: app){
+    runSearch(appName: $appName, modelName:$modelName, searchString: $searchString, filterQueryString:$filterQueryString){
+      instances
+    }
+  }
+
+`
+
+
 export const GET_SUPPORT_TICKETS = gql`
   query AllTickets($offset: Int!, $limit: Int!) @api(name: chat){
     allTickets(offset: $offset, limit: $limit){
@@ -86,6 +96,8 @@ export const GET_SUPPORT_TICKET_MESSAGES = gql`
     }
 }
 `
+
+
 
 
 

@@ -6,6 +6,7 @@ from django.db import models
 # from django.core.serializers.json import DjangoJSONEncoder
 
 from admin.classes.managers import AppModelManager, FilterModelManager, FormModelManager
+from admin.classes.managers.search_model_manager import SearchModelManager
 from shop.redis_cache_class import QuerysetCache
 
 
@@ -27,6 +28,7 @@ class Admin:
     apps: AppModelManager
     forms: FormModelManager
     filters: FilterModelManager
+    search = SearchModelManager
 
     def __init__(self, redis_cache: QuerysetCache):
         self.__admin_instance = self
@@ -42,10 +44,13 @@ class Admin:
         self.filters = FilterModelManager(
             self.__registered_models, self.__redis_cache)
 
+        self.search = SearchModelManager(
+            self.__registered_models, self.__redis_cache)
+
         # self.__checks_chain = checks_chain
 
     @classmethod
-    def get_class_instance(cls, redis_cache: QuerysetCache):
+    def get_class_instance(cls, redis_cache: QuerysetCache = None):
         if not cls.__admin_instance:
             cls.__admin_instance = cls(redis_cache)
 
