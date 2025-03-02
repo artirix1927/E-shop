@@ -7,7 +7,7 @@ from admin.classes.renderers import FormRenderer
 from admin.classes.serializers import FormSerializer
 
 from admin.classes.managers.base import BasicManager
-from shop.redis_cache_class import QuerysetCache
+from shop.cache_class import QuerysetCache
 
 
 class FormModelManager(BasicManager):

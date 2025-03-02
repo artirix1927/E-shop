@@ -3,7 +3,7 @@ from django.db import models
 from django.forms import ModelForm
 
 from admin.classes.serializers import FormSerializer
-from shop.redis_cache_class import QuerysetCache
+from shop.cache_class import QuerysetCache
 
 
 class RegisterAdminModel:

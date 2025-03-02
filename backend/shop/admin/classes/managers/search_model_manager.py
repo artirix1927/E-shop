@@ -2,7 +2,7 @@
 from django.db import models
 from django.contrib.admin import ModelAdmin
 
-from shop.redis_cache_class import QuerysetCache
+from shop.cache_class import QuerysetCache
 from .base import BasicManager
 
 

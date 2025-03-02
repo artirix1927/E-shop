@@ -5,7 +5,7 @@ import reviews.gql.types as gql_types
 
 import reviews.models as db_models
 
-from shop.redis_cache_class import QuerysetCache
+from shop.cache_class import QuerysetCache
 
 
 redis_cache = QuerysetCache("reviews")

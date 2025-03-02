@@ -6,7 +6,7 @@ from products.models import Category, Product
 
 from django.db.models import Q
 
-from shop.redis_cache_class import QuerysetCache
+from shop.cache_class import QuerysetCache
 from django.core.cache import cache
 
 

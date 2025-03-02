@@ -7,7 +7,7 @@ from django.db import models
 
 from admin.classes.managers import AppModelManager, FilterModelManager, FormModelManager
 from admin.classes.managers.search_model_manager import SearchModelManager
-from shop.redis_cache_class import QuerysetCache
+from shop.cache_class import QuerysetCache
 
 
 from django.db.models.base import ModelBase

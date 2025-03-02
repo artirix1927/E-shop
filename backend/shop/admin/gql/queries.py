@@ -8,7 +8,7 @@ from django.core.serializers.json import DjangoJSONEncoder
 from admin.classes.admin import admin
 
 # from admin.classes.serializers import FilterSerializer
-from shop.redis_cache_class import QuerysetCache
+from shop.cache_class import QuerysetCache
 
 
 redis_cache = QuerysetCache("admin")
