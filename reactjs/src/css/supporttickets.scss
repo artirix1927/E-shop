@@ -142,6 +142,46 @@ $content-height: adminpanel.$height-after-navbar;
 }
 
 
+.filter-search-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background: #eef2f7;
+    border-bottom: 2px solid #ddd;
+    margin: 10px;
+
+    .search-input {
+        width: 60%;
+        padding: 8px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        font-size: 14px;
+    }
+
+    .filter-buttons {
+        display: flex;
+
+        .filter-btn {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            transition: 0.3s;
+            margin-inline: 10px;
+
+            &:hover {
+                background-color: #0056b3;
+            }
+
+            &.active {
+                background-color: #28a745;
+            }
+        }
+    }
+}
 
 
 .create-ticket-btn {

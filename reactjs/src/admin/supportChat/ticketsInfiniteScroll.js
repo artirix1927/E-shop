@@ -1,56 +1,57 @@
-import { useLazyQuery,} from "@apollo/client";
+import { useLazyQuery } from "@apollo/client";
 import { GET_SUPPORT_TICKETS } from ".././gql/queries";
-
-import { useCallback, useEffect, useState} from "react";
-
-
+import { useCallback, useEffect, useState } from "react";
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 export const TicketsInfiniteScroll = (props) => {
 
     const limit = 10;
-
     const [index, setIndex] = useState(0);
     const [hasMore, setHasMore] = useState(true);
-    const [getTickets, {data}] = useLazyQuery(GET_SUPPORT_TICKETS)
+    const [getTickets, {data, networkStatus }] = useLazyQuery(GET_SUPPORT_TICKETS, {notifyOnNetworkStatusChange: true});
 
+    const setTicketsState = props.setItems;
 
-    const setTicketsState = props.setItems
-
+    // Trigger fetch when scrolling
     const fetchMoreTickets = useCallback(() => {
-        getTickets({variables: {offset: index, limit: limit}})
-    }, [getTickets, index, limit])
+        getTickets({ variables: { offset: index, limit: limit } });
+    }, [getTickets, index, limit]);
 
-    useEffect(()=>{
-        //init fetching if no items on the screen
-        if (!props.items.length && hasMore){
-            fetchMoreTickets()
-        }
-    }, [props.items, fetchMoreTickets, hasMore])
-
-
+    // Trigger initial fetch if no items are present
     useEffect(() => {
-        //adding objects to items
+        if (!props.items.length && hasMore) {
+            fetchMoreTickets();
+        }
+    }, [props.items, fetchMoreTickets, hasMore]);
+
+    // Handle refetch (when networkStatus === 4) - we reset the state when we want to
+    useEffect(() => {
+            if (networkStatus === 4) {
+            setTicketsState([]); // Resetting state to avoid old data showing
+            setHasMore(true);    // Set hasMore to true to allow fetching more
+            setIndex(0);         // Reset index for pagination
+        }
+    }, [networkStatus, setTicketsState]);
+
+    // Handle new data from the query
+    useEffect(() => {
         if (data) {
             const tickets = Object.values(data)[0];
             setTicketsState((prevItems) => [...prevItems, ...tickets]);
-            setHasMore(tickets.length > 0);
-            setIndex((prevIndex) => prevIndex + limit);
+            setHasMore(tickets.length > 0); // Update hasMore flag
+            setIndex((prevIndex) => prevIndex + limit); // Update pagination index
         }
-    }, [data]);
+    }, [data, setTicketsState]);
 
     return <>
     <InfiniteScroll
         dataLength={props.items.length}
         next={fetchMoreTickets}
         hasMore={hasMore}
-        loader={(<></>)}
+        loader={<></>} // Custom loader
         scrollableTarget={props.scrollableTarget}
     >
         {props.children}
-
     </InfiniteScroll>
     </>
-    
-    
 }

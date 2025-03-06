@@ -1,71 +1,102 @@
 import { useMutation } from "@apollo/client";
 import { GET_SUPPORT_TICKETS } from ".././gql/queries";
-
-import '../../css/supporttickets.scss'
-import { createRef , useState} from "react";
-
-
+import "../../css/supporttickets.scss";
+import { createRef, useEffect, useState } from "react";
 import { ChatModal } from "./chatModal";
 import { CLOSE_TICKET } from ".././gql/mutations";
 import { TicketsInfiniteScroll } from "./ticketsInfiniteScroll";
 import { useChatWs } from "../../hooks";
 
+export const SupportTicketsList = () => {
+    const chatModalRef = createRef();
+    const [tickets, setTickets] = useState([]);
+    const [filterParams, setFilterParams] = useState({ searchQuery: "", filter: "all" });
 
+    const [currentTicketId, setCurrentTicketId] = useState();
+    const [currentTicketClosed, setCurrentTicketClosed] = useState();
+    const [ws, isConnected] = useChatWs(currentTicketId);
 
+    // Filter tickets dynamically
+    const filteredTickets = tickets.filter(ticket => {
+        const matchesSearch = filterParams.searchQuery
+            ? ticket.user.username.toLowerCase().includes(filterParams.searchQuery.toLowerCase()) ||
+              ticket.id.toString().includes(filterParams.searchQuery)
+            : true;
 
-export const  SupportTicketsList = () => {
-    const chatModalRef = createRef()
+        const matchesFilter =
+            filterParams.filter === "all" ||
+            (filterParams.filter === "open" && !ticket.closed) ||
+            (filterParams.filter === "closed" && ticket.closed);
 
-    const [tickets, setTickets] = useState([])
-    const [currentTicketId, setCurrentTicketId] = useState()
-    const [currentTicketClosed, setCurrentTicketClosed] = useState()
+        return matchesSearch && matchesFilter;
+    });
 
-    //'const wsRef = useRef(null);
-
-    //for infinite scroll
-    const listOfTicketsId = 'support-tickets-list'
-
-    const [ws,isConnected] = useChatWs(currentTicketId)
-
-
-    return <>
+    return (
         <div>
-            <div className="support-tickets-list" id={listOfTicketsId}>
-                    
-                    <TicketsInfiniteScroll
-                        setItems={setTickets} items={tickets}
-                        scrollableTarget={listOfTicketsId}
-        
-                    >
+            <div className="support-tickets-list">
+                <TicketsSearch setFilterParams={setFilterParams} tickets={tickets} />
+
+                <TicketsInfiniteScroll setItems={setTickets} items={tickets} scrollableTarget="support-tickets-list">
                     <div className="ticket-buttons-container">
-                        {tickets.map((item)=>{
-                            return <SupportTicketItem   chatModalRef={chatModalRef} 
-                                                        setCurrentTicketId={setCurrentTicketId}
-                                                        setCurrentTicketClosed={setCurrentTicketClosed}
-                                                        ticket={item}
-                                                        key={item.id} 
-                                                        
-                                                        
-                                    />
-                        })}
+                        {filteredTickets.map(item => (
+                            <SupportTicketItem
+                                chatModalRef={chatModalRef}
+                                setCurrentTicketId={setCurrentTicketId}
+                                setCurrentTicketClosed={setCurrentTicketClosed}
+                                ticket={item}
+                                key={item.id}
+                            />
+                        ))}
                     </div>
-                    </TicketsInfiniteScroll>
-                    
-                    
-            </div> 
-            
-            <div>
-                <ChatModal  ref={chatModalRef} 
-                            currentTicketId={currentTicketId} 
-                            currentTicketClosed={currentTicketClosed}
-                            wsRef={ws}
-                            isConnected={isConnected}/>
+                </TicketsInfiniteScroll>
+            </div>
+
+            <ChatModal
+                ref={chatModalRef}
+                currentTicketId={currentTicketId}
+                currentTicketClosed={currentTicketClosed}
+                wsRef={ws}
+                isConnected={isConnected}
+            />
+        </div>
+    );
+};
+
+
+
+const TicketsSearch = ({ setFilterParams }) => {
+    const [filter, setFilter] = useState("all"); // "all", "open", "closed"
+    const [searchQuery, setSearchQuery] = useState("");
+
+    useEffect(() => {
+        setFilterParams({ searchQuery, filter });
+    }, [searchQuery, filter, setFilterParams]);
+
+    return (
+        <div className="filter-search-container">
+            <input
+                type="text"
+                placeholder="Search by user or ticket ID..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="search-input"
+            />
+
+            <div className="filter-buttons">
+                <button className={`filter-btn ${filter === "all" ? "active" : ""}`} onClick={() => setFilter("all")}>
+                    All
+                </button>
+                <button className={`filter-btn ${filter === "open" ? "active" : ""}`} onClick={() => setFilter("open")}>
+                    Open
+                </button>
+                <button className={`filter-btn ${filter === "closed" ? "active" : ""}`} onClick={() => setFilter("closed")}>
+                    Closed
+                </button>
             </div>
         </div>
+    );
+};
 
-        
-    </>
-}
 
 
 
