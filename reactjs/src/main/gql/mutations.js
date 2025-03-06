@@ -9,3 +9,16 @@ export const ADD_TO_CART = gql`
     }
   }
 `
+
+export const CREATE_TICKET = gql`
+  mutation CreateTicket($userId: Int!) @api(name: chat) {
+    createTicket(userId: $userId){
+      ticket{
+        user{
+          id
+        }
+      }
+    }
+    
+}
+`

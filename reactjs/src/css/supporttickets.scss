@@ -1,144 +1,169 @@
-@use './adminpanel.scss' as adminpanel; 
-
+@use './adminpanel.scss' as adminpanel;
 @import './bodystyles.scss';
-
-
-
-
 $content-height: adminpanel.$height-after-navbar;
-
-.support-tickets-list{
+// ====== Support Tickets List ======
+.support-tickets-list {
     padding: 1% 0%;
-    
     width: 25vw;
-    float:left;
-    background-color: aliceblue;
-
+    float: left;
+    background-color: #f4f7fc; // Light modern blue-gray
     height: $content-height;
-
     overflow-y: visible;
- 
 
-    .ticket-buttons-container{
-     
+    .ticket-buttons-container {
         display: flex;
         flex-direction: column;
-        gap: 28px;
+        gap: 20px;
         align-items: center;
         justify-content: flex-start;
-        
 
-
-
-        .ticket-button{
+        .ticket-button {
             display: flex;
             align-items: center;
             flex-direction: row;
             justify-content: center;
-
             width: 80%;
             min-height: 44px;
-            background-color: rgb(0, 202, 135);
-            border-radius: 8px;
-
-        
+            background-color: #007bff; // Modern blue
+            border-radius: 6px;
             padding-inline: 4%;
-            font-size: 20px;
-            
-            .ticket-name{
+            font-size: 18px;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+
+            .ticket-name {
                 color: white;
                 margin-top: auto;
                 margin-bottom: auto;
                 margin-right: auto;
             }
 
-
-            .close-ticket{
-                font-size: 20px;
+            .close-ticket {
+                font-size: 18px;
                 margin-left: auto;
+                cursor: pointer;
+                color: white;
             }
         }
-        .closed{
-            background-color:rgb(255, 90, 90);
+
+        .closed {
+            background-color: #dc3545; // Bootstrap red
         }
 
-        .active{
-
-            border: 2px solid black;
+        .active {
+            border: 2px solid #222;
         }
     }
-
-   
 }
 
-.chat-modal-container{
-    
-    height:$content-height;
-    float:inline-end;
+// ====== Chat Modal ======
+.chat-modal-container {
+    height: $content-height;
+    float: inline-end;
     width: 75vw;
     max-width: 75vw;
-    background-color: antiquewhite;
+    background-color: #ffffff;
     z-index: 2;
-    
-    .chat-modal{
-        
+    border-left: 2px solid #ddd;
+
+    .chat-modal {
         height: $content-height;
         display: none;
         position: relative;
         padding: 1% 2%;
-        
-        .messages-list-wrapper{
+
+        .messages-list-wrapper {
             overflow: auto;
             height: 90%;
-            display:flex;
+            display: flex;
             flex-direction: column-reverse;
-            .messages-list{
-                
+            background: #f9f9f9;
+            border-radius: 6px;
+            padding: 10px;
+
+            .messages-list {
                 height: 80%;
-                .rce-mlist{
-                    display:flex;
+
+                .rce-mlist {
+                    display: flex;
                     flex-direction: column-reverse;
                 }
 
-                .rce-mbox{
+                .rce-mbox {
                     max-width: 75%;
+                    background-color: #fff;
+                    border: 1px solid #ddd;
+                    border-radius: 8px;
+                    padding: 10px;
                 }
-
-                
             }
         }
-        
-        
-    
-        .send-message-container{
+
+        .send-message-container {
             width: 90%;
             position: absolute;
             bottom: 10px;
-            gap: 20px;
+            gap: 15px;
             justify-content: center;
             padding-inline: 5%;
-    
-    
-            .send-message-form{
+            background: #ffffff;
+            border-top: 2px solid #ddd;
+            padding: 10px;
+
+            .send-message-form {
                 display: flex;
                 align-items: center;
                 min-width: 100%;
                 gap: 10px;
-                .message-input-field{
+
+                .message-input-field {
                     padding-inline: 10px;
-                    border-radius: 8px;
+                    border-radius: 6px;
+                    border: 1px solid #ccc;
+                    font-size: 14px;
+                    width: 100%;
                 }
-        
-                .message-input-button{
+
+                .message-input-button {
                     height: fit-content;
+                    background-color: #28a745; // Bootstrap green
+                    color: white;
+                    border-radius: 4px;
+                    padding: 8px 12px;
+                    cursor: pointer;
+                    border: none;
+
+                    &:hover {
+                        background-color: #218838;
+                    }
                 }
-    
-    
             }
         }
     }
-
-
 }
 
 
+
+
+.create-ticket-btn {
+    background: none;
+    border: 1.5px solid #007bff; /* Subtle blue border */
+    color: #007bff; /* Blue text */
+    font-size: 16px;
+    padding: 4px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+}
+
+.create-ticket-btn:hover {
+    background: #007bff;
+    color: white;
+}
+
+.create-ticket-btn:active {
+    transform: scale(0.98);
+}
