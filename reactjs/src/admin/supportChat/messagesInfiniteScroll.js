@@ -51,8 +51,11 @@ export const MessagesInfiniteScroll = (props) => {
         if (data) {
             const messages = Object.values(data)[0];
             const messagesToSet = messages.map((msg) => getMessageToPush(msg));
-            setMessagesState((prevItems) => [...prevItems, ...messagesToSet]);
-            setIndex((prevIndex) => prevIndex + limit);
+            
+            if (messages.length > 0) {
+                setMessagesState((prevItems) => [...prevItems, ...messagesToSet]);
+                setIndex((prevIndex) => prevIndex + limit);
+            }
             setHasMore(messages.length > 0);
             
         }

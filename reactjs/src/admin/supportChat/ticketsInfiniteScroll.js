@@ -37,9 +37,12 @@ export const TicketsInfiniteScroll = (props) => {
     useEffect(() => {
         if (data) {
             const tickets = Object.values(data)[0];
-            setTicketsState((prevItems) => [...prevItems, ...tickets]);
-            setHasMore(tickets.length > 0); // Update hasMore flag
-            setIndex((prevIndex) => prevIndex + limit); // Update pagination index
+
+            if (tickets.length > 0) {
+                setTicketsState((prevItems) => [...prevItems, ...tickets]);
+                setIndex((prevIndex) => prevIndex + limit);
+            }
+            setHasMore(tickets.length > 0);
         }
     }, [data, setTicketsState]);
 

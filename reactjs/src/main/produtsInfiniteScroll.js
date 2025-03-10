@@ -64,10 +64,14 @@ export const ProductsInfiniteScroll = (props) => {
     useEffect(() => {
         //adding objects to items
         if (data) {
+
             const products = Object.values(data)[0];
-            setItemsState((prevItems) => [...prevItems, ...products]);
+            if (products.length > 0) {
+                setItemsState((prevItems) => [...prevItems, ...products]);
+                setIndex((prevIndex) => prevIndex + limit);
+            }
             setHasMore(products.length > 0);
-            setIndex((prevIndex) => prevIndex + limit);
+            
         }
     }, [data, setItemsState]);
     
