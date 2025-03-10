@@ -149,7 +149,8 @@ $content-height: adminpanel.$height-after-navbar;
     padding: 10px;
     background: #eef2f7;
     border-bottom: 2px solid #ddd;
-    margin: 10px;
+    margin-block: 10px;
+    min-width: 80%;
 
     .search-input {
         width: 60%;
