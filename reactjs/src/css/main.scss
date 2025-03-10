@@ -109,17 +109,31 @@
                 display: -webkit-box;
                 white-space: pre-wrap;
             }
-
-           
             width: 18rem;
             img{
+                padding: 4px;
                 width: 100%;
                 height: 250px;
                 object-fit: contain;
             }
-    
-            .cartbtn{
-                float: right;
+            
+            .card-body {
+                flex-grow: 1; /* Make the description area flexible to take remaining space */
+                display: flex;
+                flex-direction: column;
+            }
+        
+            .card-footer {
+                margin-top: auto; /* Push buttons to the bottom */
+                padding: 10px; /* Adjust the padding to your needs */
+                display: flex;
+                justify-content: space-between; /* Space between buttons if needed */
+                background-color: transparent;
+                border:none;
+            }
+        
+            .cartbtn {
+                margin-left: auto; /* Align cart button to the right */
             }
         }
         

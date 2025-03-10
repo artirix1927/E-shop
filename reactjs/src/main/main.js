@@ -66,9 +66,13 @@ export const ProductCard = (props) => {
             <h5 className="card-title text-truncate">{productData.name}</h5>
             <h5 className="card-title">{productData.price} $CAD</h5>
             <p className="card-text ellipsify">{productData.description}</p>
-            <Link className="btn btn-primary" to={`/product/${productData.id}`}>Read More</Link>
+
             
-            <button className="btn btn-warning cartbtn" onClick={handleAddToCart}><i className="bi bi-cart-plus"></i></button>
+            <div className="card-footer">
+                <Link className="btn btn-primary" to={`/product/${productData.id}`}>Read More</Link>
+                <button className="btn btn-warning cartbtn" onClick={handleAddToCart}><i className="bi bi-cart-plus"></i></button>
+            </div>
+          
         </div>
     </div>
 }
