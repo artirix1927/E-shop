@@ -52,7 +52,7 @@ export const ProductCard = (props) => {
     const [cookies] = useCookies()
 
     const productData = props.data;
-    const firstImageUrl = productData.attachments[0].image;
+    const firstImageUrl = (productData.attachments[0]) ? productData.attachments[0].image : null
 
     const handleAddToCart = (e) => {
         addToCart({variables: {userId: parseInt(cookies.user.id), productId: parseInt(productData.id), quantity:1}})
