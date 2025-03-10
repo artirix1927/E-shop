@@ -51,8 +51,8 @@ export const ChatModal = forwardRef((props,ref) =>{
                                         setMessagesSource={setMessagesSource} c
                                         currentTicketId={props.currentTicketId}/>
 
-                    <ChatSendMessageForm wsRef={props.wsRef} 
-                                     currentTicketId={props.currentTicketId}/>
+                    { !props.currentTicketClosed && <ChatSendMessageForm wsRef={props.wsRef} 
+                                     currentTicketId={props.currentTicketId}/>}
                     
             </div>
         </div>
