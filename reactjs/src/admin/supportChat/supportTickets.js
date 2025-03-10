@@ -1,7 +1,7 @@
 import { useMutation } from "@apollo/client";
 import { GET_SUPPORT_TICKETS } from ".././gql/queries";
 import "../../css/supporttickets.scss";
-import { createRef, useEffect, useState } from "react";
+import { createRef, useEffect, useMemo, useState } from "react";
 import { ChatModal } from "./chatModal";
 import { CLOSE_TICKET } from ".././gql/mutations";
 import { TicketsInfiniteScroll } from "./ticketsInfiniteScroll";
@@ -16,20 +16,22 @@ export const SupportTicketsList = () => {
     const [currentTicketClosed, setCurrentTicketClosed] = useState();
     const [ws, isConnected] = useChatWs(currentTicketId);
 
-    // Filter tickets dynamically
-    const filteredTickets = tickets.filter(ticket => {
-        const matchesSearch = filterParams.searchQuery
-            ? ticket.user.username.toLowerCase().includes(filterParams.searchQuery.toLowerCase()) ||
-              ticket.id.toString().includes(filterParams.searchQuery)
-            : true;
+    // Memoized filtered tickets for better performance
+    const filteredTickets = useMemo(() => {
+        return tickets.filter(ticket => {
+            const matchesSearch = filterParams.searchQuery
+                ? ticket.user.username.toLowerCase().includes(filterParams.searchQuery.toLowerCase()) ||
+                  ticket.id.toString().includes(filterParams.searchQuery)
+                : true;
 
-        const matchesFilter =
-            filterParams.filter === "all" ||
-            (filterParams.filter === "open" && !ticket.closed) ||
-            (filterParams.filter === "closed" && ticket.closed);
+            const matchesFilter =
+                filterParams.filter === "all" ||
+                (filterParams.filter === "open" && !ticket.closed) ||
+                (filterParams.filter === "closed" && ticket.closed);
 
-        return matchesSearch && matchesFilter;
-    });
+            return matchesSearch && matchesFilter;
+        });
+    }, [tickets, filterParams]);
 
     return (
         <div>
@@ -65,7 +67,7 @@ export const SupportTicketsList = () => {
 
 
 const TicketsSearch = ({ setFilterParams }) => {
-    const [filter, setFilter] = useState("all"); // "all", "open", "closed"
+    const [filter, setFilter] = useState("all");
     const [searchQuery, setSearchQuery] = useState("");
 
     useEffect(() => {
@@ -83,20 +85,19 @@ const TicketsSearch = ({ setFilterParams }) => {
             />
 
             <div className="filter-buttons">
-                <button className={`filter-btn ${filter === "all" ? "active" : ""}`} onClick={() => setFilter("all")}>
-                    All
-                </button>
-                <button className={`filter-btn ${filter === "open" ? "active" : ""}`} onClick={() => setFilter("open")}>
-                    Open
-                </button>
-                <button className={`filter-btn ${filter === "closed" ? "active" : ""}`} onClick={() => setFilter("closed")}>
-                    Closed
-                </button>
+                {["all", "open", "closed"].map(type => (
+                    <button
+                        key={type}
+                        className={`filter-btn ${filter === type ? "active" : ""}`}
+                        onClick={() => setFilter(type)}
+                    >
+                        {type.charAt(0).toUpperCase() + type.slice(1)}
+                    </button>
+                ))}
             </div>
         </div>
     );
 };
-
 
 
 
