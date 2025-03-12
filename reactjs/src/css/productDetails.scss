@@ -1,30 +1,26 @@
-
-.product-container{
+.product-container {
     padding: 2% 8%;
     height: fit-content;
 
-    
-    .characteristics-scroll-div{
+    .characteristics-scroll-div {
         overflow-y: scroll;
         padding-top: 10px;
         height: 20%;
 
-        .characteristics-table{
-            list-style-type:none; 
+        .characteristics-table {
+            list-style-type: none;
             width: fit-content;
-            font-weight:500;
+            font-weight: 500;
 
-        }
-
-        td{
-            padding:4px 12px;
-
+            td {
+                padding: 4px 12px;
+            }
         }
     }
 
-    .description-short{
+    .description-short {
         white-space: pre-wrap;
-        padding-inline:2%;
+        padding-inline: 2%;
         width: 100%;
         overflow: hidden;
         -webkit-box-orient: vertical;
@@ -33,97 +29,75 @@
         display: -webkit-box;
     }
 
-    .description-full{
+    .description-full {
         white-space: 0;
-        padding:4% 4%;
-        
+        padding: 4% 4%;
     }
 
-
-    .gallery{
+    .gallery {
         position: sticky;
         height: 100%;
         display: flex;
         flex-direction: row;
-        float:left;
-       
-        div{
-            img{
-                object-fit: contain;
-                max-width: 100%;
-            
-            }
+        float: left;
+
+        div img {
+            object-fit: contain;
+            max-width: 100%;
         }
-    
-        .gallery-images{
-            // width: 120px;
-            // height: 120px;
+
+        .gallery-images {
             list-style: none;
-            float:left;
+            float: left;
             padding-inline: 10px;
-           
-            li{
-                padding: 2px 2px;
+
+            li {
+                padding: 2px;
                 border-radius: 8px;
                 border: 2px solid rgb(187, 187, 187);
                 margin-block: 10px;
             }
-    
-            .active{
+
+            .active {
                 border: 2px solid rgb(35, 164, 240);
             }
-            
-    
-            img{
+
+            img {
                 border-radius: 8px;
                 width: 50px;
                 height: 50px;
                 object-fit: contain;
             }
-    
         }
     }
-    
-    
-    
-    .card{
+
+    .card {
         padding-block: 20px;
         width: 16rem;
         height: fit-content;
-        .form-control{
+
+        .form-control {
             width: 50%;
             text-align-last: center;
         }
-        
-    
-        .card-btns{
+
+        .card-btns {
             text-align: center;
             padding-block: 10px;
 
-            .dropdown-menu{
-                overflow-y:scroll; 
-                max-height:200px;
+            .dropdown-menu {
+                overflow-y: scroll;
+                max-height: 200px;
             }
-    
-            .card-buy-btns{
+
+            .card-buy-btns {
                 margin-block: 30px;
-    
-                button{
+
+                button {
                     margin-block: 6px;
                     min-width: 50%;
                 }
-    
             }
-
         }
-        
-        
     }
-
-
 }
-
-
-
-
-

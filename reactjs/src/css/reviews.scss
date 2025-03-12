@@ -1,11 +1,12 @@
-.review-section{
+.review-section {
     padding: 2% 8%;
 
-    .write-review{
+    .write-review {
         width: 60%;
-        
-        .upload-files{
+
+        .upload-files {
             padding-block: 20px;
+
             input[type=file]::file-selector-button {
                 border: 1px solid #000000;
                 padding: 0.2em 0.4em;
@@ -13,75 +14,67 @@
                 background-color: white;
                 transition: 1s;
             }
-
         }
 
-        .write-review-textarea{
-            width:100%;
-            height: 150px; 
-            border-radius:8px;
+        .write-review-textarea {
+            width: 100%;
+            height: 150px;
+            border-radius: 8px;
         }
 
-        .leave-review-btn{
-            float:right;
+        .leave-review-btn {
+            float: right;
         }
-
     }
 
-
-    .review-list-container{ 
+    .review-list-container {
         padding-block: 2%;
 
-
-        .review-list{
+        .review-list {
             list-style-type: none;
             align-content: center;
             margin: 0;
-            padding: 0px 1%;
-            .review-username-row{
+            padding: 0 1%;
+
+            .review-username-row {
                 display: inline-flex;
                 gap: 10px;
                 align-items: center;
 
-                h6{
+                h6 {
                     font-size: 16px;
                     vertical-align: center;
                     margin-bottom: 0;
                 }
-
-                
             }
         }
     }
 
-    .gallery-list{
-        margin:0; 
-        padding:0; 
-        list-style-type:none;
+    .gallery-list {
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
 
-        .gallery-list-element{
-            display:inline;
-            .gallery-list-img{
-                object-fit:contain;
-                height:150px;
-                width:150px;
+        .gallery-list-element {
+            display: inline;
+
+            .gallery-list-img {
+                object-fit: contain;
+                height: 150px;
+                width: 150px;
             }
         }
     }
 
-
- 
-       
     .fullscreen-image {
-        display: none; 
-        position: fixed; 
-        z-index: 1; 
+        display: none;
+        position: fixed;
+        z-index: 1;
         left: 0;
         top: 0;
         width: 100%;
-        height: 100%; 
-        background-color: rgba(0,0,0,0.9); 
-
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.9);
         align-items: center;
         text-align: center;
         justify-content: center;
@@ -91,7 +84,4 @@
             max-height: 90vh;
         }
     }
-
 }
-
-

@@ -1,12 +1,12 @@
 @use './adminpanel.scss' as adminpanel;
 @import './bodystyles.scss';
 $content-height: adminpanel.$height-after-navbar;
-// ====== Support Tickets List ======
+
 .support-tickets-list {
-    padding: 1% 0%;
+    padding: 1% 0;
     width: 25vw;
     float: left;
-    background-color: #f4f7fc; // Light modern blue-gray
+    background-color: #f4f7fc;
     height: $content-height;
     overflow-y: visible;
 
@@ -24,7 +24,7 @@ $content-height: adminpanel.$height-after-navbar;
             justify-content: center;
             width: 80%;
             min-height: 44px;
-            background-color: #007bff; // Modern blue
+            background-color: #007bff;
             border-radius: 6px;
             padding-inline: 4%;
             font-size: 18px;
@@ -32,9 +32,7 @@ $content-height: adminpanel.$height-after-navbar;
 
             .ticket-name {
                 color: white;
-                margin-top: auto;
-                margin-bottom: auto;
-                margin-right: auto;
+                margin: auto 0 auto auto;
             }
 
             .close-ticket {
@@ -46,7 +44,7 @@ $content-height: adminpanel.$height-after-navbar;
         }
 
         .closed {
-            background-color: #dc3545; // Bootstrap red
+            background-color: #dc3545;
         }
 
         .active {
@@ -55,13 +53,12 @@ $content-height: adminpanel.$height-after-navbar;
     }
 }
 
-// ====== Chat Modal ======
 .chat-modal-container {
     height: $content-height;
     float: inline-end;
     width: 75vw;
     max-width: 75vw;
-    background-color: #ffffff;
+    background-color: white;
     z-index: 2;
     border-left: 2px solid #ddd;
 
@@ -90,7 +87,7 @@ $content-height: adminpanel.$height-after-navbar;
 
                 .rce-mbox {
                     max-width: 75%;
-                    background-color: #fff;
+                    background-color: white;
                     border: 1px solid #ddd;
                     border-radius: 8px;
                     padding: 10px;
@@ -105,7 +102,7 @@ $content-height: adminpanel.$height-after-navbar;
             gap: 15px;
             justify-content: center;
             padding-inline: 5%;
-            background: #ffffff;
+            background: white;
             border-top: 2px solid #ddd;
             padding: 10px;
 
@@ -125,7 +122,7 @@ $content-height: adminpanel.$height-after-navbar;
 
                 .message-input-button {
                     height: fit-content;
-                    background-color: #28a745; // Bootstrap green
+                    background-color: #28a745;
                     color: white;
                     border-radius: 4px;
                     padding: 8px 12px;
@@ -140,7 +137,6 @@ $content-height: adminpanel.$height-after-navbar;
         }
     }
 }
-
 
 .filter-search-container {
     display: flex;
@@ -184,11 +180,10 @@ $content-height: adminpanel.$height-after-navbar;
     }
 }
 
-
 .create-ticket-btn {
     background: none;
-    border: 1.5px solid #007bff; /* Subtle blue border */
-    color: #007bff; /* Blue text */
+    border: 1.5px solid #007bff;
+    color: #007bff;
     font-size: 16px;
     padding: 4px 10px;
     border-radius: 4px;
@@ -198,13 +193,13 @@ $content-height: adminpanel.$height-after-navbar;
     align-items: center;
     justify-content: center;
     font-weight: 500;
-}
 
-.create-ticket-btn:hover {
-    background: #007bff;
-    color: white;
-}
+    &:hover {
+        background: #007bff;
+        color: white;
+    }
 
-.create-ticket-btn:active {
-    transform: scale(0.98);
+    &:active {
+        transform: scale(0.98);
+    }
 }
