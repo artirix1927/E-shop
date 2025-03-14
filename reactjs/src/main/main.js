@@ -19,18 +19,8 @@ export const ProductsList = () => {
     const [items, setItems] = useState([]);
 
 
-    return <div className='container'>
-           
-                {/* <ProductsInfiniteScroll setItems={setItems} items={items}>
-                <div  className='products-list' > 
-                {
-                    items.map((product, index)=> {
-                        return <ProductCard key={index} data={product}/>
-                    })
-                }
-                </div>
-
-                </ProductsInfiniteScroll> */}
+    return <div className='product-list-container container-xl '>
+        
                 <div className="products-list">
                         <ProductsInfiniteScroll setItems={setItems} items={items} className="products-list">
                 
