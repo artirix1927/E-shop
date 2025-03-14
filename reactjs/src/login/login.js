@@ -30,7 +30,7 @@ export const Login = () =>  {
             navigate("/")
         }
 
-    }, [data, setCookie, navigate, cookies])
+    }, [data])
 
 
     return <div className=" container d-flex justify-content-center "> 
