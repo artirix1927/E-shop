@@ -4,6 +4,15 @@
     .write-review {
         width: 60%;
 
+
+        @media (max-width: 768px) {
+            width: 90%;
+
+            .react-simple-star-rating-tooltip{
+                margin-left: 0px  !important;
+            }
+        }
+
         .upload-files {
             padding-block: 20px;
 

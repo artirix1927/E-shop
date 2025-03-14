@@ -6,7 +6,7 @@ import '../css/productDetails.scss'
 
 import { useQuery } from "@apollo/client";
 
-import { createRef} from 'react';
+import { createRef } from 'react';
 import { useParams } from "react-router-dom";
 
 
@@ -19,71 +19,65 @@ import { Gallery } from './gallery';
 
 export const ProductDetails = () => {
     const {id} = useParams();
-
-
     const buyCardRef = createRef()
 
     let { data,loading,error} = useQuery(GET_PRODUCT_BY_ID, {variables:{id:parseInt(id)},});
-
-
-
 
     if (loading) return "Loading...";
     if (error) return <pre>{error.message}</pre>
 
     data = data.productById;
-    
+
     return <div className='product-container'>
-    
-        <div className='row'>
-            <div className='col gallery'>
-                <Gallery attachments={data.attachments} buyCardRef={buyCardRef}></Gallery>
+
+                <div className='row'>
+                    <div className='gallery col-xl-4 col-lg-5'>
+                        <Gallery attachments={data.attachments} buyCardRef={buyCardRef} />
+                    </div>
+
+                    <div className='content col-xl-5 col-lg-4'>
+                        <ProductContent data={data} buyCardRef={buyCardRef}/>
+                    </div>
+
+                    <div className='card col-xl-2 col-lg-2 ' ref={buyCardRef}>
+                        <BuyCard product={data} />
+                    </div>
+                </div>
+
+                <div className='description-full'>
+                    <h5>Full Description</h5>
+                    <p>{data.description}</p>
+                </div>
             </div>
-
-            <div className='content col-6'>
-                <ProductContent data={data}/>
-            </div>
-
-            <div className='card col-4'>
-                <BuyCard product={data} ref={buyCardRef}></BuyCard>
-            </div>
-            
-
-        </div>
-
-        <div className='description-full'>
-            <h5>Full Description</h5>
-            <p>{data.description}</p>
-        </div>
-    </div>
 }
 
-const ProductContent = (props) => {
-    const data = props.data;
 
-    return <>
-        <div className='name'>
-            <h2>{data.name}</h2>
-        </div>
+const ProductContent = ({ data }) => {
+    return (
+        <>
+            <div className='name'>
+                <h2>{data.name}</h2>
+            </div>
 
-        <hr/>
+            <hr />
 
-        <div className='price'>
-            <h2>{data.price} $CAD</h2>
-        </div>
+            <div className='price'>
+                <h2>{data.price} $CAD</h2>
+            </div>
 
-        <hr/>
+            <hr />
 
-        <div className='description-short'>
-            <p>{data.description}</p>
-        </div>
+            <div className='description-short'>
+                <p>{data.description}</p>
+            </div>
 
-        { data.characteristics.length > 0 &&
-        <div className='characteristics-scroll-div'>
-            <CharacteristicsTable characteristics={data.characteristics}/>
-        </div>
-        }
-    </>
+            {data.characteristics.length > 0 && (
+                <div className='characteristics-scroll-div'>
+                    <CharacteristicsTable characteristics={data.characteristics} />
+                </div>
+            )}
+        </>
+    );
 }
 
 
