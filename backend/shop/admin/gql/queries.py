@@ -103,8 +103,6 @@ class AdminQueries(graphene.ObjectType):
 
         json_form = json.dumps(rendered_form, cls=DjangoJSONEncoder)
 
-        admin.forms.get_rendered_form_html(model, instance)
-
         # create metaclass for form
         return gql_types.ModelInstanceFormType(
             app_name=app_name,
@@ -117,10 +115,7 @@ class AdminQueries(graphene.ObjectType):
             app_name, model_name)
 
         rendered_form = admin.forms.get_rendered_form_data(model)
-
         json_form = json.dumps(rendered_form, cls=DjangoJSONEncoder)
-
-        admin.forms.get_rendered_form_html(model)
 
         return gql_types.ModelCreateFormType(
             app_name=app_name, model_name=model_name, form=json_form)

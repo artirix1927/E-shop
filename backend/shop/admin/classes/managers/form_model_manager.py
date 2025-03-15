@@ -1,6 +1,10 @@
+from django.contrib.auth import get_user_model
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+
 from django.db import models
 from django.contrib.admin import ModelAdmin
 from django.forms import ModelForm
+from pytest import console_main
 
 
 from admin.classes.renderers import FormRenderer
@@ -8,6 +12,8 @@ from admin.classes.serializers import FormSerializer
 
 from admin.classes.managers.base import BasicManager
 from shop.cache_class import QuerysetCache
+
+User = get_user_model()  # Get the current User model
 
 
 class FormModelManager(BasicManager):
@@ -18,6 +24,11 @@ class FormModelManager(BasicManager):
         super().__init__(registered_models, redis_cache)
 
     def get_form_for_model_instance(self, model: models.Model, instance=None):
+        if model == User:
+            if instance:
+                return UserChangeForm(instance=instance)
+            return UserCreationForm()
+
         form_class = self.get_model_form_class_by_model(model)
 
         form = form_class(instance=instance) if instance else form_class()
