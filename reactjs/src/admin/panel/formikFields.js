@@ -59,7 +59,19 @@ const DateTimeField = ({ field, form, ...props }) => {
     return (
         <BaseField field={field}>
 
-        <Field name={field.name} component={DateTimePicker}/>
+        <Field name={field.name} component={DateTimePicker} showTimeSelect />
+
+        </BaseField>
+    );
+};
+
+
+const DateField = ({ field, form, ...props }) => {
+
+    return (
+        <BaseField field={field}>
+
+        <Field name={field.name} component={DateTimePicker} />
 
         </BaseField>
     );
@@ -186,20 +198,24 @@ const CheckboxField = ({field, ...props}) => {
 }
 
 
-export const GetField = (props) =>{
-    const field = props.field
 
-    const FIELDS_BY_TYPE = {datetime: DateTimeField, 
-                            checkbox: CheckboxField, 
-                            file: FileField, 
-                            select: ChoiceField, 
-                            textarea: TextAreaField
-                            }
+export const GetField = ({ field }) => {
+    const FIELDS_BY_TYPE = {
+        DateTimeInput: DateTimeField,
+        DateInput: DateField,
+        CheckboxInput: CheckboxField,
+        FileInput: FileField,
+        SelectInput: ChoiceField,
+        Textarea: TextAreaField, // Keep it here for direct matches
+    };
 
-    if (FIELDS_BY_TYPE.hasOwnProperty(field.type)){
-        const Component = FIELDS_BY_TYPE[field.type]
-        return <Component field={field}/>
+    // Use field.widget if it exists; otherwise, fall back to field.type
+    const fieldType = field.widget || field.type;
+
+    if (FIELDS_BY_TYPE.hasOwnProperty(fieldType)) {
+        const Component = FIELDS_BY_TYPE[fieldType];
+        return <Component field={field} />;
     }
-    return <DefaultField field={field}/>
-        
-}
+
+    return <DefaultField field={field} />;
+};
