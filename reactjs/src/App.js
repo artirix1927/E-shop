@@ -12,6 +12,7 @@ import { CookiesProvider } from 'react-cookie';
 import { getRouter } from "./router";
 
 import { RouterProvider } from "react-router-dom";
+import { FiltersProvider } from "./providers/filtersProvider";
 
 
 
@@ -22,9 +23,11 @@ function App() {
   return (
     <ApolloAppProvider>
       <CookiesProvider>
+        <FiltersProvider>
         <RouterProvider router={router}>
 
         </RouterProvider>
+       </FiltersProvider>
       </CookiesProvider>
     </ApolloAppProvider>
     

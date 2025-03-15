@@ -3,7 +3,6 @@ import {useBodyClass} from "../hooks";
 import { BuyNowCheckout, CartCheckout } from "../checkout/checkout";
 
 import { Cart } from "../cart/cart";
-import { FiltersProvider } from "../providers/filtersProvider";
 
 import { ProductsList } from '../main/main';
 import { ProductDetails } from "../details/productDetails";
@@ -18,7 +17,7 @@ import { ReviewSection } from "../reviews/reviewsSection";
 const NavbarPageMixin = (props) => {
     const [cookies] = useCookies(['user'])
 
-    return <FiltersProvider>
+    return <>
       
             <Navbar></Navbar>
             <CategoriesLine></CategoriesLine>
@@ -28,7 +27,7 @@ const NavbarPageMixin = (props) => {
             }
       
       
-      </FiltersProvider>
+      </>
     
 
   }
