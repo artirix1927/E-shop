@@ -119,7 +119,7 @@ const SupportTicketItem = (props) => {
 
     return <>
         <div className={`ticket-button ${openOrClosedStyleClass}`} key={item.id} id={item.id} onClick={ticketOnClick}>
-            <p className="ticket-name">{`Ticket #${item.id},  ${item.user.username}`} </p> 
+            <label className="ticket-name">{`Ticket #${item.id},  ${item.user.username}`} </label> 
 
             {!item.closed && <CloseTicket ticketId={item.id}/>}
         </div>
