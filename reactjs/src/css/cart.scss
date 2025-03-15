@@ -1,9 +1,6 @@
 .cart-content {
-    padding-inline: 10%;
+    padding-inline: 4%;
     padding-block: 2%;
-    display: flex;
-    flex-direction: row;
-    gap: 40px;
 
     .price {
         float: right;
@@ -14,9 +11,32 @@
     }
 
     .card {
-        width: 20rem;
+        width: fit-content;
         float: right;
         padding: 20px;
+       
+    }
+
+
+    @media (max-width:768px) {
+
+        &{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            
+        }
+
+        .subtotal{
+            width: initial;
+
+            .card{
+                float:initial;
+            }
+        }
+        
+        
     }
 }
 
@@ -24,7 +44,8 @@
     border-bottom: 1px solid black;
     display: flex;
     padding-block: 20px;
-    gap: 40px;
+    height: fit-content;
+
 
     i {
         font-size: 20px;
@@ -34,12 +55,21 @@
         align-content: center;
     }
 
-    img {
-        object-fit: contain;
+
+    .image-link{
+        max-width: 200px;
+        max-height: 200px;
         width: 200px;
         height: 200px;
-        flex-shrink: 0;
+        margin-inline: 8px;
+
+        img {
+            object-fit: contain;
+            width: 100%;
+            height: 100%;
+        }
     }
+    
 
     .content {
         display: block;
@@ -55,5 +85,33 @@
                 max-height: 200px;
             }
         }
+    }
+
+
+    @media (max-width:768px) {
+        &{
+            height: 25%;
+            max-height: 25%;
+        }
+
+        i {
+            font-size: 18px;
+        }
+
+        .price{
+            float: initial;
+        }
+
+
+        .name {
+            display: -webkit-box;
+            line-clamp: 2;
+            -webkit-line-clamp: 2; /* Limit to 2 lines */
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            max-width: 250px; /* Adjust to your layout */
+        }
+        
+
     }
 }

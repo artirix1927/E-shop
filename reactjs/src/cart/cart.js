@@ -48,8 +48,9 @@ export const Cart = () => {
     if (error) return <pre>{error.message}</pre>
 
 
-    return <div className="cart-content d-flex">
-        <div className='cart-items-container'>
+    return <div className="cart-content row">
+
+        <div className='col-xl-8 col-lg-9 col-md-9'>
             {
             data.cartByUser.map((item, index) => {
 
@@ -63,7 +64,7 @@ export const Cart = () => {
             <h5 className="price">{sum} $CAD</h5>
         </div>
 
-        <div>
+        <div className='subtotal col-xl-4 col-lg-3 col-md-3' >
             <SubtotalCard sum={sum} selectedItems={selectedItems}></SubtotalCard>
         </div>
                                                                 

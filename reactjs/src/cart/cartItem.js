@@ -36,7 +36,7 @@ export const CartItem = (props) => {
         </div>
 
     
-       <Link to={`/product/${props.item.product.id}`}> <img src={attachments[0].image} alt="..."/></Link>
+       <Link to={`/product/${props.item.product.id}`} className="image-link"> <img src={attachments[0].image} alt="..."/></Link>
       
          
 
@@ -44,7 +44,7 @@ export const CartItem = (props) => {
         
             <h5 className='price'>{product.price} $CAD</h5>
           
-            <h4>{product.name}</h4>
+            <h4 className="name">{product.name}</h4>
             
             <IsInStock piecesLeft={product.piecesLeft}/>
             
