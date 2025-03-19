@@ -1,11 +1,12 @@
 import { useMutation, useQuery } from "@apollo/client"
 import { useNavigate, useParams } from "react-router-dom"
-import { GET_MODEL_INSTANCE_FORM } from ".././gql/queries"
+import { GET_MODEL_INSTANCE_FORM } from "../../gql/queries"
 import { Form, Formik } from "formik"
 
 import { GetField } from "./formikFields"
-import { UPDATE_MODEL_INSTANCE } from ".././gql/mutations"
-import { ModelsPanel } from "./modelsPanel"
+import { UPDATE_MODEL_INSTANCE } from "../../gql/mutations"
+import { ModelsPanel } from "../modelsPanel"
+import { AdminLayout } from "../Layout"
 
 
 export const UpdateModelInstance = () => {
@@ -20,16 +21,13 @@ export const UpdateModelInstance = () => {
     const form = JSON.parse(data.modelInstanceForm.form) 
 
     return <>
-    <div>
-            <div>
-                <ModelsPanel></ModelsPanel>
-            </div>
+    <AdminLayout>
             
-            <div className="update-instance-div">
-                <InstanceForm form={form}/>
-            </div>
+        <div className="col-xl-9 col-lg-8 col-md-8 update-instance-div">
+            <InstanceForm form={form}/>
+        </div>
         
-    </div>
+    </AdminLayout>
 
     
 
@@ -97,7 +95,7 @@ const InstanceForm = (props) => {
             }
         
             <br/>
-            <button type="submit" className="btn btn-success">Save</button>
+            <button type="submit" className="btn btn-success submit-button">Save</button>
         </Form>
     
      </Formik>

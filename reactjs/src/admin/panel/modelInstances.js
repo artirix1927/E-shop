@@ -1,10 +1,11 @@
 import { useLazyQuery, useMutation, useQuery } from "@apollo/client"
 import { useNavigate, useParams } from "react-router-dom"
-import { GET_FILTERED_INSTANCES, GET_MODEL_FILTERS, GET_MODEL_INSTANCES, GET_SEARCHED_INSTANCES } from ".././gql/queries"
+import { GET_FILTERED_INSTANCES, GET_MODEL_FILTERS, GET_MODEL_INSTANCES, GET_SEARCHED_INSTANCES } from "../gql/queries"
 import { useContext, useEffect, useRef, useState } from "react"
-import { DELETE_INSTANCES } from ".././gql/mutations"
+import { DELETE_INSTANCES } from "../gql/mutations"
 import { ModelsPanel } from "./modelsPanel"
 import { filtersContext } from "../../providers/filtersProvider"
+import { AdminLayout } from "./Layout"
 
 
 
@@ -23,29 +24,32 @@ export const ModelInstancesList = () => {
     }, [data])
 
 
+    const [filterString, setFilterString] = useState()
+
+
+
+
     return <>
-        <div>
-            <div>
-                <ModelsPanel></ModelsPanel>
-            </div>
+            <AdminLayout>
+                <div className="instances-table" >
+                    <DeleteSelectedButton selectedInstances={selectedInstances}/>
+                    <ModelSearch filterString={filterString}/>
 
 
-            <div className="instances-table" >
 
-                <SearchingAndFiltering/>
-                
-                <DeleteSelectedButton selectedInstances={selectedInstances}/>
-                
-                <InstancesTable setSelectedInstances={setSelectedInstances} selectedInstances={selectedInstances}></InstancesTable>
-            </div>
+                    <div className="row">
+                    
+                        <div className="col-xl-9 col-lg-8 col-md-8 col-sm-12 order-1 order-sm-12 "> 
+                            <InstancesTable setSelectedInstances={setSelectedInstances} selectedInstances={selectedInstances}></InstancesTable>
+                        </div>
 
-          
-            
-            
-        </div>
-        
-      
-    
+                        <div className="col-xl-3 col-lg-4 col-md-4 col-sm-12 order-sm-1" >
+                            <ModelFilters setFilterString={setFilterString}/>
+                        </div>
+                        
+                    </div>
+                </div>
+            </AdminLayout>
     
     </>
 }
@@ -143,16 +147,6 @@ const DeleteSelectedButton = ({selectedInstances, ...props}) => {
 
 
 
-const SearchingAndFiltering = (props)  => {
-    const [filterString, setFilterString] = useState()
-
-
-    return <>
-        <ModelFilters setFilterString={setFilterString}/>
-        <ModelSearch filterString={filterString}/>
-    
-    </>
-}
 
 const ModelFilters = (props) => {
     const {setFiltersData} = useContext(filtersContext)
@@ -208,13 +202,13 @@ const ModelFilters = (props) => {
                 
                 return <div className="filters-content">
                     
-                    <p> By {elem.field_name}</p>
+                    <label className="filter-label"> By {elem.field_name}</label>
                     <div>
                         {elem.choices.map((choice)=>{
                         return <>
                         <a value={choice.query_string} selected={choice.selected} onClick={filterOnClick}>
-                            {choice.display}  
-                        </a> <br/></>})}
+                            - {choice.display}  
+                        </a></>})}
                        
                     </div>
 
@@ -227,7 +221,6 @@ const ModelFilters = (props) => {
     
     </>
 }
-
 
 
 const ModelSearch = (props) => {

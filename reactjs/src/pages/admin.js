@@ -4,9 +4,9 @@ import { FiltersProvider } from "../providers/filtersProvider";
 import { SupportTicketsList } from "../admin/supportChat/supportTickets";
 import { AdminPanel } from "../admin/panel/panel";
 import { ModelInstancesList } from "../admin/panel/modelInstances";
-import { UpdateModelInstance } from "../admin/panel/updateModelInstsance";
-import { CreateModelInstance } from "../admin/panel/createModelInstance";
-import { ModelsPanel } from "../admin/panel/modelsPanel";
+import { UpdateModelInstance } from "../admin/panel/forms/updateModelInstsance";
+import { CreateModelInstance } from "../admin/panel/forms/createModelInstance";
+import { AdminLayout } from "../admin/panel/Layout";
 
 
 export const SupportTicketsPage = () => {
@@ -31,7 +31,7 @@ export const SupportTicketsPage = () => {
   
     return <div className="App"> 
         <AdminPanel>
-          <ModelsPanel></ModelsPanel>
+          <AdminLayout></AdminLayout>
         </AdminPanel>
   
     </div>
@@ -41,7 +41,7 @@ export const SupportTicketsPage = () => {
     return <div className="App">
        <FiltersProvider>
         <AdminPanel>
-        <ModelInstancesList></ModelInstancesList>
+          <ModelInstancesList></ModelInstancesList>
         </AdminPanel>
        </FiltersProvider>
       

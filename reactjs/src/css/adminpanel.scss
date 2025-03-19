@@ -33,17 +33,16 @@ $table-width: 96%-$filters-width;
 .sidebar {
     margin: 0;
     padding: 0;
-    height: $height-after-navbar;
+    height: 100%;
     min-height: $height-after-navbar;
-    overflow-y: scroll;
-    width: $sidebar-width;
+    width: 100%;
     float: left;
-    position: fixed;
     background-color: #f2ffee;
 
     .app {
         color: white;
         margin-bottom: 50px;
+        //width: 100%;
 
         .app-name {
             background-color: rgb(29, 107, 29);
@@ -79,22 +78,20 @@ $table-width: 96%-$filters-width;
     }
 
     .sidebar-content {
-        padding: 6% 12%;
+        padding: 4px 12px;
+        min-width: fit-content;
     }
 }
 
 .instances-table {
     background-color: $content-background-color;
-    width: $other-content-width;
-    margin-left: $sidebar-width;
     color: white;
     min-height: $height-after-navbar;
     padding: 2% 3%;
-    border-radius: 8px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+
 
     table {
-        width: $table-width;
+        width: 100%;
         border-collapse: collapse;
 
         th, td {
@@ -193,17 +190,16 @@ $table-width: 96%-$filters-width;
 }
 
 .update-instance-div {
-    width: $other-content-width;
-    float: inline-end;
+    width: 100%;
     padding: 2% 3%;
-    height: 100vh;
-    max-height: fit-content;
     background-color: $content-background-color;
     display: flex;
     justify-content: center;
     align-items: center;
 
+
     .update-instance-form {
+        position: inherit;
         width: 50%;
         background-color: whitesmoke;
         border: 1px solid #ddd;
@@ -213,6 +209,15 @@ $table-width: 96%-$filters-width;
         display: flex;
         flex-direction: column;
         gap: 20px;
+
+        @media (max-width:1200px) {
+            width: 70%;
+        }
+
+        .react-datepicker__input-container{
+            position: static;
+        }
+
 
         h3 {
             text-align: center;
@@ -261,7 +266,7 @@ $table-width: 96%-$filters-width;
             }
         }
 
-        button {
+        .submit-button {
             background-color: rgb(34, 139, 34);
             color: white;
             border: none;
@@ -281,48 +286,62 @@ $table-width: 96%-$filters-width;
 
 .filters-div {
     padding: 10px;
-    width: $filters-width;
+    width: max-content;
     float: right;
-    display: flex;
-    flex-direction: column;
+   // display: flex;
+    //flex-direction: column;
     background-color: $odd-child-background-color;
     border-radius: 8px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
     margin-right: 0;
     margin-bottom: 20px;
-    position: relative;
+    //position: relative;
 
-    .filters-header {
-        color: white;
-        font-size: 16px;
-        font-weight: bold;
-        margin-bottom: 12px;
-        border-bottom: 1px solid white;
-        padding-bottom: 8px;
+    .filter-label {
+        margin-top:12px;
+    }
+}
+
+
+
+
+.filters-div {
+    padding: 12px;
+    width: max-content;
+    float: right;
+    background-color: rgb(44, 88, 44); // Slightly muted green for better contrast
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3); // Softer, deeper shadow for depth
+    margin-right: 0;
+    margin-bottom: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2); // Subtle border for definition
+    color: white; // Ensures high contrast
+
+    .filter-label {
+        font-weight: 600;
+        font-size: 14px;
+        margin-bottom: 2px;
+        color: rgb(220, 255, 220); // Lightened green for better readability
+        text-transform: uppercase; // Makes it stand out
+        display: block;
     }
 
-    .filters-content {
-        color: white;
-        font-size: 14px;
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
+    a {
+        display: block;
+        color: rgb(180, 255, 180); // Softer green for readability
+        font-weight: 500;
+        border-radius: 6px;
+        transition: background-color 0.3s ease, color 0.3s ease;
+        cursor: pointer;
+        text-decoration: none;
 
-        .filter-item {
-            padding: 6px 10px;
-            background-color: rgb(29, 107, 29);
-            border-radius: 4px;
-            transition: background-color 0.3s ease;
-
-            &:hover {
-                background-color: rgb(34, 94, 34);
-                cursor: pointer;
-            }
+        &:hover {
+            background-color: rgb(34, 94, 34);
+            color: white;
         }
 
-        .active-filter {
+        &:active {
             background-color: rgb(20, 59, 20);
-            font-weight: bold;
         }
     }
 }

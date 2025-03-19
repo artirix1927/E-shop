@@ -1,12 +1,12 @@
 import { Formik, Form} from "formik"
-import { GET_MODEL_CREATE_FORM } from ".././gql/queries"
+import { GET_MODEL_CREATE_FORM } from "../../gql/queries"
 import { useLocation, useNavigate } from "react-router-dom"
 
 import { useMutation, useQuery } from "@apollo/client"
 
-import { CREATE_MODEL_INSTANCE } from ".././gql/mutations"
+import { CREATE_MODEL_INSTANCE } from "../../gql/mutations"
 import { GetField } from "./formikFields"
-import { ModelsPanel } from "./modelsPanel"
+import { AdminLayout } from "../Layout"
 
 export const CreateModelInstance = () => {
 
@@ -20,18 +20,11 @@ export const CreateModelInstance = () => {
     const form = JSON.parse(data.modelCreateForm.form) 
 
     return <>
-    <div>
-    
-            <div>
-                <ModelsPanel></ModelsPanel>
+    <AdminLayout>
+            <div className="col-xl-9 col-lg-8 col-md-8 update-instance-div">
+                <ModelForm form={form}/>
             </div>
-        
-        <div className="update-instance-div">
-            <ModelForm form={form}/>
-        </div>
-        
-    </div>
-
+    </AdminLayout>
     
 
 
@@ -97,7 +90,7 @@ const ModelForm = (props) => {
             }
         
             <br/>
-            <button type="submit" className="btn btn-success">Save</button>
+            <button type="submit" className="btn btn-success submit-button">Save</button>
         </Form>
     
         
