@@ -205,6 +205,7 @@ export const GetField = ({ field }) => {
         DateInput: DateField,
         CheckboxInput: CheckboxField,
         FileInput: FileField,
+        ClearableFileInput: FileField,
         SelectInput: ChoiceField,
         Textarea: TextAreaField, // Keep it here for direct matches
     };

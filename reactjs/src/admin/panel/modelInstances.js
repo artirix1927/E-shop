@@ -43,7 +43,7 @@ export const ModelInstancesList = () => {
                             <InstancesTable setSelectedInstances={setSelectedInstances} selectedInstances={selectedInstances}></InstancesTable>
                         </div>
 
-                        <div className="col-xl-3 col-lg-4 col-md-4 col-sm-12 order-sm-1" >
+                        <div className="filters-wrapper col-xl-3 col-lg-4 col-md-4 col-sm-12 order-sm-1" >
                             <ModelFilters setFilterString={setFilterString}/>
                         </div>
                         
@@ -148,79 +148,70 @@ const DeleteSelectedButton = ({selectedInstances, ...props}) => {
 
 
 
-const ModelFilters = (props) => {
-    const {setFiltersData} = useContext(filtersContext)
-
-
-    const {appName,modelName} = useParams()
-
+const ModelFilters = () => {
+    const { setFiltersData } = useContext(filtersContext);
+    const { appName, modelName } = useParams();
     const [getInstances, res] = useLazyQuery(GET_FILTERED_INSTANCES);
+    
+    const [activeFilter, setActiveFilter] = useState(null); // Track active filter
 
     const filterOnClick = (e) => {
-        props.setFilterString(e.target.getAttribute("value"))
-        getInstances({variables: {appName: appName, modelName: modelName, queryString: e.target.getAttribute("value")}})
-    }
+        const filterValue = e.target.getAttribute("value");
+        setActiveFilter(filterValue); // Set active filter in state
+        getInstances({ variables: { appName, modelName, queryString: filterValue } });
+    };
 
-
-    useEffect(()=>{
-        if (res.data){
-            setFiltersData(res.data.runFilter)
+    useEffect(() => {
+        if (res.data) {
+            setFiltersData(res.data.runFilter);
         }
-    }
-    
+    }, [res]);
 
-    ,[res])
-
-
-
-    const {data, loading, error} = useQuery(GET_MODEL_FILTERS, {variables: {appName: appName, modelName: modelName}})
+    const { data, loading, error } = useQuery(GET_MODEL_FILTERS, { variables: { appName, modelName } });
 
     let parsedFiltersData = null;
     if (data) {
         let parsed = JSON.parse(data.modelFilters.filtersData);
-        //can be null if no filters are in the model admin
-        if (parsed)
+        if (parsed) {
             for (let i = 0; i < parsed.length; i++) {
-        
                 let jsonString = parsed[i]
-                    .replace(/'/g, '"') 
-                    //replacing python booleans with js booleans
-                    .replace(/\bTrue\b/g, 'true')    
-                    .replace(/\bFalse\b/g, 'false'); 
-        
-                    parsed[i] = JSON.parse(jsonString);
+                    .replace(/'/g, '"')
+                    .replace(/\bTrue\b/g, 'true')
+                    .replace(/\bFalse\b/g, 'false');
+                parsed[i] = JSON.parse(jsonString);
             }
             parsedFiltersData = parsed;
+        }
     }
 
-    if (error) console.log(error.message)
+    if (error) console.log(error.message);
 
-    
-    return <>
-        {parsedFiltersData && <div className="filters-div">
-            {parsedFiltersData.map((elem)=>{
-                
-                return <div className="filters-content">
-                    
-                    <label className="filter-label"> By {elem.field_name}</label>
-                    <div>
-                        {elem.choices.map((choice)=>{
-                        return <>
-                        <a value={choice.query_string} selected={choice.selected} onClick={filterOnClick}>
-                            - {choice.display}  
-                        </a></>})}
-                       
-                    </div>
-
+    return (
+        <>
+            {parsedFiltersData && (
+                <div className="filters-div">
+                    {parsedFiltersData.map((elem) => (
+                        <div className="filters-content" key={elem.field_name}>
+                            <label className="filter-label">By {elem.field_name}</label>
+                            <div>
+                                {elem.choices.map((choice) => (
+                                    <a
+                                        key={choice.query_string}
+                                        value={choice.query_string}
+                                        onClick={filterOnClick}
+                                        className={activeFilter === choice.query_string ? "active-filter" : ""}
+                                    >
+                                        - {choice.display}
+                                    </a>
+                                ))}
+                            </div>
+                        </div>
+                    ))}
                 </div>
-            })}
-        </div>
-        }
-    
-    
-    
-    </>
-}
+            )}
+        </>
+    );
+};
 
 
 const ModelSearch = (props) => {
@@ -254,8 +245,8 @@ const ModelSearch = (props) => {
     }, [props.filterString]);
 
     return <>
-    <div style={{display:"flex", flexDirection:"row", gap:"10px", marginBottom:"1%"}}>
-        <input className="form-control" placeholder="Search..." type="text" ref={inputRef} style={{width:"40%"}} defaultValue={""}/>
+    <div className="model-instances-search-wrapper">
+        <input className="form-control" placeholder="Search..." type="text" ref={inputRef} defaultValue={""}/>
         <button className="btn btn-light" onClick={searchOnClick}>Search</button>
     </div>
     

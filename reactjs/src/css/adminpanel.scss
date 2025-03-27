@@ -39,6 +39,14 @@ $table-width: 96%-$filters-width;
     float: left;
     background-color: #f2ffee;
 
+
+    @media (max-width:768px) {
+        padding: 2% 4%;
+        min-height: fit-content;
+        height: fit-content;
+    }
+
+
     .app {
         color: white;
         margin-bottom: 50px;
@@ -88,6 +96,10 @@ $table-width: 96%-$filters-width;
     color: white;
     min-height: $height-after-navbar;
     padding: 2% 3%;
+
+    @media (max-width:768px) {
+        padding: 3% 6%;
+    }
 
 
     table {
@@ -214,6 +226,10 @@ $table-width: 96%-$filters-width;
             width: 70%;
         }
 
+        @media (max-width: 768px) {
+            width: 90%;
+        }
+
         .react-datepicker__input-container{
             position: static;
         }
@@ -284,64 +300,93 @@ $table-width: 96%-$filters-width;
     }
 }
 
-.filters-div {
-    padding: 10px;
-    width: max-content;
-    float: right;
-   // display: flex;
-    //flex-direction: column;
-    background-color: $odd-child-background-color;
-    border-radius: 8px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-    margin-right: 0;
-    margin-bottom: 20px;
-    //position: relative;
 
-    .filter-label {
-        margin-top:12px;
+.filters-wrapper{
+    @media (max-width:768px) {
+        display: flex;
+        justify-content: center;
     }
+
+    .filters-div {
+        padding: 24px;
+        width: 100%;
+        float: right;
+        background-color: rgb(44, 88, 44); // Slightly muted green for better contrast
+        border-radius: 10px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3); // Softer, deeper shadow for depth
+        margin-right: 0;
+        margin-bottom: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.2); // Subtle border for definition
+        color: white; // Ensures high contrast
+    
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+    
+    
+        @media (max-width:768px) {
+            margin-top: 1%;
+            width: 80%;
+        }
+    
+    
+        .filter-label {
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 2px;
+            color: white; // Lightened green for better readability
+            text-transform: uppercase; // Makes it stand out
+            display: block;
+        }
+    
+        a {
+            display: block;
+            color: white; // Softer green for readability
+            font-weight: 500;
+            border-radius: 6px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 0.9rem;
+    
+            &:hover {
+                background-color: rgb(34, 94, 34);
+                color: white;
+            }
+    
+            &:active {
+                background-color: rgb(20, 59, 20);
+            }
+    
+        }
+    
+        .active-filter {
+            background-color: rgb(20, 59, 20);
+            color: white;
+            font-weight: bold;
+            box-shadow: inset 0px 0px 8px rgba(255, 200, 100, 0.6); /* Inner glow effect */
+            border: 1px solid rgba(255, 200, 100, 0.8);
+            padding:0px 4px;
+        }
+    }
+    
 }
 
 
 
+.model-instances-search-wrapper{
 
-.filters-div {
-    padding: 12px;
-    width: max-content;
-    float: right;
-    background-color: rgb(44, 88, 44); // Slightly muted green for better contrast
-    border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3); // Softer, deeper shadow for depth
-    margin-right: 0;
-    margin-bottom: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.2); // Subtle border for definition
-    color: white; // Ensures high contrast
+    display:flex; 
+    flex-direction:row;
+    gap:10px;
+    margin-bottom:1%;
 
-    .filter-label {
-        font-weight: 600;
-        font-size: 14px;
-        margin-bottom: 2px;
-        color: rgb(220, 255, 220); // Lightened green for better readability
-        text-transform: uppercase; // Makes it stand out
-        display: block;
-    }
+    input{
 
-    a {
-        display: block;
-        color: rgb(180, 255, 180); // Softer green for readability
-        font-weight: 500;
-        border-radius: 6px;
-        transition: background-color 0.3s ease, color 0.3s ease;
-        cursor: pointer;
-        text-decoration: none;
-
-        &:hover {
-            background-color: rgb(34, 94, 34);
-            color: white;
-        }
-
-        &:active {
-            background-color: rgb(20, 59, 20);
+        width:40%;
+        @media (max-width:768px) {
+            width: 100%;
         }
     }
+
 }
