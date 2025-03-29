@@ -246,27 +246,43 @@
 }
 
 .open-support-tickets-chat {
-    float: right;
     position: fixed;
-    bottom: 0;
-    right: 0;
+    bottom: 2px;
+    right: 12px;
     font-size: 40px;
-}
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    z-index: 1000;
+    
+    &:hover {
+      transform: scale(1.1);
+    }
+    
+    &.hidden {
+      display: none;
+    }
+  }
 
 .support-tickets-chat {
     position: fixed;
     background-color: #f9f6f2;
-    height: 50%;
+    bottom: -100%; /* Start offscreen */
+    right: 0px;
     width: 350px;
-    bottom: 0;
-    right: 0;
-    display: none;
+    height: 50%;
+    opacity: 0;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 12px 12px 0 0;
     overflow: hidden;
-    transition: all 0.3s ease;
+    transition: all 0.3s ease-out;
+    z-index: 1000;
+    display: flex;
     flex-direction: column;
-    padding-block: 2px;
+  
+    &.open {
+      bottom: 0;
+      opacity: 1;
+    }
 
     .support-tickets-list {
         position: relative;
@@ -282,10 +298,25 @@
         border-bottom: 1px solid #ddd;
         padding: 4px;
 
+
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scrollbar-width: thin;
+        width: 100%;
+        padding: 4px;
+
         .close-chat {
-            position: absolute;
-            right: 0;
             font-size: 18px;
+            color: black;
+            margin-left: auto; /* Push to the right */
+            order: 99; /* Ensure it appears last in flex order */
+        }
+
+        .create-ticket{
+            min-width: min-content !important;
         }
 
         .support-ticket-item {
@@ -296,6 +327,16 @@
             border-radius: 6px;
             cursor: pointer;
             transition: background-color 0.3s ease;
+
+            max-height: 40px; // Fixed height
+            min-width: 100px;
+            max-width: 160px;
+            width: fit-content;
+            white-space: nowrap; // Keep text in one line
+            overflow: hidden; // Hide overflow
+            text-overflow: ellipsis; // Show ... if text too long
+
+            
 
             .support-ticket-item-btn {
                 color: white;
