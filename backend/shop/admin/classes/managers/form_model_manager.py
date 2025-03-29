@@ -4,8 +4,6 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.db import models
 from django.contrib.admin import ModelAdmin
 from django.forms import ModelForm
-from pytest import console_main
-
 
 from admin.classes.renderers import FormRenderer
 from admin.classes.serializers import FormSerializer
