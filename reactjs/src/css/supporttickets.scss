@@ -4,13 +4,16 @@ $content-height: adminpanel.$height-after-navbar;
 
 .support-tickets-list {
     padding: 1% 0;
-    width: 25vw;
-    float: left;
     background-color: #f4f7fc;
     height: $content-height;
     overflow-y: visible;
+    
+    @media (max-width:768px) {
+        height: fit-content;
+    }
 
     .ticket-buttons-container {
+        padding: 5% 0;
         display: flex;
         flex-direction: column;
         gap: 20px;
@@ -57,17 +60,89 @@ $content-height: adminpanel.$height-after-navbar;
 .chat-modal-container {
     height: $content-height;
     float: inline-end;
-    width: 75vw;
-    max-width: 75vw;
+    width: 100%;
     background-color: white;
     z-index: 2;
     border-left: 2px solid #ddd;
 
+    @media (max-width:768px) {
+        height: 100%;
+    }
+
     .chat-modal {
         height: $content-height;
-        display: none;
-        position: relative;
-        padding: 1% 2%;
+        
+        // Default state (hidden)
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+        
+        @media (max-width: 768px) {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: white;
+            z-index: 1000;
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out, opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        // Visible state (when .open class is added)
+        &.open {
+            opacity: 1;
+            visibility: visible;
+            
+            @media (max-width: 768px) {
+                transform: translateX(0);
+            }
+        }
+
+        .chat-back-button {
+            // Base styles
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            z-index: 1001;
+            display: none;
+            background: #f5f5f5;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            
+            // Arrow icon using pseudo-element
+            &::before {
+              content: "";
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              width: 10px;
+              height: 10px;
+              border-left: 2px solid #333;
+              border-bottom: 2px solid #333;
+              transform: translate(-50%, -50%) rotate(45deg);
+            }
+          
+            // Hover state
+            &:hover {
+              background: #e0e0e0;
+              transform: translateX(-2px);
+            }
+          
+            // Active state
+            &:active {
+              transform: translateX(-2px) scale(0.95);
+            }
+          
+            @media (max-width: 768px) {
+              display: block;
+            }
+          }
 
         .messages-list-wrapper {
             overflow: auto;
@@ -98,19 +173,22 @@ $content-height: adminpanel.$height-after-navbar;
 
         .send-message-container {
             width: 90%;
-            position: absolute;
             bottom: 10px;
             gap: 15px;
             justify-content: center;
             padding-inline: 5%;
             background: white;
-            border-top: 2px solid #ddd;
             padding: 10px;
+
+            @media (max-width:768px) {
+                width: 85%;
+            }
 
             .send-message-form {
                 display: flex;
                 align-items: center;
                 min-width: 100%;
+                width: 100%;
                 gap: 10px;
 
                 .message-input-field {
@@ -141,16 +219,16 @@ $content-height: adminpanel.$height-after-navbar;
 
 .filter-search-container {
     display: flex;
-    justify-content: space-between;
     align-items: center;
     padding: 10px;
     background: #eef2f7;
     border-bottom: 2px solid #ddd;
-    margin-block: 10px;
     min-width: 80%;
+    flex-direction: column;
+    gap:6px;
 
     .search-input {
-        width: 60%;
+        width: 74%;
         padding: 8px;
         border-radius: 5px;
         border: 1px solid #ccc;

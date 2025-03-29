@@ -34,8 +34,8 @@ export const SupportTicketsList = () => {
     }, [tickets, filterParams]);
 
     return (
-        <div>
-            <div className="support-tickets-list">
+        <div className="row">
+            <div className="support-tickets-list col-xl-3 col-lg-4 col-md-5 col-xs-12">
                 <TicketsSearch setFilterParams={setFilterParams} tickets={tickets} />
 
                 <TicketsInfiniteScroll setItems={setTickets} items={tickets} scrollableTarget="support-tickets-list">
@@ -52,14 +52,17 @@ export const SupportTicketsList = () => {
                     </div>
                 </TicketsInfiniteScroll>
             </div>
-
-            <ChatModal
-                ref={chatModalRef}
-                currentTicketId={currentTicketId}
-                currentTicketClosed={currentTicketClosed}
-                wsRef={ws}
-                isConnected={isConnected}
-            />
+            
+            <div className="col-xl-9 col-lg-8 col-md-7 col-xs-12">
+                <ChatModal
+                    ref={chatModalRef}
+                    currentTicketId={currentTicketId}
+                    currentTicketClosed={currentTicketClosed}
+                    setCurrentTicketId={setCurrentTicketId}
+                    wsRef={ws}
+                    isConnected={isConnected}
+                />
+            </div>
         </div>
     );
 };
@@ -106,14 +109,11 @@ const SupportTicketItem = (props) => {
 
     const ticketOnClick = (event) => {
         const ticketId = parseInt(event.currentTarget.id)
-        props.chatModalRef.current.style.display = 'block';
     
 
         props.setCurrentTicketId(ticketId)
         props.setCurrentTicketClosed(item.closed)
     }
-
-    
 
     const openOrClosedStyleClass = item.closed ? 'closed' : ''
 
