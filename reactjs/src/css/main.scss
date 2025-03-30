@@ -328,6 +328,7 @@
             cursor: pointer;
             transition: background-color 0.3s ease;
 
+
             max-height: 40px; // Fixed height
             min-width: 100px;
             max-width: 160px;
@@ -339,6 +340,7 @@
             
 
             .support-ticket-item-btn {
+                width: 100%;
                 color: white;
                 background-color: #5a67d8;
                 border: none;
