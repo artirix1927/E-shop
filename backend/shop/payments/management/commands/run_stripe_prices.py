@@ -36,8 +36,11 @@ class Command(BaseCommand):
         for product in products_to_create_price_for:
             metadata = product.__dict__
 
+            # stripe only allows 500 symbols in metadata
+            description = metadata.pop("description")
+
             created_stripe_product = stripe.Product.create(
-                name=product.name, description=product.description, metadata=metadata)
+                name=product.name, description=description[:2000], metadata=metadata)
 
             # deleting the product if price failed to create
             try:
