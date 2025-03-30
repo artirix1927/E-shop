@@ -1,4 +1,4 @@
-import {useBodyClass} from "../hooks";
+import { useBodyClass } from "../hooks";
 
 import { BuyNowCheckout, CartCheckout } from "../checkout/checkout";
 
@@ -14,64 +14,84 @@ import { ReviewSection } from "../reviews/reviewsSection";
 
 
 
+import { CreateOrderAndRedirect } from "../checkout/createOrderAfterCheckout";
+import CheckoutForm from "../payments/checkoutForm";
+import { FiltersProvider } from "../providers/filtersProvider";
+
 const NavbarPageMixin = (props) => {
-    const [cookies] = useCookies(['user'])
+  const [cookies] = useCookies(['user'])
 
-    return <>
-      
-            <Navbar></Navbar>
-            <CategoriesLine></CategoriesLine>
-            {props.children}
-            { cookies.user &&
-            <SupportChatModal></SupportChatModal>
-            }
-      
-      
-      </>
-    
+  return <FiltersProvider>
 
-  }
+    <Navbar></Navbar>
+    <CategoriesLine></CategoriesLine>
+    {props.children}
+    {cookies.user &&
+      <SupportChatModal></SupportChatModal>
+    }
+
+
+  </FiltersProvider>
+
+
+}
 
 
 
 export const MainPage = () => {
-    useBodyClass('main')
+  useBodyClass('main')
 
-    return <div className="App">
-      <NavbarPageMixin>
-        <ProductsList/>
-      </NavbarPageMixin>
-    </div>
+  return <div className="App">
+    <NavbarPageMixin>
+      <ProductsList />
+    </NavbarPageMixin>
+  </div>
 
 }
 
 export const ProductDetailsPage = () => {
-    return <div className="App">
-      <NavbarPageMixin>
-        <ProductDetails/>
-        <ReviewSection/>
-      </NavbarPageMixin>
-    </div>
+  return <div className="App">
+    <NavbarPageMixin>
+      <ProductDetails />
+      <ReviewSection />
+    </NavbarPageMixin>
+  </div>
 }
 
 export const CartPage = () => {
-    return <div className="App">
-        <NavbarPageMixin>
-          <Cart/>
-        </NavbarPageMixin>
-      </div>
+  return <div className="App">
+    <NavbarPageMixin>
+      <Cart />
+    </NavbarPageMixin>
+  </div>
 }
 
 export const CartCheckoutPage = () => {
 
-    return <div className="App">
-      <CartCheckout></CartCheckout>
-    </div>
-  }
+  return <div className="App">
+    <CartCheckout></CartCheckout>
+  </div>
+}
 
-  export const BuyNowCheckoutPage = () => {
+export const BuyNowCheckoutPage = () => {
 
-    return <div className="App">
-      <BuyNowCheckout></BuyNowCheckout>
-    </div>
-  }
+  return <div className="App">
+    <BuyNowCheckout></BuyNowCheckout>
+  </div>
+}
+
+
+
+
+export const StripeTestCheckoutPage = () => {
+
+
+  return <CheckoutForm/>
+}
+
+
+
+
+export const CreateOrderAfterCheckout = () =>{
+  return <CreateOrderAndRedirect/>
+}

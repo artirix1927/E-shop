@@ -3,7 +3,7 @@ import { Field, Form, Formik} from "formik"
 
 import { useCookies } from "react-cookie"
 import { useMutation } from "@apollo/client"
-import { CREATE_BUY_NOW_ORDER, CREATE_ORDER_FROM_CART } from "./gql/mutations"
+import { CREATE_CHECKOUT_SESSION} from "./gql/mutations"
 
 import * as Yup from 'yup';
 
@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { SelectCitiesField, SelectCountriesField, SelectStatesField } from "./customFormFields";
 
 import {GET_CART_BY_USER} from './../cart/gql/queries'
-import { GET_CITIES_BY_COUNTRY_STATE } from "./gql/queries";
+import { useEffect } from "react";
 
 
 const OrderValidationScheme = Yup.object().shape({
@@ -27,7 +27,7 @@ const OrderValidationScheme = Yup.object().shape({
 export const CartOrderForm = (props) => {
     
     const [cookies] = useCookies()
-    const [createOrder] = useMutation(CREATE_ORDER_FROM_CART)
+    const [createOrder, {data}] = useMutation(CREATE_CHECKOUT_SESSION)
     const nav = useNavigate()
 
     const formOnSubmit = (values) =>{ 
@@ -36,13 +36,22 @@ export const CartOrderForm = (props) => {
         
         props.selectedItems.map((item)=>itemsId.push(item.id))
        
-        const requestData = Object.assign({user: parseInt(userId), items: JSON.stringify(itemsId)}, values)
-       
+        const requestData = Object.assign({user: parseInt(userId), items: JSON.stringify(itemsId)})
+    
         createOrder({variables: requestData, refetchQueries:[GET_CART_BY_USER,'CartById']})
-        
-        nav('/cart')
+
+        const orderData = Object.assign({buyNowOrder: false, ...requestData}, values)
+
+        localStorage.setItem('orderData', JSON.stringify(orderData))
     }
     
+    useEffect(()=>{
+        if (data)
+            window.open(data.createCheckoutSession.checkoutUrl, '_self')
+
+    }, [data])
+
+
     const formInitialValues = {fullName:'', phoneNumber:'', country:'', state: '', city:'', adress:'', postalCode:''}
 
     return <>
@@ -75,21 +84,32 @@ export const CartOrderForm = (props) => {
 export const BuyNowOrderForm = (props) => {
     
     const [cookies] = useCookies()
-    const [createOrder] = useMutation(CREATE_BUY_NOW_ORDER)
+    const [createOrder, {data, loading, error}] = useMutation(CREATE_CHECKOUT_SESSION)
     const nav = useNavigate()
-
+    if (error)
+        console.log(error.message)
     const selectedItem = props.selectedItem
-    console.log(props.selectedItem)
 
     const formOnSubmit = (values) =>{ 
         const userId = cookies.user.id
+       
+        const requestData = {user: parseInt(userId), productId: parseInt(selectedItem.productId), quantity: parseInt(selectedItem.quantity)}
         
-        const requestData = Object.assign({user: parseInt(userId), productId: parseInt(selectedItem.productId), quantity: parseInt(selectedItem.quantity)}, values)
-        console.log(requestData)
         createOrder({variables: requestData})
 
-        nav(-1)
+        const orderData = Object.assign({buyNowOrder: true, ...requestData}, values)
+        localStorage.setItem('orderData', JSON.stringify(orderData))
+
+        //nav(-1)
     }
+
+
+    useEffect(()=>{
+        if (data)
+            window.open(data.createCheckoutSession.checkoutUrl, '_self')
+
+    }, [data])
+
 
     const formInitialValues = {fullName:'', phoneNumber:'', country:'', state: '', city:'', adress:'', postalCode:''}
 

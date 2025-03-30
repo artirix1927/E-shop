@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'shipping.apps.ShippingConfig',
     # 'chat.apps.ChatConfig',
     'reviews.apps.ReviewsConfig',
+    'payments.apps.PaymentsConfig',
     'admin.apps.AdminConfig',
 
 ]
