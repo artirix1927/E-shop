@@ -70,9 +70,7 @@ class AvailableCharacteristicsAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Category, CategoryAdmin)
-# admin.site.register(Attachment, AttachmentAdmin)
-# admin.site.register(Product, ProductAdmin)
 admin.site.register(AvailableCharacteristics, AvailableCharacteristicsAdmin)
 admin.site.register(Characteristics, CharacteristicsAdmin)
-admin_api.register(Product, ProductAdmin)
-admin_api.register(Attachment, AttachmentAdmin)
+admin.site.register(Product, ProductAdmin)
+admin.site.register(Attachment, AttachmentAdmin)

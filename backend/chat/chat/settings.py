@@ -162,3 +162,6 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 CORS_ALLOW_CREDENTIALS = True
+
+BROKER_TYPE = "redis"
+BROKER_PATH = "redis://redis-server:6379/"
