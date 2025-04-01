@@ -206,13 +206,13 @@ export const GetField = ({ field }) => {
         CheckboxInput: CheckboxField,
         FileInput: FileField,
         ClearableFileInput: FileField,
-        SelectInput: ChoiceField,
+        Select: ChoiceField,
         Textarea: TextAreaField, // Keep it here for direct matches
     };
 
     // Use field.widget if it exists; otherwise, fall back to field.type
     const fieldType = field.widget || field.type;
-
+    console.log(fieldType)
     if (FIELDS_BY_TYPE.hasOwnProperty(fieldType)) {
         const Component = FIELDS_BY_TYPE[fieldType];
         return <Component field={field} />;
