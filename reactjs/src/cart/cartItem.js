@@ -36,7 +36,7 @@ export const CartItem = (props) => {
         </div>
 
     
-       <Link to={`/product/${props.item.product.id}`} className="image-link"> <img src={attachments[0].image} alt="..."/></Link>
+       <Link to={`/product/${props.item.product.id}`} className="image-link"> <img src={attachments[0] && attachments[0].image} alt="..."/></Link>
       
          
 
