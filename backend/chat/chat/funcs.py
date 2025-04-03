@@ -1,6 +1,10 @@
 
 
+import time
 from django.contrib.auth.models import User
+import requests
+
+from chat.cache_class import QuerysetCache
 
 from .serializers import MessageSerializer
 
@@ -41,3 +45,18 @@ async def create_message(
     msg = await db_models.Message.objects.acreate(message=message, ticket=ticket, sent_by=user)
 
     return msg
+
+
+def get_cached_user_or_request(user_id: int) -> dict:
+    cache: QuerysetCache = QuerysetCache(key_prefix="user", timeout=120)
+
+    main_app_url = f"http://shop:8000/api/users/{user_id}/"
+
+    cached_user = cache.get_custom_cache(id)
+    if cached_user:
+        response = cached_user
+    else:
+        response = requests.get(main_app_url)
+        cache.set_custom_cache(id, response.json())
+        response = response.json()
+    return response
