@@ -153,7 +153,7 @@ GRAPHENE = {
 CORS_ORIGIN_ALLOW_ALL = True
 
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', "shop"]
 
 
 CORS_ALLOWED_ORIGINS = [
