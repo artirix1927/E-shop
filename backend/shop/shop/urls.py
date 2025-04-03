@@ -26,13 +26,17 @@ from django.urls import path
 
 from graphene_file_upload.django import FileUploadGraphQLView
 
+from auth.views import UserDetailView
+
 from .views import send_test_message
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("graphql", csrf_exempt(FileUploadGraphQLView.as_view(graphiql=True))),
     path("", csrf_exempt(FileUploadGraphQLView.as_view(graphiql=True))),
     path('send/', send_test_message),
+    path('api/users/<int:id>/', UserDetailView.as_view(), name='user-detail'),
 
 ]
 
