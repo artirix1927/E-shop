@@ -12,6 +12,6 @@ def consume_chat_message():
 
         db_models.Message.objects.create(message=chat_message_data['message'],
                                          ticket_id=chat_message_data['ticket'],
-                                         sent_by_id=chat_message_data['sentBy']['id'])
+                                         sent_by=chat_message_data['sentBy']['id'])
 
     consumer.consume('chat-topic', create_chat_message)

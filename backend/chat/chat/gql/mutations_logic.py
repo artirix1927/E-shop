@@ -25,6 +25,6 @@ class CreateTicket(graphene.Mutation):
         user_id = graphene.Int(required=True)
 
     def mutate(self, info, user_id):
-        ticket = SupportTicket(user_id=user_id, closed=False)
+        ticket = SupportTicket(user=user_id, closed=False)
         ticket.save()
         return CreateTicket(ticket=ticket)

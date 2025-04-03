@@ -23,7 +23,6 @@ class SupportTicketQueries(graphene.ObjectType):
             offset: offset + limit]
 
     def resolve_tickets_by_user(self, info, user: int):
-        user = User.objects.get(id=user)
         return db_models.SupportTicket.objects.filter(user=user, closed=False)
 
 
@@ -38,5 +37,7 @@ class MessageQueries(graphene.ObjectType):
     def resolve_get_messages_by_ticket(
             self, info, id: int, offset: int, limit: int):
         ticket = db_models.SupportTicket.objects.get(id=id)
-        return db_models.Message.objects.filter(
+
+        messages = db_models.Message.objects.filter(
             ticket=ticket).order_by('-datetime')[offset: offset + limit]
+        return messages
