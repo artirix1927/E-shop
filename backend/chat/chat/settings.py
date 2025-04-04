@@ -162,3 +162,32 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 CORS_ALLOW_CREDENTIALS = True
+
+BROKER_TYPE = "redis"
+BROKER_PATH = "redis://redis-server:6379/"
+
+
+# Configure CACHES first
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        "LOCATION": "fallback_cache",
+    },
+    "redis": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://redis-server:6379/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            "SOCKET_CONNECT_TIMEOUT": 1,  # Fast fail
+            "SOCKET_TIMEOUT": 1,
+        },
+    },
+}
+
+try:
+    from django.core.cache import caches
+
+    caches["redis"].get("test")  # Test Redis connection
+    DEFAULT_CACHE = "redis"
+except Exception:
+    DEFAULT_CACHE = "default"

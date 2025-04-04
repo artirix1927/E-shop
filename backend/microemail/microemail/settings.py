@@ -135,3 +135,6 @@ EMAIL_HOST_USER = "bytemartproj@gmail.com"
 EMAIL_HOST_PASSWORD = "wddy xdih hkfp fmva"
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 EMAIL_USE_SSL = False
+
+BROKER_TYPE = "redis"
+BROKER_PATH = "redis://redis-server:6379/"

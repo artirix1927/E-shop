@@ -9,12 +9,7 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 from asgiref.sync import sync_to_async
 
 # from chat.funcs import get_camelcased_dict, serialize_message, create_message
-
-import chat.funcs as funcs
-
-from django.contrib.auth.models import User
-from .serializers import UserSerializer
-
+from chat.funcs import get_cached_user_or_request
 from streaming_logic.produce import send_chat_message_to_streaming
 
 
@@ -42,11 +37,10 @@ class ChatConsumer(AsyncWebsocketConsumer):
         ticket_id = text_data_json["ticket_id"]
         user_id = text_data_json["user_id"]
 
-        user = await User.objects.aget(id=user_id)
-
+        user: dict = get_cached_user_or_request(user_id)
         # msg = await funcs.create_message(message, ticket_id, user_id)
-        msg = {"sentBy": UserSerializer(
-            user).data, "message": message, "ticket": ticket_id}
+        msg = {"sentBy": user, "message": message,
+               "ticket": ticket_id}
         await sync_to_async(send_chat_message_to_streaming)(msg)
         # Send message to room group
         await self.channel_layer.group_send(

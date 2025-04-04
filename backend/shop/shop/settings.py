@@ -153,7 +153,7 @@ GRAPHENE = {
 CORS_ORIGIN_ALLOW_ALL = True
 
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', "shop"]
 
 
 CORS_ALLOWED_ORIGINS = [
@@ -202,31 +202,9 @@ KAFKA_CONFIG = {
 
 EXCLUDE_FROM_ADMIN = ['contenttypes', 'admin', 'sessions']
 
-# CACHES = {
-#     "default": {
-#         "BACKEND": "django_redis.cache.RedisCache",
-#         "LOCATION": "redis://127.0.0.1:6379/1",
-#         "OPTIONS": {
-#             "CLIENT_CLASS": "django_redis.client.DefaultClient",
-#             "retry_on_timeout": True,  # Enable retrying on timeout
-#         },
-#     }
-# }
 
-# CACHES = {
-#     "default": {
-#         "BACKEND": "django_redis.cache.RedisCache",
-#         "LOCATION": "redis://127.0.0.1:6379/1",
-#         "OPTIONS": {
-#             "CLIENT_CLASS": "django_redis.client.DefaultClient",
-#             "CONNECTION_POOL_KWARGS": {
-#                 # "retry_attempts": 3,
-#                 "max_connections": 100,  # Example of a valid paramete
-#             }
-#         }
-#     }
-# }
-
+BROKER_TYPE = "redis"
+BROKER_PATH = "redis://redis-server:6379/"
 
 # Configure CACHES first
 CACHES = {
@@ -236,7 +214,7 @@ CACHES = {
     },
     "redis": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379/1",
+        "LOCATION": "redis://redis-server:6379/1",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
             "SOCKET_CONNECT_TIMEOUT": 1,  # Fast fail
@@ -245,11 +223,10 @@ CACHES = {
     },
 }
 
-# Check if Redis is available
 try:
-    redis_cache = caches['redis']
-    redis_cache.set('test_key', 'test_value', timeout=1)
-    redis_cache.get('test_key')  # Ensure Redis is functional
-    DEFAULT_CACHE = 'redis'
-except (Exception):
-    DEFAULT_CACHE = 'default'
+    from django.core.cache import caches
+
+    caches["redis"].get("test")  # Test Redis connection
+    DEFAULT_CACHE = "redis"
+except Exception:
+    DEFAULT_CACHE = "default"

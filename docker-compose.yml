@@ -13,6 +13,7 @@ services:
       - DEBUG=1
     depends_on: 
       - shop
+      - redis-server
     container_name: chat
 
   shop:
@@ -38,29 +39,31 @@ services:
     volumes:
       - ./backend:/backend  # Bind-mount the backend code
     command: >
-      bash -c "cd /backend/microemail && python manage.py run_kafka_consumer"
+      bash -c "cd /backend/microemail && python manage.py run_consumer"
     environment:
       - DEBUG=1
       - PYTHONUNBUFFERED=1
     depends_on:
-      - kafka
+      #- kafka
       - shop
+      - redis-server
 
     
-  kafka-consumer:
+  consumer:
     container_name: chat-consumer
     build:
       context: ./backend/chat  # Build the same chat image
     command: >
-      bash -c "python manage.py run_kafka_consumer"
+      bash -c "python manage.py run_consumer"
     volumes:
       - ./backend:/backend  # Bind-mount the backend code
       - ./backend/chat/db:/backend/chat/db  # Bind-mount the SQLite database directory
     environment:
       - DEBUG=1
     depends_on:
-      - kafka
+      #- kafka
       - chat
+      - redis-server
 
   frontend:
     build:
@@ -81,48 +84,48 @@ services:
       - "6379:6379"
 
 
-  zookeeper:
-    image: 'confluentinc/cp-zookeeper:latest'
-    environment:
-      ZOOKEEPER_CLIENT_PORT: 2181
-      ZOOKEEPER_TICK_TIME: 2000
-    ports:
-      - "2181:2181"
+  # zookeeper:
+  #   image: 'confluentinc/cp-zookeeper:latest'
+  #   environment:
+  #     ZOOKEEPER_CLIENT_PORT: 2181
+  #     ZOOKEEPER_TICK_TIME: 2000
+  #   ports:
+  #     - "2181:2181"
 
-  kafka:
-    image: 'confluentinc/cp-kafka:latest'
-    container_name: kafka
-    depends_on:
-      - zookeeper
-    environment:
-      KAFKA_BROKER_ID: 1
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092  # Use the Kafka service name here
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-    ports:
-      - "9092:9092"
-    volumes:
-      - ./kafka-data:/var/lib/kafka/data
-      - ./kafka/data/zookeeper_data:/var/lib/zookeeper/data
-      - ./kafka/data/zookeeper_log:/var/lib/zookeeper/log
+  # kafka:
+  #   image: 'confluentinc/cp-kafka:latest'
+  #   container_name: kafka
+  #   depends_on:
+  #     - zookeeper
+  #   environment:
+  #     KAFKA_BROKER_ID: 1
+  #     KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+  #     KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092  # Use the Kafka service name here
+  #     KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
+  #     KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+  #   ports:
+  #     - "9092:9092"
+  #   volumes:
+  #     - ./kafka-data:/var/lib/kafka/data
+  #     - ./kafka/data/zookeeper_data:/var/lib/zookeeper/data
+  #     - ./kafka/data/zookeeper_log:/var/lib/zookeeper/log
 
-  init-kafka:
-    image: confluentinc/cp-kafka:latest
-    depends_on:
-      - kafka
-    entrypoint: [ '/bin/sh', '-c' ]
-    command: |
-      "
-      # blocks until kafka is reachable
-      kafka-topics --bootstrap-server kafka:9092 --list
+  # init-kafka:
+  #   image: confluentinc/cp-kafka:latest
+  #   depends_on:
+  #     - kafka
+  #   entrypoint: [ '/bin/sh', '-c' ]
+  #   command: |
+  #     "
+  #     # blocks until kafka is reachable
+  #     kafka-topics --bootstrap-server kafka:9092 --list
 
-      echo -e 'Creating kafka topics'
-      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic email-topic --replication-factor 1 --partitions 1
-      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic chat-topic --replication-factor 1 --partitions 1
+  #     echo -e 'Creating kafka topics'
+  #     kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic email-topic --replication-factor 1 --partitions 1
+  #     kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic chat-topic --replication-factor 1 --partitions 1
 
-      echo -e 'Successfully created the following topics:'
-      kafka-topics --bootstrap-server kafka:9092 --list
-      "
+  #     echo -e 'Successfully created the following topics:'
+  #     kafka-topics --bootstrap-server kafka:9092 --list
+  #     "
 
 
